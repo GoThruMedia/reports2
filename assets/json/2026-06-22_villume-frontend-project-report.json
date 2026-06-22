@@ -1,0 +1,32 @@
+{
+  "title": "Villume Frontend Project Report",
+  "repository": "GoThruMedia/villume-admin",
+  "generated_at": "2026-06-22T10:50:44Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-villume-admin-1679",
+      "display_title": "Issue #1679: Bug: Duration Radio Buttons Clickable in Readonly/ Disabled State (promo code form)",
+      "main_description_html": "<h2 dir=\"auto\">Problem</h2>\n<p dir=\"auto\">On the promo code form, when a promo code is opened in read-only / disabled mode (edit mode), the <strong>Duration</strong> options (One time / Forever / Limited period) can still be clicked. Clicking them makes all options appear selected at the same time, which is incorrect.</p>\n<h2 dir=\"auto\">Expected behavior</h2>\n<ul dir=\"auto\">\n<li>In read-only / disabled mode: the Duration options cannot be clicked and their appearance does not change.</li>\n<li>In add mode: the Duration options work normally, with only one option selected at a time.</li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">2026-06-22.17-10-39.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-62d99884-ce68-4118-a51b-ee47537b37f6.mp4\" data-canonical-src=\"videos/video-62d99884-ce68-4118-a51b-ee47537b37f6.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 1679,
+        "author": "alfarez21",
+        "updated_at": "2026-06-22T10:32:58Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-villume-admin-1680",
+      "display_title": "Issue #1680: Bug: Fields Other Than Name are Editable When Editing a Coupon",
+      "main_description_html": "<h2 dir=\"auto\">Problem</h2>\n<p dir=\"auto\">When editing an existing coupon (promo code), fields other than the coupon <strong>name</strong> can still be edited. In edit mode, only the coupon name should be editable; all other fields should be read-only.</p>\n<h2 dir=\"auto\">Expected behavior</h2>\n<ul dir=\"auto\">\n<li>In edit mode: only the coupon <strong>name</strong> field is editable.</li>\n<li>All other fields (product &amp; discount, duration &amp; limits, expiry, etc.) are read-only and cannot be changed.</li>\n</ul>\n<h2 dir=\"auto\">Add mode</h2>\n<ul dir=\"auto\">\n<li>Unaffected: all fields remain editable as normal.</li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">2026-06-22.17-38-53.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-d256ad63-601e-4f50-bbac-c59a8947e355.mp4\" data-canonical-src=\"videos/video-d256ad63-601e-4f50-bbac-c59a8947e355.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 1680,
+        "author": "alfarez21",
+        "updated_at": "2026-06-22T10:40:29Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Villume Frontend",
+    "date": "2026-06-22"
+  },
+  "docs": []
+}
