@@ -1,0 +1,22 @@
+{
+  "title": "Panorra PWA - UI Design",
+  "repository": "GoThruMedia/panorra-pwa",
+  "generated_at": "2026-06-23T01:51:30Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3046",
+      "display_title": "Issue #3046: Update Dialog Report Comment New Layout",
+      "main_description_html": "<h2 dir=\"auto\">✂️ Update — Dialog Report Comment New Layout</h2>\n<p dir=\"auto\">Build the <strong>Report Comment</strong> dialog layout in the new <code class=\"notranslate\">pages-new</code> post detail (see report-redesign spec).</p>\n<h3 dir=\"auto\">Scope</h3>\n<ul dir=\"auto\">\n<li>Dialog: comment preview card (avatar + name + comment text), reason radios, optional details textarea + counter, Submit. <code class=\"notranslate\">&lt;fieldset&gt;</code> + native radios. Standalone + <code class=\"notranslate\">OnPush</code> + Tailwind 4 / Zard UI; light/dark.</li>\n</ul>\n<h3 dir=\"auto\">🧪 Test scenario (for QA)</h3>\n<ol dir=\"auto\">\n<li><strong>Layout match</strong> — comment preview + reason list + details + Submit match the design.</li>\n<li><strong>Preview</strong> — comment text shows (clamped, wraps); missing avatar → placeholder.</li>\n<li><strong>Selection + counter</strong> — selected reason state; textarea + counter render.</li>\n<li><strong>Dismiss + scrim</strong> — ✕ / backdrop / Esc close; background dimmed.</li>\n<li><strong>Responsive + Light/Dark</strong> — 375px and desktop; no console errors.</li>\n</ol>\n<p dir=\"auto\"><strong>Acceptance:</strong> matches design; comment preview + accessible reasons + counter; dismiss; light + dark.</p>\n<h2 dir=\"auto\">RESULT</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-820297f6-ca38-4e4b-98e1-8a734ad32a7a.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-820297f6-ca38-4e4b-98e1-8a734ad32a7a.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 3046,
+        "author": "anurdin01",
+        "updated_at": "2026-06-23T01:50:03Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Panorra PWA",
+    "date": "2026-06-22"
+  },
+  "docs": []
+}
