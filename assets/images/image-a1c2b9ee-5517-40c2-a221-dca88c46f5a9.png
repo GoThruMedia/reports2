@@ -1,0 +1,603 @@
+# brainstorming.md - Dashboard Layout User-Friendly Refresh
+
+**Feature Name:** Dashboard Layout User-Friendly Refresh  
+**Product:** GoThru 3D Floormap / MapThru  
+**Generated:** 2026-06-25  
+**Primary Audience:** UI/UX Designer and UI UX Pro Max  
+**Scope:** Dashboard navbar, project grid, project search, sorting, status filtering, project actions, empty/loading/error states  
+**Source Review:** Existing dashboard page and current product direction  
+
+---
+
+## 1. Shared Product Understanding
+
+### 1.1 Product Story
+
+The dashboard is the user's workspace home. It should help users quickly find, inspect, publish, edit, or remove their indoor mapping projects without feeling like they are managing a generic file list.
+
+Users arrive here after signing in. Their first need is simple: see the projects they already created and continue work. The page should immediately show a useful project grid with enough context to recognize each project at a glance: project name, project location, published status, and the first Mapfloor image thumbnail.
+
+### 1.2 Main Goal
+
+Update the dashboard layout so it feels easier, faster, and more visual. The dashboard should immediately display created projects in a grid list and provide clear project tools, list tools, and profile navigation.
+
+### 1.3 Design Principles
+
+- Show projects immediately. Do not hide the project list behind summary cards or marketing content.
+- Make each project visually recognizable through a Mapfloor thumbnail.
+- Keep project tools close to each project card.
+- Make search, sort, and status filters easy to scan and use.
+- Keep the navbar calm and practical.
+- Avoid a landing-page feeling. This is a working dashboard.
+- Use clear labels and familiar icons.
+- Prioritize repeat use: users may manage many indoor map projects over time.
+
+### 1.4 Known Source Gaps
+
+- The first Mapfloor image thumbnail may need a fallback if a project has no uploaded floor image yet.
+- Project location should use the best available location label. If a full address is missing, show coordinates or a short fallback.
+- Published project status is required visually, but draft projects must still be filterable and understandable.
+- Connect to GoThru and Settings may lead to future pages or account flows. Design should include them in the profile menu even if their final destinations are still pending.
+
+---
+
+## 2. Target Users and Mindset
+
+### 2.1 Returning Project Owner
+
+This user has already created one or more indoor mapping projects. They want to continue editing, preview the result, or publish a finished project.
+
+**What they need:** a direct project grid, clear project names, location context, and obvious edit/preview actions.
+
+### 2.2 Operations or Venue Manager
+
+This user may manage multiple buildings, floors, or venues. They may not remember a project by name alone.
+
+**What they need:** location text and a thumbnail that makes each project easy to recognize.
+
+### 2.3 Mapping Specialist
+
+This user may create and revise many projects. Speed matters.
+
+**What they need:** search, sort, filters, fast actions, and predictable layout density.
+
+---
+
+## 3. Recommended Dashboard Direction
+
+### 3.1 Recommended Approach: Workspace Grid Dashboard
+
+Use a top navbar and a project-focused workspace below it.
+
+The first visible content should be:
+
+- Dashboard navbar
+- Project list tools row
+- Project grid list
+
+This avoids burying projects under overview panels. The project grid becomes the main experience.
+
+### 3.2 Alternative Approaches Considered
+
+**Option A: Table-first dashboard**
+
+This is efficient for power users, but it feels less visual and makes Mapfloor thumbnails less important.
+
+**Option B: Project grid with analytics summary**
+
+This can feel richer, but it delays the user's main task and may make the dashboard feel too busy.
+
+**Option C: Workspace grid dashboard**
+
+This gives users the best balance of visual recognition, direct action, and daily usability.
+
+**Recommendation:** Use Option C.
+
+---
+
+## 4. Dashboard Navbar
+
+### 4.1 Navbar Structure
+
+The dashboard navbar should have two main zones:
+
+- **Branding section:** MapThru logo and product identity.
+- **Profile section:** user/profile menu with Connect to GoThru, Settings, and Logout.
+
+### 4.2 Branding Section
+
+The MapThru logo should appear at the left side of the navbar. It should be visible enough to anchor the product, but it should not compete with the project grid.
+
+Suggested branding layout:
+
+- MapThru logo mark
+- "MapThru" wordmark or product name
+- Optional small label: "3D Floormap"
+
+### 4.3 Profile Section
+
+The profile area should sit on the right side of the navbar.
+
+Recommended content:
+
+- User avatar or initials
+- User name or email
+- Dropdown menu
+
+Dropdown menu items:
+
+- Connect to GoThru
+- Settings
+- Logout
+
+### 4.4 Navbar Behavior
+
+- Navbar stays visually stable while users search, sort, or filter projects.
+- On small screens, branding remains visible and profile actions collapse into a compact menu.
+- Logout should be easy to find but not styled as the main action.
+
+---
+
+## 5. Project List Tools
+
+### 5.1 Tool Row Purpose
+
+The tool row helps users narrow and order their project grid. It should sit above the grid and feel like part of the workspace, not a separate settings area.
+
+### 5.2 Search Project
+
+Use a search input with a search icon.
+
+Placeholder:
+
+`Search projects`
+
+Search should help users find projects by:
+
+- Project name
+- Project location
+
+Empty search result copy:
+
+`No projects match your search.`
+
+### 5.3 Sort Project
+
+Use a clear sort dropdown.
+
+Sort options:
+
+- Latest edited
+- Earliest edited
+- Ascending name
+- Descending name
+
+Default sort:
+
+- Latest edited
+
+### 5.4 Filter Status
+
+Use a segmented control or compact filter dropdown.
+
+Filter options:
+
+- All projects
+- Draft projects
+- Published projects
+
+Default filter:
+
+- All projects
+
+### 5.5 Tool Row Layout
+
+Desktop:
+
+- Search on the left.
+- Sort and status filter on the right.
+- Keep controls in one row where possible.
+
+Mobile:
+
+- Search takes full width.
+- Sort and filter sit below search in a two-column row or compact stacked layout.
+
+---
+
+## 6. Project Grid List
+
+### 6.1 Grid Purpose
+
+The project grid should let users recognize and act on projects quickly. Each project card should be visual, compact, and easy to scan.
+
+### 6.2 Project Card Content
+
+Each project card should include:
+
+- First Mapfloor image thumbnail
+- Project name
+- Project location
+- Published project status badge
+- Project action tools
+
+### 6.3 Thumbnail
+
+The thumbnail should show the first Mapfloor image for the project.
+
+Thumbnail behavior:
+
+- Use a stable image area so cards do not jump in height.
+- Keep the thumbnail large enough to recognize the floor plan.
+- Use a fallback visual when no image exists.
+
+Fallback visual direction:
+
+- Simple floor plan placeholder
+- Soft neutral background
+- Small text such as `No floor image yet`
+
+Avoid:
+
+- Generic file icons as the only visual
+- Dark blurry placeholders
+- Oversized decorative illustrations
+
+### 6.4 Project Name
+
+Project name should be the strongest text in the card.
+
+Rules:
+
+- Show one or two lines.
+- Use truncation only when needed.
+- Avoid tiny text.
+- If the name is empty, show `Untitled project`.
+
+### 6.5 Project Location
+
+Location should sit below the project name.
+
+Preferred display:
+
+- Address or place name
+
+Fallback display:
+
+- Short latitude and longitude
+- `Location not set`
+
+### 6.6 Status Badge
+
+The card must clearly show project status.
+
+Status labels:
+
+- `Published`
+- `Draft`
+
+Badge direction:
+
+- Published: confident success style, such as green or blue-green.
+- Draft: quiet neutral style.
+
+The badge should be visible without overwhelming the card.
+
+### 6.7 Project Actions
+
+Each project card should provide these tools:
+
+- Preview project
+- Publish project
+- Edit project
+- Delete project
+
+Recommended action layout:
+
+- Primary visible action: Edit project
+- Secondary visible action: Preview project
+- Publish and Delete can be icon buttons or placed in an overflow menu depending on available space.
+
+Button/icon guidance:
+
+- Preview: eye icon
+- Publish: upload/cloud/check icon
+- Edit: pencil icon
+- Delete: trash icon
+
+Delete should require confirmation before the project is removed.
+
+### 6.8 Card Hover and Focus States
+
+Cards should feel interactive but not flashy.
+
+Recommended states:
+
+- Default
+- Hover
+- Keyboard focus
+- Loading action
+- Delete confirmation
+- Publish success or failure feedback
+
+---
+
+## 7. Page States
+
+### 7.1 Loading State
+
+Show a project grid skeleton instead of a centered plain loading message.
+
+Loading should suggest the final layout:
+
+- Navbar visible
+- Tool row placeholder
+- Project card skeletons
+
+### 7.2 Empty State
+
+When the user has no projects, keep the layout centered around creating the first project.
+
+Suggested copy:
+
+`No projects yet`
+
+Supporting copy:
+
+`Create your first Mapfloor project to start turning a floor plan into an indoor map.`
+
+Primary action:
+
+`New project`
+
+The empty state should still feel like the dashboard, not a separate onboarding page.
+
+### 7.3 Search Empty State
+
+When search or filters return no results:
+
+Suggested copy:
+
+`No projects found`
+
+Supporting copy:
+
+`Try a different search term or change the status filter.`
+
+Action:
+
+`Clear filters`
+
+### 7.4 Error State
+
+If projects fail to load:
+
+Suggested copy:
+
+`Projects could not load`
+
+Supporting copy:
+
+`Refresh the page or try again in a moment.`
+
+Action:
+
+`Retry`
+
+### 7.5 Delete Confirmation
+
+Delete must not happen instantly.
+
+Recommended confirmation copy:
+
+`Delete this project?`
+
+Supporting copy:
+
+`This will remove the project from your dashboard.`
+
+Actions:
+
+- Cancel
+- Delete project
+
+---
+
+## 8. Suggested Layout
+
+### 8.1 Desktop Layout
+
+Top:
+
+- Full-width navbar with MapThru branding and profile menu.
+
+Main content:
+
+- Page heading: `Projects`
+- Optional short subtitle: `Manage your Mapfloor projects.`
+- Project tools row.
+- Responsive project grid.
+
+Grid:
+
+- 3 cards per row on wide desktop.
+- 2 cards per row on medium desktop.
+- 1 card per row on small screens.
+
+### 8.2 Mobile Layout
+
+Top:
+
+- Compact navbar.
+- MapThru logo remains visible.
+- Profile menu becomes an icon/avatar button.
+
+Main content:
+
+- Heading and tools stack vertically.
+- Project cards use full width.
+- Card actions remain easy to tap.
+
+### 8.3 Visual Weight
+
+The project thumbnail and project name should carry the card. Tool controls should be accessible, but should not make the card feel crowded.
+
+---
+
+## 9. UI/UX Master Data for UI UX Pro Max
+
+### 9.1 Required Screen
+
+- Dashboard project workspace
+
+### 9.2 Required Responsive Variants
+
+- Desktop
+- Tablet
+- Mobile
+
+### 9.3 Required Components
+
+- Dashboard navbar
+- MapThru branding section
+- Profile menu
+- Search input
+- Sort dropdown
+- Status filter
+- Project grid
+- Project card
+- Mapfloor thumbnail
+- Status badge
+- Preview project action
+- Publish project action
+- Edit project action
+- Delete project action
+- Delete confirmation
+- Empty state
+- Search empty state
+- Loading skeleton
+- Error state
+
+### 9.4 Required Project Card Fields
+
+- Project name
+- Project location
+- Published status badge
+- First Mapfloor image thumbnail
+
+### 9.5 Required List Controls
+
+- Search project
+- Sort by latest edited
+- Sort by earliest edited
+- Sort by ascending name
+- Sort by descending name
+- Filter all projects
+- Filter draft projects
+- Filter published projects
+
+### 9.6 Required Profile Menu Items
+
+- Connect to GoThru
+- Settings
+- Logout
+
+---
+
+## 10. Copy Guidance
+
+### 10.1 Page Text
+
+Page title:
+
+`Projects`
+
+Optional subtitle:
+
+`Manage your Mapfloor projects.`
+
+Search placeholder:
+
+`Search projects`
+
+Sort label:
+
+`Sort`
+
+Filter label:
+
+`Status`
+
+New project button:
+
+`New project`
+
+### 10.2 Project Actions
+
+Action labels:
+
+- `Preview`
+- `Publish`
+- `Edit`
+- `Delete`
+
+Status labels:
+
+- `Draft`
+- `Published`
+
+### 10.3 Profile Menu
+
+Menu labels:
+
+- `Connect to GoThru`
+- `Settings`
+- `Logout`
+
+---
+
+## 11. Accessibility Expectations
+
+- Search input has a visible label or accessible name.
+- Sort and filter controls are keyboard accessible.
+- Project action buttons have clear labels, even when represented by icons.
+- Status badge does not rely on color alone.
+- Delete confirmation clearly identifies the destructive action.
+- Touch targets are large enough on mobile.
+- Thumbnail fallback text remains readable.
+- Cards preserve layout when text is long.
+
+---
+
+## 12. Non-Goals
+
+- Do not redesign the editor.
+- Do not redesign the project creation wizard.
+- Do not add analytics charts to the dashboard.
+- Do not turn the dashboard into a landing page.
+- Do not add billing or pricing content.
+- Do not add complex team management in this dashboard refresh.
+
+---
+
+## 13. Open Questions for Product and Design
+
+1. Should the MapThru logo use the final brand asset or a temporary wordmark?
+2. Should Publish be visible on every project card, or hidden for already published projects?
+3. Should Preview open in the same tab or a new tab?
+4. Should Delete use a modal, inline confirmation, or menu confirmation?
+5. Should draft projects show a draft badge, or only published projects show a badge?
+6. Should Connect to GoThru appear as a profile menu item only, or also as a visible navbar button when the account is not connected?
+
+---
+
+## 14. Design Success Criteria
+
+- Users immediately see their created projects after opening the dashboard.
+- Users can identify projects by name, location, status, and thumbnail.
+- Users can quickly search, sort, and filter projects.
+- Users can preview, publish, edit, and delete a project from its card.
+- Navbar clearly communicates MapThru branding and provides profile actions.
+- Empty, loading, error, and no-result states feel polished and helpful.
+- The layout works well on desktop, tablet, and mobile.
+

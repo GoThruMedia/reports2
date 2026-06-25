@@ -1,0 +1,82 @@
+{
+  "title": "GoThru 3D Floormap - UI Design",
+  "repository": "GoThruMedia/gothru-3d-floormap",
+  "generated_at": "2026-06-25T09:36:56Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-159",
+      "display_title": "Issue #159: Sign In Page",
+      "main_description_html": "<h1 dir=\"auto\">Sign In Page</h1>\n<p dir=\"auto\"><strong>Source:</strong> <a href=\"images/image-3997d67a-9c0b-495e-adca-4849aa0e715d.png\">auth-pages-brainstorming.md</a><br>\n<strong>Area:</strong> Sign in<br>\n<strong>Audience:</strong> UI/UX Designer, UI UX Pro Max</p>\n<h2 dir=\"auto\">Goal</h2>\n<p dir=\"auto\">Make sign in feel like returning to an indoor mapping workspace while keeping the flow fast for existing users.</p>\n<h2 dir=\"auto\">Updates</h2>\n<ul dir=\"auto\">\n<li>Update the headline to connect sign-in with the user's indoor mapping workspace.</li>\n<li>Add supporting copy about managing 3D floor maps, digital twins, and wayfinding projects.</li>\n<li>Improve the error message for invalid credentials.</li>\n<li>Improve the email-not-verified path so users know exactly what to do next.</li>\n<li>Add a product visual showing saved building maps, active routes, and levels.</li>\n<li>Keep forgot-password and create-account links easy to find.</li>\n</ul>\n<h2 dir=\"auto\">Design Notes</h2>\n<ul dir=\"auto\">\n<li>Returning users should not feel slowed down by marketing content.</li>\n<li>The visual should suggest saved projects, active routes, and multi-level maps.</li>\n<li>Error messages should be calm, specific, and recoverable.</li>\n</ul>\n<h2 dir=\"auto\">RESULT</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-e0b38d4b-f5d4-4f90-b5ac-fe4a1a8cb887.png\"><img width=\"1917\" height=\"943\" alt=\"Image\" src=\"images/image-e0b38d4b-f5d4-4f90-b5ac-fe4a1a8cb887.png\" style=\"max-width: 100%; height: auto; max-height: 943px;; aspect-ratio: 1917 / 943; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 159,
+        "author": "anurdin01",
+        "updated_at": "2026-06-25T07:35:33Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-160",
+      "display_title": "Issue #160: Sign Up Page",
+      "main_description_html": "<h1 dir=\"auto\">Sign Up Page</h1>\n<p dir=\"auto\"><strong>Source:</strong> <a href=\"images/image-52d17a97-1cc6-4f20-addf-0f5971e6d935.png\">auth-pages-brainstorming.md</a><br>\n<strong>Area:</strong> Sign up<br>\n<strong>Audience:</strong> UI/UX Designer, UI UX Pro Max</p>\n<h2 dir=\"auto\">Goal</h2>\n<p dir=\"auto\">Make account creation feel like starting an indoor mapping workspace and clearly communicate the product value before the user reaches the app.</p>\n<h2 dir=\"auto\">Updates</h2>\n<ul dir=\"auto\">\n<li>Update the headline to position account creation as starting an indoor mapping workspace.</li>\n<li>Add product-focused copy about turning 2D floor plans into 3D maps and wayfinding experiences.</li>\n<li>Add a short trust/reassurance line near the submit button.</li>\n<li>Show password guidance before the user submits.</li>\n<li>Improve the post-sign-up transition into email verification.</li>\n<li>Use the strongest visual story here: 2D floor plan transforming into a 3D multi-level map.</li>\n</ul>\n<h2 dir=\"auto\">Design Notes</h2>\n<ul dir=\"auto\">\n<li>This page should carry the strongest product storytelling.</li>\n<li>The form must remain short and approachable.</li>\n<li>The visual should make floor plan conversion understandable at a glance.</li>\n</ul>\n<h2 dir=\"auto\">RESULT</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-b4b2f526-5db9-4393-ad0d-554c4b0550cd.png\"><img width=\"1919\" height=\"943\" alt=\"Image\" src=\"images/image-b4b2f526-5db9-4393-ad0d-554c4b0550cd.png\" style=\"max-width: 100%; height: auto; max-height: 943px;; aspect-ratio: 1919 / 943; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 160,
+        "author": "anurdin01",
+        "updated_at": "2026-06-25T07:38:34Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-161",
+      "display_title": "Issue #161: Forgot Password Page",
+      "main_description_html": "<h1 dir=\"auto\">Forgot Password Page</h1>\n<p dir=\"auto\"><strong>Source:</strong> <a href=\"images/image-df1df7ad-04a0-441d-a8d6-680c2e4e782a.png\">auth-pages-brainstorming.md</a><br>\n<strong>Area:</strong> Forgot password<br>\n<strong>Audience:</strong> UI/UX Designer, UI UX Pro Max</p>\n<h2 dir=\"auto\">Goal</h2>\n<p dir=\"auto\">Make password recovery feel calm, secure, and easy to complete.</p>\n<h2 dir=\"auto\">Updates</h2>\n<ul dir=\"auto\">\n<li>Make the page feel calm and recovery-focused, not like an error page.</li>\n<li>Add clearer copy about sending a secure reset link.</li>\n<li>Keep the privacy-safe success message: if an account exists, a link was sent.</li>\n<li>Add reassurance that reset links expire for security.</li>\n<li>Add a product-related recovery visual, such as a route reconnecting.</li>\n<li>Keep the back-to-sign-in action visible.</li>\n</ul>\n<h2 dir=\"auto\">Design Notes</h2>\n<ul dir=\"auto\">\n<li>Avoid alarming language.</li>\n<li>The success state should protect user privacy.</li>\n<li>The visual should imply restored access without becoming a generic security illustration.</li>\n</ul>\n<h2 dir=\"auto\">RESULT</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-d7f9d43d-6cf0-4969-9277-c1301cfe0eea.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-d7f9d43d-6cf0-4969-9277-c1301cfe0eea.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 161,
+        "author": "anurdin01",
+        "updated_at": "2026-06-25T07:41:13Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-168",
+      "display_title": "Issue #168: Update Dashboard Layout UI Design",
+      "main_description_html": "<h1 dir=\"auto\">Docs</h1>\n<p dir=\"auto\"><a href=\"images/image-a1c2b9ee-5517-40c2-a221-dca88c46f5a9.png\">dashboard-layout-brainstorming.md</a></p>\n<h2 dir=\"auto\">Goal</h2>\n<p dir=\"auto\">Update the dashboard layout so it feels easier, faster, and more visual. The dashboard should immediately display created projects in a grid list and provide clear project tools, list tools, and profile navigation.</p>\n<h2 dir=\"auto\">Design Success Criteria</h2>\n<ul dir=\"auto\">\n<li>Users immediately see their created projects after opening the dashboard.</li>\n<li>Users can identify projects by name, location, status, and thumbnail.</li>\n<li>Users can quickly search, sort, and filter projects.</li>\n<li>Users can preview, publish, edit, and delete a project from its card.</li>\n<li>Navbar clearly communicates MapThru branding and provides profile actions.</li>\n<li>Empty, loading, error, and no-result states feel polished and helpful.</li>\n<li>The layout works well on desktop, tablet, and mobile.</li>\n</ul>\n<h2 dir=\"auto\">RESULT</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-11ddf12e-3e83-49a5-8139-86539ddc5e44.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-11ddf12e-3e83-49a5-8139-86539ddc5e44.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-9aabbfb0-0dc8-4146-8713-d368bdafe99f.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-9aabbfb0-0dc8-4146-8713-d368bdafe99f.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-fbdbf5d9-e1c5-43ea-87dc-a9d98ad7aa02.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-fbdbf5d9-e1c5-43ea-87dc-a9d98ad7aa02.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 168,
+        "author": "anurdin01",
+        "updated_at": "2026-06-25T08:05:22Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-163",
+      "display_title": "Issue #163: Verify Email Page",
+      "main_description_html": "<h1 dir=\"auto\">Verify Email Page</h1>\n<p dir=\"auto\"><strong>Source:</strong> <a href=\"images/image-6c34bb9d-2e72-4d9c-8022-615c75da2c85.png\">auth-pages-brainstorming.md</a><br>\n<strong>Area:</strong> Verify email<br>\n<strong>Audience:</strong> UI/UX Designer, UI UX Pro Max</p>\n<h2 dir=\"auto\">Goal</h2>\n<p dir=\"auto\">Make email verification feel like account activation and guide users smoothly into the workspace.</p>\n<h2 dir=\"auto\">Updates</h2>\n<ul dir=\"auto\">\n<li>Improve the loading state with clearer copy: verifying email.</li>\n<li>Improve the success state with a visible confirmation before redirect.</li>\n<li>Improve the expired or invalid link state with a direct request-new-link action.</li>\n<li>Add a visual that shows account activation, such as a destination marker lighting up.</li>\n<li>Make the redirect to the workspace feel intentional and reassuring.</li>\n</ul>\n<h2 dir=\"auto\">Design Notes</h2>\n<ul dir=\"auto\">\n<li>The user should understand what is happening during verification.</li>\n<li>Success should feel like progress into the product.</li>\n<li>Expired links should have a clear recovery path.</li>\n</ul>\n<h2 dir=\"auto\">RESULT</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-40d100cf-3030-4671-b102-f4521459ac79.png\"><img width=\"1919\" height=\"947\" alt=\"Image\" src=\"images/image-40d100cf-3030-4671-b102-f4521459ac79.png\" style=\"max-width: 100%; height: auto; max-height: 947px;; aspect-ratio: 1919 / 947; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 163,
+        "author": "anurdin01",
+        "updated_at": "2026-06-25T08:19:06Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-164",
+      "display_title": "Issue #164: Verification Pending Page",
+      "main_description_html": "<h1 dir=\"auto\">Verification Pending Page</h1>\n<p dir=\"auto\"><strong>Source:</strong> <a href=\"images/image-1636e40f-b917-4e00-9dfa-5441c6449aa8.png\">auth-pages-brainstorming.md</a><br>\n<strong>Area:</strong> Verification pending<br>\n<strong>Audience:</strong> UI/UX Designer, UI UX Pro Max</p>\n<h2 dir=\"auto\">Goal</h2>\n<p dir=\"auto\">Make the pending verification page clear, reassuring, and action-oriented while the user waits to activate their workspace.</p>\n<h2 dir=\"auto\">Updates</h2>\n<ul dir=\"auto\">\n<li>Update the headline to explain that the user must check their inbox to activate the workspace.</li>\n<li>Show the masked email address clearly.</li>\n<li>Add a short explanation of what happens after verification.</li>\n<li>Add a reminder to check spam or promotions folders.</li>\n<li>Improve resend email states: idle, sending, sent, rate-limited, and error.</li>\n<li>Make the cooldown timer easy to understand.</li>\n<li>Keep the wrong-email/sign-out action available but secondary.</li>\n<li>Use a visual step path: account created, email sent, email verified, workspace active.</li>\n</ul>\n<h2 dir=\"auto\">Design Notes</h2>\n<ul dir=\"auto\">\n<li>The page should reduce confusion after sign-up.</li>\n<li>The resend action should show clear state feedback.</li>\n<li>The wrong-email path should be available without competing with the main action.</li>\n</ul>\n<h2 dir=\"auto\">RESULT</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-b2de9c4a-33c0-4764-9248-fc957223f49e.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-b2de9c4a-33c0-4764-9248-fc957223f49e.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 164,
+        "author": "anurdin01",
+        "updated_at": "2026-06-25T08:33:02Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-162",
+      "display_title": "Issue #162: Reset Password Page",
+      "main_description_html": "<h1 dir=\"auto\">Reset Password Page</h1>\n<p dir=\"auto\"><strong>Source:</strong> <a href=\"images/image-74448564-ab2b-4ed1-b600-ec9a4ea3a183.png\">auth-pages-brainstorming.md</a><br>\n<strong>Area:</strong> Reset password<br>\n<strong>Audience:</strong> UI/UX Designer, UI UX Pro Max</p>\n<h2 dir=\"auto\">Goal</h2>\n<p dir=\"auto\">Help users set a new password with clear guidance, strong recovery states, and a smooth return to sign in.</p>\n<h2 dir=\"auto\">Updates</h2>\n<ul dir=\"auto\">\n<li>Add clearer states for checking the reset link, invalid link, password form, and success.</li>\n<li>Add password guidance before validation errors appear.</li>\n<li>Improve password mismatch and short-password messages.</li>\n<li>Make expired-link recovery obvious with a request-new-link action.</li>\n<li>Add a success state that guides the user back to sign in.</li>\n<li>Use a visual that suggests access restored, such as an activated route or unlocked destination.</li>\n</ul>\n<h2 dir=\"auto\">Design Notes</h2>\n<ul dir=\"auto\">\n<li>Every state needs a clear next action.</li>\n<li>Password rules should be visible before submission.</li>\n<li>The invalid-link state should not be a dead end.</li>\n</ul>\n<h2 dir=\"auto\">RESULT</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-b8b0a337-2bca-47d7-83a4-d4b2d0dd5c4a.png\"><img width=\"1919\" height=\"942\" alt=\"Image\" src=\"images/image-b8b0a337-2bca-47d7-83a4-d4b2d0dd5c4a.png\" style=\"max-width: 100%; height: auto; max-height: 942px;; aspect-ratio: 1919 / 942; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 162,
+        "author": "anurdin01",
+        "updated_at": "2026-06-25T08:44:09Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "gothru-3d-floormap",
+    "date": "2026-06-25"
+  },
+  "docs": []
+}
