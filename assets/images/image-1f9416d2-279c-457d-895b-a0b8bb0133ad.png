@@ -1,0 +1,349 @@
+# App Version Placement Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Display the current app version in the app/window title as `GoThru Photo Studio <version>` while keeping every native or HTML menu app label as `GoThru Photo Studio`.
+
+**Architecture:** Keep product/menu label generation and window-title generation in the Tauri app-shell layer, using package metadata for the version. The Rust app shell sets the main window title during startup, macOS native menus use the product name only, and the Windows/Linux renderer menu removes its version suffix.
+
+**Tech Stack:** Tauri v2, Rust, React 18, TypeScript, HeroUI, PowerShell, `cargo test`, `npm run typecheck`.
+
+## Global Constraints
+
+- Displayed app/window title format must be exactly `GoThru Photo Studio <version>`.
+- Version must be read from app metadata/configuration, not hardcoded in UI or menu builder.
+- Native menu/app-name label must display only `GoThru Photo Studio`.
+- Menu items after the app-name label must remain unchanged: `File`, `Edit`, `View`, `Settings`, `Window`, `Help`.
+- About/update flows may continue to show version information where they already do; this change only moves the version out of the menu label.
+- Windows title bar/taskbar window title should show `GoThru Photo Studio <version>`; menu label should not include the version.
+- macOS application menu name should remain `GoThru Photo Studio`; window title should show `GoThru Photo Studio <version>` where the OS displays document/window title text.
+- Linux window title should show `GoThru Photo Studio <version>`; app/menu labels should not duplicate the version.
+- No new localization keys are required for the product name or version string.
+- Do not change update logic, bundle versioning, installer metadata, release signing, release version numbers, bundle identifier, or package metadata beyond the title display.
+- Implementation must tolerate version changes without requiring code edits.
+
+---
+
+## File Structure
+
+- Modify `src-tauri/src/commands/app_menu.rs`: expose app-shell text helpers, remove the version suffix from the macOS native app menu label, and add unit tests for title/menu label formatting.
+- Modify `src-tauri/src/lib.rs`: set the main Tauri window title during startup from `app.package_info().version`.
+- Modify `src/renderer/components/layouts/Header/WindowsMenuBar.tsx`: remove the version suffix from the Windows/Linux HTML app menu label and remove the now-unused `config` import.
+- No spec/docs changes are required beyond this implementation plan.
+
+---
+
+### Task 1: Add App-Shell Title Helpers and Native Menu Label Test Coverage
+
+**Files:**
+- Modify: `src-tauri/src/commands/app_menu.rs`
+
+**Interfaces:**
+- Produces: `pub fn app_menu_label() -> &'static str`
+- Produces: `pub fn app_window_title(version: &str) -> String`
+- Consumes: `APP_NAME: &str`, currently defined in `src-tauri/src/commands/app_menu.rs`
+
+- [ ] **Step 1: Write failing Rust unit tests**
+
+Add this test module at the bottom of `src-tauri/src/commands/app_menu.rs`:
+
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn app_menu_label_excludes_version() {
+        assert_eq!(app_menu_label(), "GoThru Photo Studio");
+        assert!(!app_menu_label().contains("1.1.1"));
+    }
+
+    #[test]
+    fn app_window_title_includes_metadata_version() {
+        assert_eq!(app_window_title("1.1.1"), "GoThru Photo Studio 1.1.1");
+        assert_eq!(app_window_title("2.0.0-beta.1"), "GoThru Photo Studio 2.0.0-beta.1");
+    }
+}
+```
+
+- [ ] **Step 2: Run test to verify it fails**
+
+Run:
+
+```powershell
+cd D:\kantor\gothru-photo-studio-tauri\src-tauri
+cargo test app_menu --lib
+```
+
+Expected: FAIL with errors that `app_menu_label` and `app_window_title` are not found.
+
+- [ ] **Step 3: Add minimal helper functions**
+
+In `src-tauri/src/commands/app_menu.rs`, replace:
+
+```rust
+const APP_NAME: &str = "GoThru Photo Studio";
+```
+
+with:
+
+```rust
+const APP_NAME: &str = "GoThru Photo Studio";
+
+pub fn app_menu_label() -> &'static str {
+    APP_NAME
+}
+
+pub fn app_window_title(version: &str) -> String {
+    format!("{APP_NAME} {version}")
+}
+```
+
+- [ ] **Step 4: Remove the version from the native app menu label**
+
+In `src-tauri/src/commands/app_menu.rs`, inside `fn build_menu`, replace:
+
+```rust
+    let t = i18n::translator(app);
+    let version = app.package_info().version.to_string();
+
+    // About (on macOS, setting items live here instead of a separate Setting menu)
+    let about = {
+        let mut b = SubmenuBuilder::new(app, format!("{APP_NAME} {version}"))
+            .item(&mi(app, "app:about", &format!("{} {APP_NAME}", t.t("t_about")), None)?);
+```
+
+with:
+
+```rust
+    let t = i18n::translator(app);
+
+    // About (on macOS, setting items live here instead of a separate Setting menu)
+    let about = {
+        let mut b = SubmenuBuilder::new(app, app_menu_label())
+            .item(&mi(app, "app:about", &format!("{} {APP_NAME}", t.t("t_about")), None)?);
+```
+
+- [ ] **Step 5: Run test to verify it passes**
+
+Run:
+
+```powershell
+cd D:\kantor\gothru-photo-studio-tauri\src-tauri
+cargo test app_menu --lib
+```
+
+Expected: PASS for `app_menu_label_excludes_version` and `app_window_title_includes_metadata_version`.
+
+- [ ] **Step 6: Commit**
+
+```powershell
+cd D:\kantor\gothru-photo-studio-tauri
+git add src-tauri/src/commands/app_menu.rs
+git commit -m "test: cover app version placement labels"
+```
+
+---
+
+### Task 2: Set the Tauri Window Title From Package Metadata
+
+**Files:**
+- Modify: `src-tauri/src/lib.rs`
+
+**Interfaces:**
+- Consumes: `app_menu::app_window_title(version: &str) -> String`
+- Consumes: `app.package_info().version.to_string()`
+- Produces: Startup behavior that sets the `main` window title to `GoThru Photo Studio <version>`
+
+- [ ] **Step 1: Add startup title-setting code**
+
+In `src-tauri/src/lib.rs`, inside `.setup(|app| {`, immediately before the existing comment `// Open/create the SQLite DB`, insert:
+
+```rust
+            let version = app.package_info().version.to_string();
+            if let Some(window) = app.get_webview_window("main") {
+                let _ = window.set_title(&app_menu::app_window_title(&version));
+            }
+```
+
+The top of `src-tauri/src/lib.rs` already imports `tauri::Manager`, so `get_webview_window` is available without adding a new import.
+
+- [ ] **Step 2: Run Rust tests**
+
+Run:
+
+```powershell
+cd D:\kantor\gothru-photo-studio-tauri\src-tauri
+cargo test app_menu --lib
+```
+
+Expected: PASS for the app-menu helper tests from Task 1.
+
+- [ ] **Step 3: Build-check the Tauri crate**
+
+Run:
+
+```powershell
+cd D:\kantor\gothru-photo-studio-tauri\src-tauri
+cargo check
+```
+
+Expected: PASS with no compile errors from `src-tauri/src/lib.rs` or `src-tauri/src/commands/app_menu.rs`.
+
+- [ ] **Step 4: Commit**
+
+```powershell
+cd D:\kantor\gothru-photo-studio-tauri
+git add src-tauri/src/lib.rs
+git commit -m "feat: set app title from package version"
+```
+
+---
+
+### Task 3: Remove Version From the Windows/Linux HTML Menu Label
+
+**Files:**
+- Modify: `src/renderer/components/layouts/Header/WindowsMenuBar.tsx`
+
+**Interfaces:**
+- Consumes: Existing `WindowsMenuBar` component
+- Produces: HTML menu app label text `GoThru Photo Studio`
+
+- [ ] **Step 1: Remove the unused config import**
+
+In `src/renderer/components/layouts/Header/WindowsMenuBar.tsx`, delete this line:
+
+```tsx
+import config from '../../../../main/config';
+```
+
+- [ ] **Step 2: Remove the version suffix from the HTML app-menu button**
+
+In `src/renderer/components/layouts/Header/WindowsMenuBar.tsx`, replace:
+
+```tsx
+            GoThru Photo Studio {config.appVersion}
+```
+
+with:
+
+```tsx
+            GoThru Photo Studio
+```
+
+- [ ] **Step 3: Typecheck the renderer**
+
+Run:
+
+```powershell
+cd D:\kantor\gothru-photo-studio-tauri
+npm run typecheck
+```
+
+Expected: PASS with no TypeScript errors and no unused import error for `config`.
+
+- [ ] **Step 4: Commit**
+
+```powershell
+cd D:\kantor\gothru-photo-studio-tauri
+git add src/renderer/components/layouts/Header/WindowsMenuBar.tsx
+git commit -m "fix: remove version from html menu label"
+```
+
+---
+
+### Task 4: Manual Cross-OS Verification and Final Checks
+
+**Files:**
+- Read: `src-tauri/tauri.conf.json`
+- Read: `package.json`
+- Read: `src-tauri/Cargo.toml`
+- Verify: `src-tauri/src/commands/app_menu.rs`
+- Verify: `src/renderer/components/layouts/Header/WindowsMenuBar.tsx`
+
+**Interfaces:**
+- Consumes: Completed Tasks 1-3
+- Produces: Evidence that title and menu labels meet the spec
+
+- [ ] **Step 1: Confirm configured versions are still unchanged**
+
+Run:
+
+```powershell
+cd D:\kantor\gothru-photo-studio-tauri
+rg -n '"version": "1.1.0"|version = "1.1.0"|productName|title' package.json src-tauri/Cargo.toml src-tauri/tauri.conf.json
+```
+
+Expected: `package.json`, `src-tauri/Cargo.toml`, and `src-tauri/tauri.conf.json` still show version `1.1.0`, `productName` still shows `GoThru Photo Studio`, and the static config title remains unchanged because runtime startup now applies the versioned title.
+
+- [ ] **Step 2: Run full verification commands**
+
+Run:
+
+```powershell
+cd D:\kantor\gothru-photo-studio-tauri\src-tauri
+cargo test app_menu --lib
+cargo check
+cd D:\kantor\gothru-photo-studio-tauri
+npm run typecheck
+```
+
+Expected: all commands PASS.
+
+- [ ] **Step 3: Start the app for visual verification**
+
+Run:
+
+```powershell
+cd D:\kantor\gothru-photo-studio-tauri
+npm run tauri dev
+```
+
+Expected on Windows/Linux: the HTML app menu button reads `GoThru Photo Studio`, the following menu labels still read `File`, `Edit`, `View`, `Settings`, `Window`, `Help` when logged in, and the OS window title/taskbar title reads `GoThru Photo Studio 1.1.0`.
+
+Expected on macOS: the global app menu label reads `GoThru Photo Studio`, menu ordering remains unchanged, and the app window title reads `GoThru Photo Studio 1.1.0` where macOS shows the window title.
+
+- [ ] **Step 4: Capture QA evidence**
+
+Save screenshots under `docs/migration/assets/` with these exact filenames when each OS is available:
+
+```text
+app-version-placement-windows.png
+app-version-placement-macos.png
+app-version-placement-linux.png
+```
+
+If an OS is not available during QA, add a short note to the PR or task summary with the missing OS name and the reason it was not verified.
+
+- [ ] **Step 5: Confirm no menu label still appends the version**
+
+Run:
+
+```powershell
+cd D:\kantor\gothru-photo-studio-tauri
+rg -n "GoThru Photo Studio \\{|format!\\(\"\\{APP_NAME\\} \\{version\\}\"|config\\.appVersion" src src-tauri/src
+```
+
+Expected: no matches in menu label code. Matches in About/update/version-specific flows are acceptable only if they are not menu labels.
+
+- [ ] **Step 6: Commit screenshots if captured**
+
+If screenshots were captured, run:
+
+```powershell
+cd D:\kantor\gothru-photo-studio-tauri
+git add docs/migration/assets/app-version-placement-windows.png docs/migration/assets/app-version-placement-macos.png docs/migration/assets/app-version-placement-linux.png
+git commit -m "docs: add app version placement qa evidence"
+```
+
+If some screenshot files do not exist because that OS was unavailable, add only the files that exist and keep the unavailable OS note in the PR or task summary.
+
+---
+
+## Self-Review
+
+**Spec coverage:** Task 1 removes the version from the macOS native menu label and tests the expected title/menu text. Task 2 sets the runtime app/window title from package metadata. Task 3 removes the version from the Windows/Linux HTML menu label. Task 4 verifies unchanged version metadata, menu ordering, About/update scope boundaries, and cross-OS QA evidence.
+
+**Placeholder scan:** This plan contains no red-flag placeholder terms, no undefined function names, and no steps that ask the implementer to invent code without an exact snippet or command.
+
+**Type consistency:** `app_menu_label() -> &'static str` and `app_window_title(version: &str) -> String` are introduced in Task 1 and consumed with the same signatures in Task 2.

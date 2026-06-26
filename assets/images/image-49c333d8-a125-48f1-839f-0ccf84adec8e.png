@@ -1,0 +1,79 @@
+# Feature Spec: App Version Placement
+
+## 1. Summary
+Move the visible app version from the native menu/app-name label into the app/window name so users see `GoThru Photo Studio <version>` as the application title, while the native menu label stays clean as `GoThru Photo Studio` on every supported OS.
+
+## 2. Problem
+The current shell presents the version beside the first app/menu label, as shown in the reference screenshot: `GoThru Photo Studio 1.1.1` appears before `File`, `Edit`, `View`, `Settings`, `Window`, and `Help`. This makes the menu row feel cluttered and OS-inconsistent.
+
+## 3. Goal
+- Show the app version as part of the app/window name.
+- Remove the app version from the native menu/app-name label.
+- Keep behavior consistent on Windows, macOS, and Linux.
+- Use the app's configured version as the single source of truth.
+
+## 4. User Story
+As a GoThru Photo Studio user, I want the version to appear in the app name/title area instead of inside the menu row, so the menu remains clean while the running version is still visible.
+
+## 5. Requirements
+
+### Functional Requirements
+- The displayed app/window title must use the format `GoThru Photo Studio <version>`.
+- The version must be read from the app metadata/configuration, not hardcoded in the UI or menu builder.
+- The native menu/app-name label must display only `GoThru Photo Studio`.
+- The menu items after the app-name label must remain unchanged: `File`, `Edit`, `View`, `Settings`, `Window`, `Help`.
+- The About/update flows may continue to show version information where they already do; this change only moves the version out of the menu label.
+
+### Platform Requirements
+- Windows: the title bar/taskbar window title should show `GoThru Photo Studio <version>`; the menu label should not include the version.
+- macOS: the application menu name should remain `GoThru Photo Studio`; the window title should show `GoThru Photo Studio <version>` where the OS displays document/window title text.
+- Linux: the window title should show `GoThru Photo Studio <version>`; app/menu labels should not duplicate the version.
+
+### Non-Functional Requirements
+- No new localization keys are required for the product name or version string.
+- The implementation must not change update logic, bundle versioning, installer metadata, or release signing.
+- The implementation must tolerate version changes without requiring code edits.
+
+## 6. Current Code Anchors
+- App metadata: `src-tauri/tauri.conf.json` -> `productName`, `version`.
+- Main window title: `src-tauri/tauri.conf.json` -> `app.windows[].title`.
+- Native menu/system shell: existing App Shell migration area, especially menu construction referenced in `docs/migration/features/app-shell.md`.
+- Package metadata: `package.json` -> `version`; must stay aligned with Tauri version if both are used by build/release tooling.
+
+## 7. Proposed Implementation Notes
+- Prefer deriving the title from Tauri package metadata at runtime or build time, using `productName` + `version`.
+- If Tauri config cannot interpolate version directly in `app.windows[].title`, set the title during setup/startup from the Rust side.
+- Keep menu construction separate from title construction. Menu labels should use product name only.
+- Avoid copying the screenshot's version value (`1.1.1`) into source; it is an example, not a requirement.
+
+## 8. Acceptance Criteria
+- Given app version `1.1.1`, the visible app/window title reads `GoThru Photo Studio 1.1.1`.
+- Given the native menu is visible, the first app/menu label reads `GoThru Photo Studio` with no version suffix.
+- Given the user opens `File`, `Edit`, `View`, `Settings`, `Window`, or `Help`, the existing menu structure and actions still work.
+- Given the app version changes for a release, the app/window title reflects the new version without editing menu labels.
+- Verified on Windows, macOS, and Linux, or documented with screenshots for any OS not available during QA.
+
+## 9. Out of Scope
+- Redesigning the native menu.
+- Changing About modal copy or update notification copy.
+- Changing release version numbers.
+- Changing installer product name, bundle identifier, or package metadata beyond the title display.
+
+## 10. QA Checklist
+- Capture before/after screenshots of the app shell on each OS.
+- Confirm no menu label contains a version string.
+- Confirm the app/window title includes the current version.
+- Confirm About/update version display remains unchanged.
+- Confirm automated build still reads the same configured app version.
+
+## 11. Priority
+MoSCoW: Must Have.
+
+RICE estimate:
+- Reach: high, visible to all desktop users.
+- Impact: low to medium, improves polish and consistency.
+- Confidence: high.
+- Effort: xs to s, depending on whether title interpolation is supported directly or must be set in startup code.
+
+## 12. Status
+Not started.
