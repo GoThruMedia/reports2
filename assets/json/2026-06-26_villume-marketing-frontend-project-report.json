@@ -1,0 +1,62 @@
+{
+  "title": "Villume Marketing Frontend Project Report",
+  "repository": "GoThruMedia/villume-admin",
+  "generated_at": "2026-06-26T10:32:17Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-villume-admin-1682",
+      "display_title": "Issue #1682: Optimize Functions in Layouts Component",
+      "main_description_html": "<h1 dir=\"auto\">Goal</h1>\n<p dir=\"auto\">Optimize <code class=\"notranslate\">layouts.component.ts</code> functions without changing the flow (clean code).</p>\n<h2 dir=\"auto\">Tasks</h2>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Replace Manual Unsubscribe</strong>: Use <code class=\"notranslate\">takeUntilDestroyed</code> for <code class=\"notranslate\">_userInfoSub</code> &amp; <code class=\"notranslate\">_ownProfileWaitSub</code>. Remove <code class=\"notranslate\">ngOnDestroy</code>.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Deduplicate Google Auth Init</strong>: Extract <code class=\"notranslate\">google.accounts.id.initialize</code> to a shared function.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Refactor <code class=\"notranslate\">handleVerifedAccount</code></strong>: Convert nested promise/subscribe into a cleaner RxJS / async-await flow.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Refactor DOM Access</strong>: Use safe chaining for <code class=\"notranslate\">document.querySelector</code> &amp; <code class=\"notranslate\">getElementById</code>.</li>\n</ul>",
+      "metadata": {
+        "number": 1682,
+        "author": "alfarez21",
+        "updated_at": "2026-06-26T09:27:21Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-villume-admin-1683",
+      "display_title": "Issue #1683: Optimize Functions in Header Component",
+      "main_description_html": "<h1 dir=\"auto\">Goal</h1>\n<p dir=\"auto\">Optimize <code class=\"notranslate\">header.component.ts</code> functions without changing the flow. Prevent memory leaks and improve scroll performance.</p>\n<h2 dir=\"auto\">Tasks</h2>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Fix Memory Leaks</strong>: Add <code class=\"notranslate\">DestroyRef.onDestroy()</code> to clean up event listeners in <code class=\"notranslate\">initScrollShadow</code> and <code class=\"notranslate\">initMobileMenuListeners</code>.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Optimize Scroll Spy</strong>: Cache DOM elements (<code class=\"notranslate\">.nav</code> and section IDs) in <code class=\"notranslate\">attachSectionObserver</code>.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Refactor DOM Access</strong>: Use <code class=\"notranslate\">@Inject(DOCUMENT)</code> instead of the global <code class=\"notranslate\">document</code> object.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Clean Subscriptions</strong>: Ensure all component subscriptions and listeners are properly destroyed.</li>\n</ul>",
+      "metadata": {
+        "number": 1683,
+        "author": "alfarez21",
+        "updated_at": "2026-06-26T09:27:32Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-villume-admin-1684",
+      "display_title": "Issue #1684: Optimize Functions in Profile Main Component",
+      "main_description_html": "<h1 dir=\"auto\">Goal</h1>\n<p dir=\"auto\">Optimize <code class=\"notranslate\">profile/main/main.component.ts</code>. Clean up deadcode, fix memory leaks, and modernize deprecated APIs.</p>\n<h2 dir=\"auto\">Tasks</h2>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Fix Severe Memory Leak</strong>: Store <code class=\"notranslate\">setInterval</code> IDs created in <code class=\"notranslate\">countdown()</code> and clear them all in <code class=\"notranslate\">ngOnDestroy()</code>.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Modernize Deprecated API</strong>: Replace <code class=\"notranslate\">document.execCommand('copy')</code> with <code class=\"notranslate\">navigator.clipboard.writeText()</code> in <code class=\"notranslate\">copyText()</code>.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Refactor DOM Access</strong>: Use <code class=\"notranslate\">@Inject(DOCUMENT)</code> instead of the global <code class=\"notranslate\">document</code>.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Clean Up RxJS &amp; Recursion</strong>: Replace manual recursive calls for <code class=\"notranslate\">TimeoutError</code> in <code class=\"notranslate\">getExhibitions()</code> and <code class=\"notranslate\">deleteExhibition()</code> with RxJS <code class=\"notranslate\">retry()</code> or bound the retries.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Clean Code</strong>: Simplify <code class=\"notranslate\">openLink()</code> and <code class=\"notranslate\">countdown()</code> logic.</li>\n</ul>",
+      "metadata": {
+        "number": 1684,
+        "author": "alfarez21",
+        "updated_at": "2026-06-26T09:30:08Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-villume-admin-1685",
+      "display_title": "Issue #1685: Refactor Contact Component",
+      "main_description_html": "<h1 dir=\"auto\">Contact Component Optimization Design</h1>\n<h2 dir=\"auto\">Goal</h2>\n<p dir=\"auto\">Deconstruct the massive <code class=\"notranslate\">contact.component.ts</code> (742 lines) into 3 independent child components. The main component will only handle the outer layout, accordion state, and scroll animations, while the child components will handle their respective forms, validations, recaptcha, and API submissions.</p>\n<h2 dir=\"auto\">Architecture</h2>\n<p dir=\"auto\">Parent Component:</p>\n<ul dir=\"auto\">\n<li><code class=\"notranslate\">ContactComponent</code>: Manages only the outer UI layout, accordion state, and scroll reveal animations.</li>\n</ul>\n<p dir=\"auto\">Child Components (New):</p>\n<ul dir=\"auto\">\n<li><code class=\"notranslate\">ContactGeneralComponent</code>: Manages the UI, recaptcha, &amp; form submission for \"General Inquiry\".</li>\n<li><code class=\"notranslate\">ContactHelpComponent</code>: Manages the UI, file uploads, recaptcha, &amp; form submission for \"Help &amp; Support\".</li>\n<li><code class=\"notranslate\">ContactCustomComponent</code>: Manages the UI, file uploads, recaptcha, &amp; form submission for \"Custom Request\".</li>\n</ul>\n<p dir=\"auto\">Service:</p>\n<ul dir=\"auto\">\n<li>Recaptcha logic, file validation, and API calls will continue using the existing services (<code class=\"notranslate\">ContactService</code>, <code class=\"notranslate\">MainService</code>), injected directly into each child component.</li>\n</ul>\n<h2 dir=\"auto\">Data Flow</h2>\n<ul dir=\"auto\">\n<li>Child components call the API via <code class=\"notranslate\">MainService.postContactUs</code>.</li>\n<li>Child components independently manage their loading, success, and progress states.</li>\n<li>The parent component does not need to know the form details. It only passes context/inputs when necessary.</li>\n<li>The parent component notifies the child when the accordion is opened so the child can load the recaptcha.</li>\n</ul>\n<h2 dir=\"auto\">Verification</h2>\n<ol dir=\"auto\">\n<li>The form UIs render perfectly.</li>\n<li>The submission for each form is successfully saved.</li>\n<li>File validation and recaptcha are functioning properly.</li>\n<li><code class=\"notranslate\">ResizeObserver</code> is properly cleaned up on destroy.</li>\n</ol>",
+      "metadata": {
+        "number": 1685,
+        "author": "alfarez21",
+        "updated_at": "2026-06-26T09:17:06Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-villume-admin-1686",
+      "display_title": "Issue #1686: Refactor Profile Setting Component",
+      "main_description_html": "<h1 dir=\"auto\">Profile Setting Component Optimization Design</h1>\n<h2 dir=\"auto\">Goal</h2>\n<p dir=\"auto\">Refactor <code class=\"notranslate\">profile-setting.component.ts</code> (476 lines) by extracting the complex and verbose avatar image cropping and uploading logic into a dedicated component.</p>\n<h2 dir=\"auto\">Architecture</h2>\n<p dir=\"auto\">Parent Component:</p>\n<ul dir=\"auto\">\n<li><code class=\"notranslate\">ProfileSettingComponent</code>: Focuses on managing the main user profile data form (first name, last name, phone, etc.), handling main API submissions, and tracking component state.</li>\n</ul>\n<p dir=\"auto\">Child Component (New):</p>\n<ul dir=\"auto\">\n<li><code class=\"notranslate\">AvatarUploadComponent</code>: Specifically handles the profile picture feature. This includes file selection, validation (size/format), image cropping (via <code class=\"notranslate\">ngx-image-cropper</code>), and API upload to AWS S3.</li>\n</ul>\n<h2 dir=\"auto\">Data Flow</h2>\n<ul dir=\"auto\">\n<li><code class=\"notranslate\">ProfileSettingComponent</code> passes the initial <code class=\"notranslate\">profile.avatar</code> URL as an <code class=\"notranslate\">@Input</code> to <code class=\"notranslate\">AvatarUploadComponent</code>.</li>\n<li><code class=\"notranslate\">AvatarUploadComponent</code> internally manages all the cropping UI states and progress indicators.</li>\n<li>When an upload succeeds, <code class=\"notranslate\">AvatarUploadComponent</code> emits an <code class=\"notranslate\">@Output</code> event (<code class=\"notranslate\">avatarUpdated</code>) containing the new image URL back to the parent.</li>\n<li>The parent component simply updates its state with the new URL without worrying about the upload mechanism.</li>\n</ul>\n<h2 dir=\"auto\">Verification</h2>\n<ol dir=\"auto\">\n<li>The user profile data form can still be saved correctly.</li>\n<li>Avatar image cropping and uploading work flawlessly without errors.</li>\n<li>The newly uploaded avatar URL is correctly emitted back to the parent and displayed.</li>\n</ol>",
+      "metadata": {
+        "number": 1686,
+        "author": "alfarez21",
+        "updated_at": "2026-06-26T09:17:07Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Villume Marketing Frontend",
+    "date": "2026-06-26"
+  },
+  "docs": []
+}
