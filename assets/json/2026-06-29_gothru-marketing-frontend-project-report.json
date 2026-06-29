@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Marketing Frontend Project Report",
+  "repository": "GoThruMedia/gothru-marketing-next-js",
+  "generated_at": "2026-06-29T10:19:57Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-marketing-next-js-166",
+      "display_title": "Issue #166: Investigate Download Links For GoThru Photo Studio Are Not Working",
+      "main_description_html": "<p dir=\"auto\"><strong>Feedback (from albru):</strong> The links to download GoThru Photo Studio are not working.</p>\n<p dir=\"auto\"><strong>Affected page:</strong> <a href=\"https://gothru.co/download/gothru-photo-studio\" rel=\"nofollow\">https://gothru.co/download/gothru-photo-studio</a></p>\n<p dir=\"auto\">The download buttons/links on the GoThru Photo Studio download page do not work. Please investigate and fix the download links.</p>\n<h2 dir=\"auto\">Demo by developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">screen-capture.43.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-afe29c99-4a36-4e47-b056-8002405d23d0.webm\" data-canonical-src=\"videos/video-afe29c99-4a36-4e47-b056-8002405d23d0.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 166,
+        "author": "anurdin01",
+        "updated_at": "2026-06-29T06:13:43Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Marketing Frontend",
+    "date": "2026-06-29"
+  },
+  "docs": []
+}
