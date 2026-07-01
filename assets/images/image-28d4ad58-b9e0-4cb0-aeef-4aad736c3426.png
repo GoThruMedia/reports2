@@ -1,0 +1,540 @@
+# Brainstorming: Discover Sidebar Layout Update
+
+**Date:** 2026-06-30
+**Feature:** Discover sidebar layout
+**Status:** Draft for UI UX Pro Max
+**Primary audience:** UI/UX design, product design, frontend implementation
+**Source screen:** `src/app/pages-new/explore/explore.component.html`
+
+---
+
+## 1. Feature Summary
+
+The Discover sidebar currently shows three content groups:
+
+- Discover Bookmark
+- Discover User
+
+Each existing group currently shows a short list of two items. The new direction is to make Discover feel broader, more curated, and easier to scan by showing one strong preview item for each major content type.
+
+The updated Discover sidebar should contain four sections:
+
+- Discover Bookmark
+- Discover Post
+- Discover User
+- Discover Hashtag
+
+Each section shows only one featured item or one compact preview group. The goal is not to turn the sidebar into a full search results page. The goal is to make Discover a starting point that previews the main searchable content types and gives users a clear path to see more.
+
+---
+
+## 2. Design Goal
+
+Create a Discover sidebar that feels:
+
+- More complete than the current three-section layout.
+- Easy to scan from top to bottom.
+- Visual and content-led.
+- Consistent with the current Panorra Explore/Discover sidebar style.
+- Useful as a preview before users open the full Search page.
+
+The sidebar should work like a discovery dashboard. Users should immediately understand that Panorra can be explored by bookmarks, posts, users, and hashtags.
+
+The recommended direction is **Compact Discover Preview Sections**.
+
+This means each section has:
+
+- A clear title.
+- One featured item or preview group.
+- A simple "See more" text link.
+- Visual content where it helps users decide what to open next.
+
+---
+
+## 3. Current Layout Change
+
+### Previous Layout
+
+The sidebar had:
+
+- Discover Bookmark with 2 bookmark cards.
+- Discover User with 2 user cards.
+
+### New Layout
+
+The sidebar should have:
+
+- Discover Bookmark with 1 bookmark item.
+- Discover Post with 1 post item.
+- Discover User with 1 user item.
+- Discover Hashtag with 1 hashtag preview group.
+
+This gives the page more content variety while keeping the sidebar compact.
+
+---
+
+## 4. Sidebar Section Pattern
+
+Every section should follow the same basic pattern:
+
+1. Section header row.
+2. Section title on the left.
+3. "See more" link on the right.
+4. One content preview below the header.
+
+Recommended title format:
+
+- **Discover Bookmark**
+- **Discover Post**
+- **Discover User**
+- **Discover Hashtag**
+
+Recommended link text:
+
+- **See more**
+
+The "See more" link should be visually subtle but easy to find. It should not compete with the section title or the featured content.
+
+---
+
+## 5. Section Details
+
+### 5.1 Discover Bookmark
+
+Purpose:
+
+- Highlight one bookmark collection that users may want to open.
+
+Required content:
+
+- Thumbnail.
+- Bookmark title.
+- Bookmark address.
+
+Recommended layout:
+
+- Large or medium thumbnail as the visual anchor.
+- Bookmark title visible over or below the thumbnail.
+- Bookmark address shown as supporting text.
+
+Design note:
+
+- The current bookmark card is image-led and works well visually, but the new version should include the bookmark address so users understand the location context.
+
+---
+
+### 5.2 Discover Post
+
+Purpose:
+
+- Preview one recent or relevant post and encourage users to explore more posts.
+
+Required content:
+
+- Post description.
+- Post address.
+
+Recommended layout:
+
+- Description as the main text.
+- Address shown beneath it with a location cue.
+- If a thumbnail is available in the actual data, it can be included, but the minimum required content is description and address.
+
+Design note:
+
+- The post preview should feel lightweight. It should not take over the sidebar like a full detail card.
+
+---
+
+### 5.3 Discover User
+
+Purpose:
+
+- Highlight one active user and show their recent visual activity.
+
+Required content:
+
+- Avatar.
+- Full name.
+- Total posts.
+- Total followers.
+- Four thumbnails from the user's most recent posts.
+
+Recommended layout:
+
+- Avatar and full name at the top.
+- Posts and followers shown as small supporting metrics.
+- Four recent thumbnails shown as a compact horizontal row or small grid.
+
+Design note:
+
+- This can stay close to the current Discover User card style, but only one user should be shown.
+
+---
+
+### 5.4 Discover Hashtag
+
+Purpose:
+
+- Show active hashtag topics and the recent visual content connected to them.
+
+Required content:
+
+- A list of hashtag names.
+- Number of posts for each hashtag.
+- Four thumbnails from the most recent posts connected to the hashtag section.
+
+Recommended layout:
+
+- Hashtag list shown first, using compact rows or chips.
+- Each hashtag should show its post count.
+- Four recent thumbnails shown below the hashtag list.
+
+Example hashtag content style:
+
+- #toronto - 128 posts
+- #cityview - 96 posts
+- #panorama - 72 posts
+
+Design note:
+
+- This section may contain multiple hashtag names, but it still counts as one Discover Hashtag section. It should feel like one preview group, not a full hashtag search results list.
+
+---
+
+## 6. Recommended Sidebar Order
+
+Recommended order:
+
+1. Discover Bookmark
+2. Discover Post
+3. Discover User
+4. Discover Hashtag
+
+Reasoning:
+
+- Bookmark should stay first because it was already a key Discover section.
+- Post appears in the middle to introduce content activity.
+- User follows post because users are related to content creation.
+- Hashtag closes the sidebar as a topic-based exploration path.
+
+---
+
+## 7. See More Behavior
+
+Each section's "See more" link should open the Search page with the matching tab or filter already active.
+
+Expected behavior:
+
+| Discover section | See more opens Search with active tab |
+|---|---|
+| Discover Bookmark | Bookmark |
+| Discover Post | Post |
+| Discover User | User |
+| Discover Hashtag | Hashtag |
+
+Example:
+
+- If the user clicks "See more" in Discover Post, the Search page opens with the Post tab active and shows the latest post thumbnails.
+- If the user clicks "See more" in Discover User, the Search page opens with the User tab active.
+
+This behavior helps the sidebar feel connected to a larger discovery system instead of feeling like isolated content blocks.
+
+---
+
+## 8. Search Page Relationship
+
+Search should be the full browsing experience behind the Discover previews.
+
+Search should have these tabs:
+
+- Bookmark
+- Post
+- User
+- Hashtag
+
+Default Search tab:
+
+- **Bookmark**
+
+Search access points:
+
+- Navbar search in Discover.
+- "See more" link from each Discover sidebar section.
+
+Design note:
+
+- The current focus is updating the Discover sidebar layout. The Search page behavior should be documented as the destination expectation, but the sidebar update is the first design and implementation priority.
+
+---
+
+## 9. Navigation and Interaction Notes
+
+Sidebar item click behavior:
+
+- Clicking a bookmark should open the bookmark detail.
+- Clicking a post should open the post detail.
+- Clicking a user should open the user profile.
+- Clicking a hashtag should open Search with the Hashtag tab active or a hashtag-specific result state.
+
+"See more" behavior:
+
+- Always opens Search.
+- Always sets the active tab based on the section where the link was clicked.
+- Should feel predictable and consistent across all four sections.
+
+Navbar search behavior:
+
+- Search can also be accessed from the navbar in Discover.
+- When opened from the navbar without a selected category, Search should default to Bookmark.
+
+---
+
+## 10. Visual Direction
+
+The updated sidebar should use the same visual rhythm as the current Explore sidebar:
+
+- White sidebar background.
+- Clear section dividers.
+- Compact section padding.
+- Small section titles.
+- Soft neutral preview cards.
+- Rounded thumbnails.
+- Lightweight metrics with small icons where useful.
+
+Recommended visual priorities:
+
+1. Make each content type instantly recognizable.
+2. Keep the sidebar compact even with four sections.
+3. Use thumbnails to make the page feel visual and active.
+4. Keep text hierarchy simple.
+5. Make "See more" visible without making it the main focus.
+
+Avoid:
+
+- Turning each section into a large card.
+- Showing multiple full items per section.
+- Making the sidebar feel like a dense search results page.
+- Adding a large hero section.
+- Adding long explanation copy.
+
+---
+
+## 11. Content Rules
+
+Each section should display one preview only.
+
+Content limits:
+
+- Bookmark: one bookmark, one thumbnail.
+- Post: one post preview.
+- User: one user, four latest post thumbnails.
+- Hashtag: one hashtag preview group, hashtag names with counts, four latest post thumbnails.
+
+Text behavior:
+
+- Long names, addresses, and descriptions should be truncated cleanly.
+- Metrics should use short formats when needed, such as 1.2K or 1.2M.
+- Empty or missing thumbnails should use a stable placeholder so the layout does not jump.
+
+---
+
+## 12. States
+
+### Loading State
+
+Show skeleton previews that match each section shape:
+
+- Bookmark skeleton with image and text rows.
+- Post skeleton with description and address rows.
+- User skeleton with avatar, text rows, and four thumbnail blocks.
+- Hashtag skeleton with hashtag rows and four thumbnail blocks.
+
+### Empty State
+
+If a section has no content, keep the section visible but show a short empty message.
+
+Suggested copy:
+
+- **No bookmark to show yet**
+- **No post to show yet**
+- **No user to show yet**
+- **No hashtag to show yet**
+
+### Offline State
+
+If the app is offline, cached Discover previews may still be shown. If fresh content cannot load, use a small message near the affected section or sidebar.
+
+Suggested copy:
+
+- **You are offline**
+- **Some Discover previews may not be up to date.**
+
+### Error State
+
+If a section cannot load, show a compact error state inside that section.
+
+Suggested copy:
+
+- **Unable to load this preview**
+- **Try again later.**
+
+---
+
+## 13. UI/UX Master Data for UI UX Pro Max
+
+### 13.1 Screen Inventory
+
+| Screen ID | Screen name | Purpose | Navigation |
+|---|---|---|---|
+| DISCOVER-01 | Discover sidebar | Preview bookmarks, posts, users, and hashtags | Discover / Explore page |
+| SEARCH-01 | Search page with tabs | Browse full lists by content type | Navbar search or Discover "See more" |
+
+### 13.2 Primary Screen: DISCOVER-01
+
+Purpose:
+
+- Let users quickly preview the main discoverable content types.
+
+Key elements:
+
+- Discover Bookmark section.
+- Discover Post section.
+- Discover User section.
+- Discover Hashtag section.
+- "See more" link in each section.
+- Sidebar next to the map area.
+
+Primary action:
+
+- Open a featured item.
+
+Secondary action:
+
+- Use "See more" to open Search with the matching tab active.
+
+### 13.3 Supporting Screen: SEARCH-01
+
+Purpose:
+
+- Show full searchable lists for each content type.
+
+Tabs:
+
+- Bookmark.
+- Post.
+- User.
+- Hashtag.
+
+Default tab:
+
+- Bookmark.
+
+Entry behavior:
+
+- Navbar search opens Search with Bookmark active.
+- Discover Bookmark "See more" opens Search with Bookmark active.
+- Discover Post "See more" opens Search with Post active.
+- Discover User "See more" opens Search with User active.
+- Discover Hashtag "See more" opens Search with Hashtag active.
+
+---
+
+## 14. Required Components for Design
+
+| Component | Description | Notes |
+|---|---|---|
+| Discover sidebar container | Left sidebar beside the map | Existing Explore layout can stay |
+| Section header row | Title plus "See more" link | Used by all four sections |
+| Discover Bookmark preview | One bookmark with thumbnail, title, and address | Image-led |
+| Discover Post preview | One post with description and address | Lightweight text preview |
+| Discover User preview | One user with avatar, metrics, and four thumbnails | Similar to current user card |
+| Discover Hashtag preview | Hashtag names with post counts and four thumbnails | Topic preview |
+| Search tab destination | Full Search page state selected by tab | Destination expectation |
+
+---
+
+## 15. Suggested Copy
+
+Section titles:
+
+- **Discover Bookmark**
+- **Discover Post**
+- **Discover User**
+- **Discover Hashtag**
+
+Link:
+
+- **See more**
+
+Metrics:
+
+- **posts**
+- **views**
+- **followers**
+
+Empty states:
+
+- **No bookmark to show yet**
+- **No post to show yet**
+- **No user to show yet**
+- **No hashtag to show yet**
+
+Offline:
+
+- **You are offline**
+- **Some Discover previews may not be up to date.**
+
+Error:
+
+- **Unable to load this preview**
+- **Try again later.**
+
+---
+
+## 16. Accessibility Requirements
+
+- Every section title should be readable as a clear heading.
+- "See more" links should include accessible context, such as "See more bookmarks" for screen readers.
+- Thumbnails should have meaningful image descriptions where possible.
+- Avatar images should have a useful fallback when missing.
+- Hashtag names should be readable as text, not only visual chips.
+- Keyboard users must be able to reach every featured item and every "See more" link.
+- Text should remain readable on mobile and desktop.
+- The layout should not rely on color alone to communicate metrics or active states.
+
+---
+
+## 17. Open Product Decisions
+
+1. Should the featured item in each section be selected by newest content, popularity, personalization, or editorial choice?
+2. Should the Discover Post section include a thumbnail if one is available, or stay text-only with description and address?
+3. Should the Hashtag section show one primary hashtag or several compact hashtag rows?
+4. Should clicking a hashtag name open that specific hashtag result, while "See more" opens the general Hashtag tab?
+5. Should the Search page tab names be singular or plural, such as Bookmark vs Bookmarks?
+
+---
+
+## 18. Definition of Ready for UI UX Pro Max
+
+The Discover sidebar update is ready for UI UX Pro Max when:
+
+- The sidebar has four sections: Bookmark, Post, User, and Hashtag.
+- Each section shows only one preview item or preview group.
+- Each section has a "Discover ..." title.
+- Each section has a "See more" link.
+- Bookmark includes thumbnail, title, and address.
+- Post includes description and address.
+- User includes avatar, full name, total posts, total followers, and four latest thumbnails.
+- Hashtag includes hashtag names, post counts, and four latest thumbnails.
+- "See more" opens Search with the matching active tab.
+- Navbar search opens Search with Bookmark as the default tab.
+- The current focus remains the Discover sidebar layout, not the full Search page implementation.
+
+---
+
+## 19. Recommended Direction
+
+Use the **Compact Discover Preview Sections** direction.
+
+This keeps Discover close to the current Explore sidebar while making it feel more complete. The strongest change is replacing short two-item lists with four distinct one-preview sections, each representing a major way users can explore Panorra.

@@ -1,0 +1,722 @@
+# Brainstorming: Search Sidebar Layout
+
+**Date:** 2026-06-30  
+**Feature:** Search sidebar layout  
+**Status:** Draft for UI UX Pro Max  
+**Primary audience:** UI/UX design, product design, frontend implementation  
+**Related screen:** Discover / Explore search destination  
+**Related document:** `docs/brainstorming/discover-sidebar-layout-brainstorming.md`
+
+---
+
+## 1. Feature Summary
+
+The Search page is the full browsing destination behind the Discover sidebar.
+
+Users can enter this page in two main ways:
+
+- By clicking the Search icon in the navigation.
+- By clicking "View More" from one of the Discover sections.
+
+The page should use a sidebar layout that feels connected to the Explore/Discover experience. It should not feel like a separate blank search page. Even before a user types, the page should already show useful recent content.
+
+The recommended direction is **Feed-First Search Sidebar**.
+
+This means:
+
+- The Search page opens with a useful list immediately.
+- The default active tab is **Post** when opened from the navbar Search icon.
+- The default list shows the most recent posts.
+- "View More" from Discover opens the Search page with the matching tab active.
+- Search input, tabs, and filters remain easy to reach while the list scrolls.
+
+---
+
+## 2. Design Goal
+
+Create a Search sidebar that feels:
+
+- Fast to understand.
+- Useful before typing.
+- Connected to Discover.
+- Easy to scan vertically.
+- Built around visual content, creators, places, and topics.
+- Comfortable for repeated browsing.
+
+The page should answer one simple question:
+
+**"What can I explore right now?"**
+
+Search is not only for typed queries. It is also a destination for browsing recent posts, bookmarks, users, and hashtags.
+
+---
+
+## 3. Entry Behavior
+
+### From Navbar Search Icon
+
+When the user clicks the Search icon in the navbar:
+
+- Open the Search page.
+- Set the active tab to **Post**.
+- Show the most recent posts as the default list.
+- Keep the search input empty and ready for typing.
+
+This makes the Search page feel active immediately.
+
+### From Discover "View More"
+
+Each Discover "View More" link opens the Search page with the matching tab active.
+
+| Discover section | Search tab opened |
+|---|---|
+| Discover Post | Post |
+| Discover Bookmark | Bookmark |
+| Discover User | User |
+| Discover Hashtag | Hashtag |
+
+Example:
+
+- Clicking "View More" in Discover Bookmark opens Search with the Bookmark tab active.
+- Clicking "View More" in Discover Hashtag opens Search with the Hashtag tab active.
+
+---
+
+## 4. Page Structure
+
+The Search page should use a sidebar layout similar to the Explore page.
+
+Recommended layout:
+
+1. Sidebar panel on the left.
+2. Map or main visual area on the right when available.
+3. Search controls at the top of the sidebar.
+4. Search result list below the controls.
+
+The sidebar should feel like a focused search and discovery panel, not a marketing page or a dashboard.
+
+---
+
+## 5. Top Navbar Area
+
+The top of the Search sidebar contains:
+
+- Back to Discover icon.
+- Search input.
+- Post category filters.
+
+### Back to Discover
+
+Purpose:
+
+- Let users return to Discover quickly.
+
+Recommended behavior:
+
+- Use a simple back arrow or Discover icon.
+- Keep it compact.
+- Place it before the search input.
+
+Suggested accessible label:
+
+- **Back to Discover**
+
+### Search Input
+
+Purpose:
+
+- Let users search across the active content type.
+
+Recommended placeholder:
+
+- **Search posts, bookmarks, users, hashtags...**
+
+Behavior:
+
+- If the user types while Post is active, show matching posts.
+- If the user types while Bookmark is active, show matching bookmarks.
+- If the user types while User is active, show matching users.
+- If the user types while Hashtag is active, show matching hashtags.
+- Clearing the input returns to the default recent list for the active tab.
+
+### Post Category Filters
+
+Filters:
+
+- All
+- Leisure
+- Real Estate
+- Business
+
+Recommended behavior:
+
+- Filters appear in the navbar area.
+- Filters mainly affect Post results.
+- If another tab is active, the filters can remain visible but should feel secondary or inactive.
+- The default filter is **All**.
+
+Design note:
+
+- These should feel like small filter chips or segmented controls, not large buttons.
+
+---
+
+## 6. Search Tabs
+
+Tabs appear below the search input.
+
+Required tabs:
+
+- Post
+- Bookmark
+- User
+- Hashtag
+
+Default active tab:
+
+- **Post**
+
+Tab behavior:
+
+- Changing tabs updates the default list content.
+- The search input should remain visible.
+- The selected tab should be visually clear.
+- Each tab should preserve the feeling of a recent-list feed.
+
+Recommended tab order:
+
+1. Post
+2. Bookmark
+3. User
+4. Hashtag
+
+Reasoning:
+
+- Post is the default and the most active content type.
+- Bookmark follows because it is location and collection oriented.
+- User follows because creators are connected to posts.
+- Hashtag closes the set as a topic-based exploration path.
+
+---
+
+## 7. Default Search List
+
+The default list changes based on the active tab.
+
+### If Post Is Active
+
+Show only the most recent posts.
+
+Each post item should include:
+
+- Post thumbnail.
+- Post icon.
+- Description.
+- Post address.
+- User avatar.
+- User full name.
+- Total views.
+- Total likes.
+- Total comments.
+- "Postd" badge.
+
+Design relationship:
+
+- The item should reuse the visual rhythm of the Place list item.
+- Thumbnail stays on the left.
+- Text and metadata stay on the right.
+- The item should feel compact but information-rich.
+
+Primary click target:
+
+- Open post detail.
+
+### If Bookmark Is Active
+
+Show recent bookmarks.
+
+Each bookmark item should include:
+
+- Bookmark thumbnail.
+- Bookmark icon.
+- Bookmark title.
+- Bookmark address.
+- User avatar.
+- User full name.
+- Total posts.
+- Total views.
+- "Postd" badge.
+
+Design relationship:
+
+- The item should feel similar to the Place list item, but clearly represent a bookmark.
+- The bookmark title should be the strongest text.
+- The address should provide location context.
+
+Primary click target:
+
+- Open bookmark detail.
+
+### If User Is Active
+
+Show the latest user uploads.
+
+Each user item should include:
+
+- User avatar.
+- User full name.
+- Total posts.
+- Total followers.
+- Four thumbnails from the user's latest posts.
+
+Design relationship:
+
+- The user avatar and full name should lead the row.
+- Metrics should be small and easy to scan.
+- The four latest post thumbnails should give a quick visual preview of that user's activity.
+
+Primary click target:
+
+- Open user profile.
+
+### If Hashtag Is Active
+
+Show recent or active hashtags.
+
+Each hashtag item should include:
+
+- Hashtag icon.
+- Hashtag name.
+- Total posts.
+- Four thumbnails from the latest posts using the hashtag.
+
+Design relationship:
+
+- The hashtag name should be the main label.
+- Total posts should sit close to the name.
+- The thumbnails should make the topic feel alive and visual.
+
+Primary click target:
+
+- Open hashtag search result or hashtag detail state.
+
+---
+
+## 8. Recommended List Item Pattern
+
+The Search list should feel related to the existing Place list.
+
+Base pattern:
+
+- Left visual area.
+- Right content area.
+- Primary title or description.
+- Secondary location or identity text.
+- Compact metadata row.
+- Optional badge on the right or near the metadata.
+
+The list should avoid heavy cards inside the sidebar. Use rows with clean dividers, soft hover states, and stable thumbnail sizes.
+
+Recommended row feeling:
+
+- Compact.
+- Visual.
+- Tappable.
+- Calm.
+- Similar spacing across all tabs.
+
+---
+
+## 9. "Postd" Badge
+
+The "Postd" badge appears on Post and Bookmark items.
+
+Purpose:
+
+- Signal that the item belongs to the Panorra posting ecosystem.
+- Help users distinguish content records from plain map places or simple search suggestions.
+
+Recommended badge style:
+
+- Small.
+- Rounded.
+- High contrast but not loud.
+- Placed consistently across rows.
+
+Design note:
+
+- Keep the exact spelling as **Postd** unless product later changes the brand label.
+
+---
+
+## 10. Visual Direction
+
+The Search sidebar should use the current Panorra Explore visual language:
+
+- White sidebar background.
+- Thin dividers.
+- Compact controls.
+- Rounded thumbnails.
+- Neutral surfaces.
+- Small icons for type and metrics.
+- Clear active states for tabs and filters.
+
+Recommended priorities:
+
+1. Make the active tab obvious.
+2. Keep the search input easy to reach.
+3. Make recent content scannable.
+4. Use thumbnails to create visual momentum.
+5. Keep metadata readable without crowding the row.
+
+Avoid:
+
+- Large hero sections.
+- Marketing copy.
+- Oversized cards.
+- Nested cards.
+- Empty search-first screens.
+- Long explanatory text in the UI.
+
+---
+
+## 11. Content Rules
+
+### Post Items
+
+Required hierarchy:
+
+1. Thumbnail and post icon.
+2. Description.
+3. Address.
+4. User identity.
+5. Views, likes, comments.
+6. "Postd" badge.
+
+Text behavior:
+
+- Description can use two lines.
+- Address can use one or two lines.
+- Long names should truncate cleanly.
+
+### Bookmark Items
+
+Required hierarchy:
+
+1. Thumbnail and bookmark icon.
+2. Bookmark title.
+3. Bookmark address.
+4. User identity.
+5. Posts and views.
+6. "Postd" badge.
+
+Text behavior:
+
+- Title should be one line if possible.
+- Address can use one or two lines.
+
+### User Items
+
+Required hierarchy:
+
+1. Avatar.
+2. Full name.
+3. Posts and followers.
+4. Four latest post thumbnails.
+
+Text behavior:
+
+- Full name should truncate on one line.
+- Metrics should use short number formats when needed.
+
+### Hashtag Items
+
+Required hierarchy:
+
+1. Hashtag icon.
+2. Hashtag name.
+3. Total posts.
+4. Four latest post thumbnails.
+
+Text behavior:
+
+- Hashtag name should remain readable as text.
+- Do not rely only on a chip shape or icon.
+
+---
+
+## 12. States
+
+### Loading State
+
+Use skeleton rows that match the selected tab.
+
+Examples:
+
+- Post skeleton: thumbnail, description rows, address row, metadata row.
+- Bookmark skeleton: thumbnail, title row, address row, metrics row.
+- User skeleton: avatar, name row, metrics row, four thumbnail blocks.
+- Hashtag skeleton: icon block, hashtag row, post count row, four thumbnail blocks.
+
+### Empty State
+
+If the active tab has no results, show a simple empty state inside the list area.
+
+Suggested copy:
+
+- **No posts found**
+- **No bookmarks found**
+- **No users found**
+- **No hashtags found**
+
+When the search input is empty, the copy can say:
+
+- **No recent posts yet**
+- **No recent bookmarks yet**
+- **No recent users yet**
+- **No recent hashtags yet**
+
+### Offline State
+
+If the app is offline:
+
+- Keep cached results visible when available.
+- Show a compact offline message near the top of the list.
+- Avoid clearing the whole page if cached content exists.
+
+Suggested copy:
+
+- **You are offline**
+- **Some results may not be up to date.**
+
+### Error State
+
+If content cannot load:
+
+- Keep the top controls visible.
+- Show a compact error message in the list area.
+- Provide a retry action if possible.
+
+Suggested copy:
+
+- **Unable to load results**
+- **Try again**
+
+---
+
+## 13. Search Behavior
+
+Search should respect the active tab.
+
+Examples:
+
+- Post tab + "hotel" searches posts only.
+- Bookmark tab + "hotel" searches bookmarks only.
+- User tab + "anna" searches users only.
+- Hashtag tab + "city" searches hashtags only.
+
+Clearing the search input:
+
+- Returns to the default recent list for the active tab.
+
+Changing tabs while a search term exists:
+
+- Keep the typed search term.
+- Re-run the search for the newly selected tab.
+
+Changing category filters:
+
+- Keep the active Post tab.
+- Update the list based on the selected category.
+- If another tab is active, switching a category filter can either return to Post or remain inactive. The recommended behavior is to return to Post because the category filters describe post categories.
+
+---
+
+## 14. Navigation and Interaction Notes
+
+Primary row actions:
+
+- Post row opens post detail.
+- Bookmark row opens bookmark detail.
+- User row opens user profile.
+- Hashtag row opens hashtag result state.
+
+Secondary actions:
+
+- Back to Discover returns to the Discover sidebar.
+- Search input filters the active list.
+- Tabs change content type.
+- Category filters narrow Post results.
+
+Interaction feel:
+
+- Rows should have a clear hover state on desktop.
+- Rows should have a comfortable tap size on mobile.
+- The active tab and active category should be easy to recognize without relying on color alone.
+
+---
+
+## 15. UI/UX Master Data for UI UX Pro Max
+
+### 15.1 Screen Inventory
+
+| Screen ID | Screen name | Purpose | Navigation |
+|---|---|---|---|
+| SEARCH-01 | Search sidebar | Browse recent and searched posts, bookmarks, users, and hashtags | Navbar Search icon or Discover "View More" |
+| DISCOVER-01 | Discover sidebar | Preview discoverable content types and send users to Search | Explore / Discover page |
+
+### 15.2 Primary Screen: SEARCH-01
+
+Purpose:
+
+- Let users browse and search across content types from a sidebar layout.
+
+Key elements:
+
+- Back to Discover icon.
+- Search input.
+- Category filters: All, Leisure, Real Estate, Business.
+- Search tabs: Post, Bookmark, User, Hashtag.
+- Recent result list based on the active tab.
+- Loading, empty, offline, and error states.
+
+Default state:
+
+- Active tab: Post.
+- Active category: All.
+- Search input: empty.
+- List content: most recent posts.
+
+Primary action:
+
+- Open a result item.
+
+Secondary actions:
+
+- Search within active tab.
+- Change active tab.
+- Filter posts by category.
+- Return to Discover.
+
+### 15.3 Entry Rules
+
+| Entry point | Active tab | Active category | Default content |
+|---|---|---|---|
+| Navbar Search icon | Post | All | Most recent posts |
+| Discover Post "View More" | Post | All | Most recent posts |
+| Discover Bookmark "View More" | Bookmark | All | Recent bookmarks |
+| Discover User "View More" | User | All | Latest user uploads |
+| Discover Hashtag "View More" | Hashtag | All | Recent or active hashtags |
+
+---
+
+## 16. Required Components for Design
+
+| Component | Description | Notes |
+|---|---|---|
+| Search sidebar container | Main left panel for search content | Similar width and rhythm to Explore sidebar |
+| Back to Discover action | Icon button in top navbar | Returns to Discover |
+| Search input | Main search field | Searches within active tab |
+| Category filters | All, Leisure, Real Estate, Business | Primarily affects Post tab |
+| Search tabs | Post, Bookmark, User, Hashtag | Post is default |
+| Post result row | Recent post list item | Uses post thumbnail, icon, description, address, creator, metrics, badge |
+| Bookmark result row | Recent bookmark list item | Uses bookmark thumbnail, icon, title, address, creator, metrics, badge |
+| User result row | Latest user upload item | Uses avatar, name, metrics, four thumbnails |
+| Hashtag result row | Hashtag topic item | Uses hashtag icon, name, total posts, four thumbnails |
+| Result states | Loading, empty, offline, error | Must preserve top controls |
+
+---
+
+## 17. Suggested Copy
+
+Top controls:
+
+- **Back to Discover**
+- **Search posts, bookmarks, users, hashtags...**
+
+Tabs:
+
+- **Post**
+- **Bookmark**
+- **User**
+- **Hashtag**
+
+Category filters:
+
+- **All**
+- **Leisure**
+- **Real Estate**
+- **Business**
+
+Badge:
+
+- **Postd**
+
+Empty states:
+
+- **No posts found**
+- **No bookmarks found**
+- **No users found**
+- **No hashtags found**
+
+Offline:
+
+- **You are offline**
+- **Some results may not be up to date.**
+
+Error:
+
+- **Unable to load results**
+- **Try again**
+
+---
+
+## 18. Accessibility Requirements
+
+- The search input should have a clear accessible label.
+- Back to Discover should have a clear accessible label.
+- Tabs should communicate the active state to assistive technology.
+- Category filters should communicate the active filter.
+- Every result row should be reachable by keyboard.
+- Thumbnail images should have useful alt text when possible.
+- Decorative icons should not be read as duplicate content.
+- Metrics should be readable as text, not only icons.
+- Empty, loading, offline, and error states should be announced clearly.
+- Text should remain readable on mobile and desktop.
+
+---
+
+## 19. Open Product Decisions
+
+1. Should category filters disappear on Bookmark, User, and Hashtag tabs, or remain visible but secondary?
+2. Should "View More" from Discover preserve a category filter if the Discover section later becomes category-aware?
+3. Should the Hashtag row open a hashtag detail page or keep users inside Search with a hashtag result state?
+4. Should search results update while typing or only after pressing the Search icon?
+5. Should the "Postd" badge appear on User and Hashtag rows when their thumbnails represent posted content, or only on Post and Bookmark rows?
+
+---
+
+## 20. Definition of Ready for UI UX Pro Max
+
+The Search sidebar layout is ready for UI UX Pro Max when:
+
+- The page uses a sidebar layout connected to the Explore/Discover experience.
+- Navbar Search opens Search with the Post tab active.
+- The Post tab shows recent posts by default.
+- Discover "View More" opens the matching tab.
+- The top navbar area includes Back to Discover, search input, and category filters.
+- Tabs include Post, Bookmark, User, and Hashtag.
+- Post rows include thumbnail, icon, description, address, creator identity, views, likes, comments, and "Postd" badge.
+- Bookmark rows include thumbnail, icon, title, address, creator identity, total posts, total views, and "Postd" badge.
+- User rows include avatar, full name, total posts, total followers, and four latest post thumbnails.
+- Hashtag rows include hashtag icon, hashtag name, total posts, and four latest post thumbnails.
+- Loading, empty, offline, and error states are defined.
+- The design stays compact, visual, and list-first.
+
+---
+
+## 21. Recommended Direction
+
+Use the **Feed-First Search Sidebar** direction.
+
+This makes Search useful immediately, supports the navbar Search entry with recent posts, and gives every Discover "View More" link a predictable destination. The result is a search page that behaves like a full browsing experience instead of an empty form waiting for input.

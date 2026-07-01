@@ -1,0 +1,632 @@
+# Brainstorming: Pick of the Day Sidebar Page
+
+**Date:** 2026-06-26
+**Feature:** Pick of the Day (POTD)
+**Status:** Draft for UI UX Pro Max
+**Primary audience:** Product design, UI/UX design, content/support team
+
+---
+
+## 1. Feature Summary
+
+Pick of the Day is a curated discovery page for selected posts and bookmark collections hand-picked by the support team.
+
+The page should appear in the main sidebar navigation near Discover/Explore. It should feel like a familiar Panorra discovery surface, but with a more editorial, proud, and trusted tone. The user should immediately understand that these items are not random search results. They are selected highlights from the team.
+
+POTD content includes two item types:
+
+- **Posts:** single panorama/content item.
+- **Bookmarks:** a curated collection/folder containing several saved posts.
+
+Both posts and bookmarks can receive a POTD badge. The badge should appear on:
+
+- Post detail.
+- Post timeline/feed cards.
+- POTD sidebar page cards.
+- Bookmark cards when a bookmark collection is selected as POTD.
+
+---
+
+## 2. Design Goal
+
+Create a Pick of the Day page that feels:
+
+- Special, curated, and worth opening.
+- Proud but still aligned with the current Panorra visual style.
+- Close to the existing Discover/Explore sidebar layout.
+- Easy to scan on desktop and mobile.
+- Strongly visual, because Panorra content is image-led.
+
+The page should not feel like a marketing landing page or a separate product. It should feel like a native Panorra sidebar destination with a small editorial upgrade.
+
+Recommended design direction: **Editorial Sidebar Feed**.
+
+This means the page keeps the Explore-style structure, but adds stronger curation signals:
+
+- A compact POTD header.
+- A support-team selection message.
+- Search by title, description, or location.
+- A simple switch between Posts and Bookmarks.
+- Cards with POTD badge, author identity, content summary, and location.
+
+---
+
+## 3. Navigation Pattern
+
+**Pattern:** Sidebar destination.
+
+The POTD page should appear in the main sidebar navigation like Discover/Explore.
+
+Recommended sidebar label:
+
+- **Pick of the Day**
+
+Recommended icon direction:
+
+- Trophy, sparkle, medal, or star.
+- Prefer trophy if consistent with the existing POTD badge.
+
+Navigation behavior:
+
+- Clicking the sidebar item opens the POTD page.
+- Desktop layout should follow the Explore pattern: content panel on the left, map/preview/content area on the right if the current product layout expects it.
+- Mobile layout should keep the POTD list easy to scroll without feeling cramped.
+
+---
+
+## 4. Page Layout
+
+### 4.1 Desktop
+
+Recommended layout:
+
+- Left content panel similar to Explore/Discover.
+- Optional right map or contextual preview area if the current Explore page already uses it.
+- The left panel is the primary POTD experience.
+
+Left panel order:
+
+1. POTD header.
+2. Search field.
+3. Posts / Bookmarks switch.
+4. Results list.
+5. Loading, empty, offline, and error states when needed.
+
+### 4.2 Mobile
+
+Recommended layout:
+
+- Full-width POTD content list.
+- Header stays compact.
+- Search remains near the top.
+- Posts / Bookmarks switch stays visible before the list.
+- Cards stack vertically.
+
+Mobile must avoid a large hero that pushes content too far down. The feature should feel special through small editorial details, not through oversized decoration.
+
+---
+
+## 5. Header Experience
+
+The header should be compact and proud.
+
+Suggested structure:
+
+- Small POTD badge or trophy mark.
+- Title: **Pick of the Day**
+- Supporting text: **Selected by the Panorra support team**
+- Optional small count or date label:
+  - **Today**
+  - **Fresh picks**
+  - **Team selected**
+
+Tone:
+
+- Confident.
+- Human.
+- Curated.
+- Not too promotional.
+
+Avoid:
+
+- Huge hero artwork.
+- Long explanation text.
+- Too many decorative badges.
+- A layout that feels separate from Discover/Explore.
+
+---
+
+## 6. Search
+
+The POTD page must include search.
+
+Search purpose:
+
+- Help users find POTD items by title, description, or location.
+
+Search should match against:
+
+- Post title.
+- Post description.
+- Post location.
+- Bookmark title.
+- Bookmark description.
+- Bookmark location.
+
+Recommended placeholder:
+
+- **Search picks by title, description, or location**
+
+Search behavior:
+
+- Search applies to the currently selected list type.
+- If the user is on Posts, search returns POTD posts.
+- If the user is on Bookmarks, search returns POTD bookmarks.
+- Search should feel instant or near-instant once data is available.
+- If no result is found, show a friendly empty state.
+
+Search empty state copy:
+
+- **No picks found**
+- **Try another title, description, or location.**
+
+---
+
+## 7. Posts / Bookmarks Switch
+
+The page must include a list feature that lets users switch between posts and bookmarks.
+
+Recommended control:
+
+- Segmented control with two options:
+  - **Posts**
+  - **Bookmarks**
+
+Behavior:
+
+- Posts is the default tab unless product decides otherwise.
+- Switching tabs should keep the user inside the POTD page.
+- Search should remain visible while switching.
+- Counts can be shown if available, but they are optional.
+
+Recommended labels:
+
+- **Posts**
+- **Bookmarks**
+
+Optional count style:
+
+- **Posts 24**
+- **Bookmarks 8**
+
+---
+
+## 8. Card Design Principles
+
+Post and bookmark cards should feel related but not identical.
+
+Shared card qualities:
+
+- Compact sidebar-friendly proportions.
+- Image-led.
+- POTD badge visible but not loud.
+- Author identity visible on both card types.
+- Title and description are easy to scan.
+- Location is clear.
+- Card styling should stay close to the current Explore/Discover design language.
+
+Shared card content:
+
+- POTD badge.
+- Author avatar.
+- Author full name.
+- Title.
+- Description.
+- Location.
+
+Card tone:
+
+- Curated.
+- Clean.
+- Trustworthy.
+- Visual.
+
+Avoid:
+
+- Overly large cards that reduce scan speed.
+- Too many metrics competing with the content.
+- Treating bookmark cards exactly like post cards.
+
+---
+
+## 9. Post Card
+
+Posts represent one selected content item.
+
+Required post card content:
+
+- One thumbnail only.
+- POTD badge.
+- Author avatar.
+- Author full name.
+- Title.
+- Description.
+- Location.
+
+Recommended visual structure:
+
+- Single large thumbnail at top or left depending on available width.
+- POTD badge placed over the thumbnail or near the title.
+- Author row below the thumbnail or above title.
+- Title in strong text.
+- Description in secondary text.
+- Location row with location icon or subtle location text.
+
+Post card characteristic:
+
+- Feels like a single featured story or panorama.
+- The image should be the hero of the card.
+- The content should feel immediately openable.
+
+Suggested post card hierarchy:
+
+1. Thumbnail.
+2. POTD badge.
+3. Author avatar and full name.
+4. Title.
+5. Description.
+6. Location.
+
+---
+
+## 10. Bookmark Card
+
+Bookmarks represent a selected collection/folder.
+
+Required bookmark card content:
+
+- Several thumbnails.
+- POTD badge.
+- Author avatar.
+- Author full name.
+- Title.
+- Description.
+- Location.
+
+Recommended visual structure:
+
+- Multi-thumbnail collage, grid, or horizontal strip.
+- Use 3 to 4 thumbnails when available.
+- If only one thumbnail exists, keep the card stable and use a placeholder or enlarged thumbnail style.
+- POTD badge placed over the thumbnail group or near the title.
+- Author row should be visible like post cards.
+- Title and description should describe the collection.
+- Location should reflect the primary or representative location.
+
+Bookmark card characteristic:
+
+- Feels like a curated set, not a single post.
+- The thumbnails should signal "collection" at a glance.
+- It should be visually related to the post card but clearly different.
+
+Suggested bookmark card hierarchy:
+
+1. Multi-thumbnail preview.
+2. POTD badge.
+3. Author avatar and full name.
+4. Title.
+5. Description.
+6. Location.
+
+---
+
+## 11. POTD Badge
+
+The POTD badge should be a consistent visual marker across the product.
+
+Badge locations:
+
+- POTD page cards.
+- Post detail.
+- Post timeline.
+- Bookmark cards.
+
+Badge intent:
+
+- Shows support-team selection.
+- Builds trust.
+- Makes featured content feel recognized.
+
+Recommended visual direction:
+
+- Trophy icon or compact badge.
+- Warm accent color that can stand out from the neutral UI.
+- Small enough to avoid overpowering the content.
+- Clear enough to be recognized on image backgrounds.
+
+Recommended badge text:
+
+- **POTD**
+
+Optional tooltip or expanded label:
+
+- **Pick of the Day**
+
+Avoid:
+
+- Making the badge look like an ad.
+- Using too many competing accent colors.
+- Hiding the badge in a low-contrast area of the thumbnail.
+
+---
+
+## 12. Content Details
+
+### 12.1 Post Item
+
+Minimum display fields:
+
+- Thumbnail.
+- Title.
+- Description.
+- Location.
+- Author avatar.
+- Author full name.
+- POTD badge.
+
+Optional display fields:
+
+- Date selected.
+- Engagement count.
+- Category.
+
+### 12.2 Bookmark Item
+
+Minimum display fields:
+
+- Multiple thumbnails.
+- Title.
+- Description.
+- Location.
+- Author avatar.
+- Author full name.
+- POTD badge.
+
+Optional display fields:
+
+- Number of posts in the bookmark.
+- Date selected.
+- Collection category.
+
+---
+
+## 13. States
+
+### Default State
+
+Show curated POTD content with search and Posts/Bookmarks switch.
+
+### Loading State
+
+Use simple skeleton cards matching the post and bookmark card shapes.
+
+### Empty State
+
+When there are no POTD items:
+
+- **No picks yet**
+- **The support team is still curating today's highlights.**
+
+### Search Empty State
+
+When search has no matches:
+
+- **No picks found**
+- **Try another title, description, or location.**
+
+### Offline State
+
+When the user is offline:
+
+- **You are offline**
+- **Saved picks may still be available. Reconnect to see the latest selections.**
+
+### Error State
+
+When POTD content cannot load:
+
+- **Unable to load picks**
+- **Please try again in a moment.**
+
+Primary action:
+
+- **Retry**
+
+---
+
+## 14. Interaction Notes
+
+Card tap/click:
+
+- Post card opens post detail.
+- Bookmark card opens bookmark detail or bookmark collection view.
+
+Search:
+
+- Typing filters POTD results by title, description, or location.
+- Clearing search returns to the normal selected tab list.
+
+Tab switch:
+
+- Posts and Bookmarks switch the result type.
+- The page should keep its position stable and avoid visual jumping.
+
+Badge:
+
+- Badge is visible on cards.
+- On detail/timeline, badge should remain recognizable as the same POTD marker.
+
+---
+
+## 15. UI/UX Master Data for UI UX Pro Max
+
+### 15.1 Screen Inventory
+
+| Screen ID | Screen name | Purpose | Navigation |
+|---|---|---|---|
+| POTD-01 | Pick of the Day sidebar page | Browse curated posts and bookmarks | Main sidebar |
+| POTD-02 | POTD post detail badge state | Show that a post is team selected | Post detail |
+| POTD-03 | POTD timeline badge state | Show that a feed/timeline post is team selected | Timeline/feed |
+| POTD-04 | POTD bookmark card state | Show that a bookmark collection is team selected | POTD page and bookmark contexts |
+
+### 15.2 Primary Screen: POTD-01
+
+Purpose:
+
+- Let users browse and search team-selected posts and bookmarks.
+
+Key elements:
+
+- Sidebar navigation entry.
+- Compact POTD header.
+- Search field.
+- Posts/Bookmarks segmented control.
+- Post card list.
+- Bookmark card list.
+- Loading state.
+- Empty state.
+- Search empty state.
+- Offline state.
+- Error state.
+
+Primary action:
+
+- Open a selected post or bookmark.
+
+Design implication:
+
+- The page should feel slightly more editorial than Explore, but still use the same product rhythm.
+
+### 15.3 Required Components for Design
+
+| Component | Description | Notes |
+|---|---|---|
+| POTD sidebar navigation item | Main navigation entry | Use trophy/star/medal direction |
+| POTD header | Compact title and support-team message | Proud but not oversized |
+| POTD search | Searches title, description, and location | Keep near the top |
+| POTD type switch | Posts / Bookmarks segmented control | Simple and visible |
+| POTD post card | Single-thumbnail card | Shows author avatar and full name |
+| POTD bookmark card | Multi-thumbnail collection card | Shows author avatar and full name |
+| POTD badge | Badge used across page, detail, and timeline | Consistent marker |
+| POTD empty state | No items or no search matches | Friendly and brief |
+| POTD offline state | Offline fallback message | PWA-friendly |
+
+### 15.4 Visual Priorities
+
+1. Make POTD feel curated.
+2. Preserve the Explore/Discover sidebar style.
+3. Make posts and bookmarks easy to distinguish.
+4. Keep author identity visible on both card types.
+5. Make search clear and useful.
+6. Keep the badge consistent across the product.
+
+---
+
+## 16. Suggested Copy
+
+Page title:
+
+- **Pick of the Day**
+
+Header support text:
+
+- **Selected by the Panorra support team**
+
+Search placeholder:
+
+- **Search picks by title, description, or location**
+
+Segment labels:
+
+- **Posts**
+- **Bookmarks**
+
+Badge:
+
+- **POTD**
+
+Expanded badge label:
+
+- **Pick of the Day**
+
+No POTD items:
+
+- **No picks yet**
+- **The support team is still curating today's highlights.**
+
+No search results:
+
+- **No picks found**
+- **Try another title, description, or location.**
+
+Offline:
+
+- **You are offline**
+- **Saved picks may still be available. Reconnect to see the latest selections.**
+
+Error:
+
+- **Unable to load picks**
+- **Please try again in a moment.**
+
+Retry action:
+
+- **Retry**
+
+---
+
+## 17. Accessibility Requirements
+
+- Search must have a clear label for screen readers.
+- Posts/Bookmarks switch must clearly announce the selected state.
+- POTD badge must not rely only on color.
+- Author avatar must have a useful fallback when the image is missing.
+- Thumbnail images should have meaningful alt text based on title or location.
+- Text over images must meet readable contrast.
+- Touch targets must be comfortable on mobile.
+- Keyboard users must be able to reach search, tabs, and every card.
+
+---
+
+## 18. Open Product Decisions
+
+1. Should Posts or Bookmarks be the default tab?
+2. Should the page show a right-side map like Explore, or should POTD be a full sidebar/list experience?
+3. Should POTD selections refresh daily, manually, or whenever support updates them?
+4. Should the POTD badge show only "POTD" or the full "Pick of the Day" label on cards?
+5. Should cards show selected date or keep the UI cleaner?
+
+---
+
+## 19. Definition of Ready for Design
+
+The feature is ready for UI UX Pro Max when:
+
+- POTD page uses the sidebar destination pattern.
+- Search is included and covers title, description, and location.
+- Posts and Bookmarks are separate list views.
+- Post cards show one thumbnail.
+- Bookmark cards show several thumbnails.
+- Both card types show author avatar and full name.
+- POTD badge is specified for page cards, post detail, and post timeline.
+- Empty, loading, offline, and error states are included.
+- The page feels special but remains close to Explore/Discover.
+
+---
+
+## 20. Recommended Direction
+
+Use the **Editorial Sidebar Feed** direction.
+
+This gives POTD enough personality to feel curated and proud, while keeping it close to Panorra's existing Discover/Explore style. The strongest design move should be the combination of a compact editorial header, visible POTD badge, clear author identity, and distinct post/bookmark card treatments.
+

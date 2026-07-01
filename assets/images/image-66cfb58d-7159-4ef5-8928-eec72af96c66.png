@@ -1,0 +1,552 @@
+# Brainstorming: Pick of the Day Detailed Sidebar Layout
+
+**Date:** 2026-06-26
+**Feature:** Pick of the Day detailed layout
+**Status:** Draft for UI UX Pro Max
+**Primary audience:** UI/UX design, product design, support team
+
+---
+
+## 1. Purpose
+
+This document describes a detailed sidebar layout for Pick of the Day, focused on why the support team selected a post as POTD.
+
+The most important content is not only the post itself. The page should first celebrate the support team's reason:
+
+1. The POTD reason title.
+2. The POTD reason description.
+3. A proud visual/vector treatment for the reason.
+4. The selected post preview underneath.
+
+The layout should make the user feel that this pick was intentional, thoughtful, and worth opening.
+
+---
+
+## 2. Design Direction
+
+Recommended direction: **Curated Reason First**.
+
+The sidebar should feel like a special editorial note from the Panorra support team, followed by the selected post. It should still look like Panorra and stay close to the existing Explore/Discover sidebar style, but the top section should feel more proud and memorable.
+
+The design should not become a marketing hero page. It should remain a usable sidebar page with a clear hierarchy.
+
+Visual personality:
+
+- Proud.
+- Warm.
+- Curated.
+- Human.
+- Trustworthy.
+- Still compact and product-native.
+
+---
+
+## 3. Layout Summary
+
+The sidebar layout should be ordered like this:
+
+1. Compact page header.
+2. POTD reason spotlight.
+3. Support-team vector illustration.
+4. Selected post card.
+5. Optional related picks or navigation back to the POTD list.
+
+The POTD reason spotlight is the priority. The post card is secondary but still visually strong.
+
+---
+
+## 4. Main Sidebar Structure
+
+### 4.1 Header Area
+
+Purpose:
+
+- Tell the user they are viewing a Pick of the Day detail.
+
+Recommended content:
+
+- Small POTD badge or trophy icon.
+- Label: **Pick of the Day**
+- Support attribution: **Selected by the Panorra support team**
+- Optional selected date: **Today** or a short date.
+
+Recommended style:
+
+- Compact.
+- Clean.
+- Similar spacing to Explore/Discover.
+- No large marketing-style hero.
+
+### 4.2 Reason Spotlight Area
+
+Purpose:
+
+- Explain why this post became a Pick of the Day.
+- Make the support team's choice feel meaningful.
+
+This section is the emotional center of the layout.
+
+Required content:
+
+- POTD reason title.
+- POTD reason description.
+
+Recommended title examples:
+
+- **A perspective worth pausing for**
+- **Chosen for its immersive sense of place**
+- **A standout view from the community**
+- **A beautifully captured local moment**
+
+Recommended description style:
+
+- Written as a short editorial note.
+- 1 to 3 sentences.
+- Explains the quality, place, story, or usefulness of the post.
+- Should feel human, not automated.
+
+Example description:
+
+- **The support team selected this post for its clear panorama, helpful location context, and the way it captures the atmosphere of the place. It is the kind of view that helps people understand a destination before they visit.**
+
+Visual hierarchy:
+
+1. Reason title.
+2. Reason description.
+3. POTD badge or small "Support team pick" label.
+4. Vector illustration as a supporting accent.
+
+### 4.3 Vector Illustration Area
+
+Purpose:
+
+- Make the POTD reason feel proud and memorable.
+- Give UI UX Pro Max a clear visual asset direction.
+
+The vector should support the title and description. It should not dominate the whole sidebar.
+
+Recommended vector concept:
+
+- A small trophy or medal rising from a panorama frame.
+- A curved path or location pin behind it to connect the pick to place discovery.
+- A subtle sparkle or highlight to show recognition.
+- A support-team handoff feeling, such as a ribbon, seal, or selected-card motif.
+
+Recommended vector style:
+
+- Clean flat vector.
+- Soft geometric shapes.
+- Warm accent color for the trophy or badge.
+- Neutral background shapes that match Panorra's existing UI.
+- No heavy 3D.
+- No cartoon character.
+- No overly playful illustration.
+- Should fit in a compact sidebar panel.
+
+Recommended vector placement:
+
+- Beside the reason title on wider sidebar layouts if space allows.
+- Above or below the reason description on narrow/mobile layouts.
+- It can sit inside the reason spotlight area as a small decorative anchor.
+
+Recommended vector prompt for UI UX Pro Max:
+
+> Create a compact flat vector illustration for a Pick of the Day reason card. Show a small trophy badge emerging from a panorama/photo frame, with a subtle location pin and soft highlight shapes. The mood should feel proud, curated, premium, and trustworthy. Keep it minimal, clean, and aligned with a modern social discovery app sidebar. Use warm gold or amber as the accent, balanced with neutral white, soft gray, and muted dark text colors. Avoid cartoon characters, busy gradients, and oversized decoration.
+
+### 4.4 Selected Post Preview
+
+Purpose:
+
+- Show the post that became POTD after the reason is understood.
+
+The post preview should feel like proof of the support team's reason.
+
+Required post content:
+
+- Thumbnail.
+- Post description.
+- Author avatar.
+- Author full name.
+
+Recommended optional content:
+
+- Post title.
+- Location.
+- POTD badge.
+- Open/view action.
+
+Post preview hierarchy:
+
+1. Thumbnail.
+2. POTD badge.
+3. Author avatar and full name.
+4. Post title if available.
+5. Post description.
+6. Location if available.
+
+Important note:
+
+- The reason title and reason description must be visually higher priority than the post title and post description.
+
+---
+
+## 5. Detailed Visual Hierarchy
+
+### Priority 1: POTD Reason
+
+This is the strongest section.
+
+It should answer:
+
+- Why was this selected?
+- What makes this post special?
+- What did the support team notice?
+
+Design treatment:
+
+- Larger title than the post card title.
+- Comfortable line height.
+- Calm supporting description.
+- Small support-team attribution.
+- Vector accent close to the reason.
+
+### Priority 2: Selected Post
+
+The post should be easy to recognize and open.
+
+It should show:
+
+- The visual thumbnail.
+- Who created it.
+- What the post is about.
+
+Design treatment:
+
+- Image-led card.
+- Author row with avatar and full name.
+- Description that is readable but secondary to the POTD reason.
+
+### Priority 3: Actions and Secondary Details
+
+Actions should be present but not distracting.
+
+Possible actions:
+
+- Open post.
+- Save/bookmark.
+- Share.
+
+These can be small and secondary.
+
+---
+
+## 6. Card and Panel Design
+
+### 6.1 POTD Reason Panel
+
+Recommended feel:
+
+- A special editorial card/panel.
+- Slightly elevated from the rest of the sidebar.
+- Not overly decorated.
+
+Panel content:
+
+- POTD label.
+- Reason title.
+- Reason description.
+- Support-team attribution.
+- Vector illustration.
+
+Suggested copy labels:
+
+- **Why we picked this**
+- **Support team note**
+- **Selected for**
+
+Recommended panel title:
+
+- Use the support team's actual reason title.
+
+Recommended panel description:
+
+- Use the support team's actual reason description.
+
+### 6.2 Selected Post Card
+
+Recommended feel:
+
+- Familiar post card.
+- Close to existing Discover/Explore visual language.
+- Slightly refined because it appears under the POTD reason.
+
+Required content:
+
+- Thumbnail.
+- Author avatar.
+- Author full name.
+- Post description.
+
+Optional content:
+
+- Post title.
+- Location.
+- POTD badge.
+
+Important:
+
+- Do not let the post card overpower the POTD reason panel.
+- The selected post should support the reason, not replace it.
+
+---
+
+## 7. Example Sidebar Flow
+
+### Screen Starts
+
+The user opens Pick of the Day from the sidebar.
+
+They see:
+
+- **Pick of the Day**
+- **Selected by the Panorra support team**
+
+Then immediately:
+
+- **Why we picked this**
+- Reason title.
+- Reason description.
+- Vector illustration.
+
+Then:
+
+- Selected post preview.
+- Thumbnail.
+- Author avatar and full name.
+- Post description.
+
+The user can then open the post detail.
+
+---
+
+## 8. Suggested Copy
+
+Page label:
+
+- **Pick of the Day**
+
+Support attribution:
+
+- **Selected by the Panorra support team**
+
+Reason section label:
+
+- **Why we picked this**
+
+Alternative reason labels:
+
+- **Support team note**
+- **Chosen for**
+- **What stood out**
+
+Example reason title:
+
+- **A view that captures the whole place**
+
+Example reason description:
+
+- **This post stood out for its clean panorama, useful location context, and the way it helps viewers understand the atmosphere of the destination before they visit.**
+
+Post section label:
+
+- **Selected post**
+
+Primary action:
+
+- **Open post**
+
+Secondary action:
+
+- **Save**
+
+Empty reason fallback:
+
+- **This pick was selected by the Panorra support team for its quality, place context, and helpful view of the destination.**
+
+---
+
+## 9. UI UX Pro Max Design Instructions
+
+Create a sidebar detail layout for Pick of the Day.
+
+The layout must prioritize:
+
+1. POTD reason title.
+2. POTD reason description.
+3. Proud vector illustration supporting the reason.
+4. Selected post preview.
+
+Do not start the layout with the post thumbnail as the dominant element. The reason should lead.
+
+The selected post preview must include:
+
+- Thumbnail.
+- Post description.
+- Author avatar.
+- Author full name.
+
+Recommended frame:
+
+- Desktop sidebar width similar to Explore.
+- Mobile full-width stacked layout.
+
+Recommended visual rhythm:
+
+- Compact header.
+- Editorial reason panel.
+- Vector accent.
+- Post preview card.
+
+Recommended mood:
+
+- Proud.
+- Curated.
+- Premium but not flashy.
+- Human and trustworthy.
+
+---
+
+## 10. Responsive Behavior
+
+### Desktop Sidebar
+
+The reason panel can use a two-part composition:
+
+- Text on top/left.
+- Vector accent beside or below it.
+
+The post preview sits below the reason panel.
+
+### Mobile
+
+The layout stacks:
+
+1. Header.
+2. Reason title.
+3. Reason description.
+4. Vector illustration.
+5. Selected post card.
+
+Keep the vector small enough that the post remains visible without too much scrolling.
+
+---
+
+## 11. States
+
+### Default State
+
+Show reason title, reason description, vector illustration, and selected post.
+
+### Loading State
+
+Show skeletons for:
+
+- Header label.
+- Reason title.
+- Reason description.
+- Vector area.
+- Post card.
+
+### Missing Reason State
+
+If the support team reason is not available, show a graceful fallback:
+
+- **Selected by the Panorra support team**
+- **This pick was selected for its quality, place context, and helpful view of the destination.**
+
+### Missing Thumbnail State
+
+If the thumbnail is unavailable, show a calm image placeholder that still preserves the post card layout.
+
+### Offline State
+
+If offline, show cached content if available.
+
+Copy:
+
+- **You are offline**
+- **Reconnect to see the latest Pick of the Day details.**
+
+### Error State
+
+Copy:
+
+- **Unable to load this pick**
+- **Please try again in a moment.**
+
+Action:
+
+- **Retry**
+
+---
+
+## 12. Accessibility Requirements
+
+- The reason title must be readable and not hidden inside an image.
+- The vector must be decorative unless it communicates unique information.
+- The post thumbnail must have meaningful alt text.
+- The author avatar must have a fallback initial or neutral avatar.
+- The author full name must be visible as text.
+- Buttons and cards must have clear focus states.
+- The POTD badge must not rely only on color.
+- Text contrast must remain readable over all image areas.
+
+---
+
+## 13. What To Avoid
+
+- Starting the detail layout with a huge post thumbnail.
+- Making the reason title feel like a small caption.
+- Using a vector that feels childish or unrelated to place discovery.
+- Making the page feel like an advertisement.
+- Hiding the support team's reason under the post card.
+- Overloading the sidebar with metrics.
+- Removing the author identity from the selected post preview.
+
+---
+
+## 14. Definition of Ready for Design
+
+This layout is ready for UI UX Pro Max when the design includes:
+
+- A compact Pick of the Day header.
+- A reason-first spotlight area.
+- Support-team reason title.
+- Support-team reason description.
+- A proud vector illustration direction.
+- A selected post preview below the reason.
+- Post thumbnail.
+- Post description.
+- Author avatar.
+- Author full name.
+- Loading, fallback, offline, and error states.
+- A visual style that feels special but still close to Panorra's existing sidebar design.
+
+---
+
+## 15. Recommended Final Layout
+
+Use this final order:
+
+1. **Pick of the Day** header.
+2. **Why we picked this** label.
+3. Support-team reason title.
+4. Support-team reason description.
+5. Proud POTD vector illustration.
+6. **Selected post** card.
+7. Author avatar and full name.
+8. Post thumbnail and post description.
+9. Open post action.
+
+This order makes the support team's reason the main story and turns the selected post into the evidence behind that story.
+
