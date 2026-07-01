@@ -1,12 +1,12 @@
 {
   "title": "GoThru 3D Floormap - UI Design",
   "repository": "GoThruMedia/gothru-3d-floormap",
-  "generated_at": "2026-07-01T09:10:34Z",
+  "generated_at": "2026-07-01T09:12:26Z",
   "issues": [
     {
       "anchor_id": "issue-gothrumedia-gothru-3d-floormap-170",
       "display_title": "Issue #170: Redesign Dashboard Layout",
-      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<h2 dir=\"auto\">Layout-03</h2>\n<p dir=\"auto\">github branch : UI-UX-Redesign-dashboard-v3</p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-f298b78a-091c-4e8c-b839-3220919c1162.png\"><img width=\"1901\" height=\"944\" alt=\"Image\" src=\"images/image-f298b78a-091c-4e8c-b839-3220919c1162.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1901 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-336887cb-81f3-432d-9ec9-013be56309bd.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-336887cb-81f3-432d-9ec9-013be56309bd.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<h2 dir=\"auto\">Layout-03</h2>\n<p dir=\"auto\">github branch : UI-UX-Redesign-dashboard-v3</p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-c171c261-36d4-488e-b075-8e469abf916a.png\"><img width=\"1901\" height=\"944\" alt=\"Image\" src=\"images/image-c171c261-36d4-488e-b075-8e469abf916a.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1901 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-53592d62-6b04-4d6d-a60b-81f1f55c098d.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-53592d62-6b04-4d6d-a60b-81f1f55c098d.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
       "metadata": {
         "number": 170,
         "author": "anurdin01",
@@ -15,7 +15,7 @@
     }
   ],
   "archive": {
-    "project": "Panorra PWA",
+    "project": "GoThru 3D Floormap",
     "date": "2026-07-01"
   },
   "docs": []
