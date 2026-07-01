@@ -1,0 +1,32 @@
+{
+  "title": "GoThru Dashboard Frontend Project Report",
+  "repository": "GoThruMedia/gothru-dashboard",
+  "generated_at": "2026-07-01T09:34:54Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4111",
+      "display_title": "Issue #4111: Refactor PhotographerLocation.jsx",
+      "main_description_html": "<h1 dir=\"auto\">Refactor PhotographerLocation.jsx</h1>\n<h2 dir=\"auto\">Objective</h2>\n<p dir=\"auto\">Refactor the <code class=\"notranslate\">PhotographerLocation.jsx</code> component to improve maintainability, testability, and readability by separating business logic (state management and API calls) from the UI layer. The file currently has ~1000 lines of mixed concerns.</p>\n<h2 dir=\"auto\">Current State</h2>\n<p dir=\"auto\">All location states, API hooks, geocoding logic, and form submission functions are tightly coupled within the <code class=\"notranslate\">PhotographerLocation</code> component.</p>\n<h2 dir=\"auto\">Proposed Architecture</h2>\n<ol dir=\"auto\">\n<li>\n<p dir=\"auto\"><strong><code class=\"notranslate\">hooks/useLocationForm.js</code></strong></p>\n<ul dir=\"auto\">\n<li><strong>Responsibility:</strong> Manages all local form states.</li>\n<li><strong>State Variables:</strong> <code class=\"notranslate\">location</code>, <code class=\"notranslate\">subLocations</code>, <code class=\"notranslate\">inputLatLng</code>, <code class=\"notranslate\">hasMainLocation</code>, <code class=\"notranslate\">expandedKeys</code>, <code class=\"notranslate\">selectedMainLocation</code>, <code class=\"notranslate\">selectedSubLocations</code>, etc.</li>\n<li><strong>Functions:</strong> Handlers for adding/removing sublocations, parsing/validating coordinates, and applying location data.</li>\n</ul>\n</li>\n<li>\n<p dir=\"auto\"><strong><code class=\"notranslate\">hooks/useLocationAPI.js</code></strong></p>\n<ul dir=\"auto\">\n<li><strong>Responsibility:</strong> Handles all data fetching and mutations.</li>\n<li><strong>Dependencies:</strong> React Query / Custom Fetch Hooks (<code class=\"notranslate\">useLazyFetch</code>, <code class=\"notranslate\">usePatch</code>, <code class=\"notranslate\">usePost</code>, <code class=\"notranslate\">useDelete</code>).</li>\n<li><strong>Functions:</strong> <code class=\"notranslate\">getLocation</code>, <code class=\"notranslate\">saveLocation</code>, <code class=\"notranslate\">saveSubLocation</code>, <code class=\"notranslate\">updateSubLocation</code>, <code class=\"notranslate\">deleteSubLocation</code>, and <code class=\"notranslate\">getLocationByLatLng</code>.</li>\n</ul>\n</li>\n<li>\n<p dir=\"auto\"><strong><code class=\"notranslate\">utils/locationUtils.js</code></strong></p>\n<ul dir=\"auto\">\n<li><strong>Responsibility:</strong> Pure helper functions to keep the component and hooks clean.</li>\n<li><strong>Functions:</strong> <code class=\"notranslate\">normalizeMain</code>, <code class=\"notranslate\">diffSubLocation</code>, and empty sublocation constants.</li>\n</ul>\n</li>\n<li>\n<p dir=\"auto\"><strong><code class=\"notranslate\">PhotographerLocation.jsx</code></strong></p>\n<ul dir=\"auto\">\n<li><strong>Responsibility:</strong> Pure UI composition.</li>\n<li>Calls the custom hooks and passes state/callbacks down to presentational components (<code class=\"notranslate\">MainLocationContent</code>, <code class=\"notranslate\">SubLocationContent</code>, <code class=\"notranslate\">LocationMapCard</code>, etc.).</li>\n</ul>\n</li>\n</ol>\n<h2 dir=\"auto\">Acceptance Criteria</h2>\n<ul dir=\"auto\">\n<li><code class=\"notranslate\">PhotographerLocation.jsx</code> line count is significantly reduced.</li>\n<li>All unit and integration flows for setting/saving locations still work.</li>\n<li>Form state management is fully isolated in <code class=\"notranslate\">useLocationForm.js</code>.</li>\n<li>API logic is fully isolated in <code class=\"notranslate\">useLocationAPI.js</code>.</li>\n</ul>\n<h2 dir=\"auto\">Scope</h2>\n<p dir=\"auto\">This task only covers the refactoring of <code class=\"notranslate\">PhotographerLocation.jsx</code> and its immediate location-related logic. It does not change the user interface or existing behaviors.</p>",
+      "metadata": {
+        "number": 4111,
+        "author": "alfarez21",
+        "updated_at": "2026-07-01T03:36:43Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4112",
+      "display_title": "Issue #4112: Refactor PhotographerTools: Extract UI and Hook",
+      "main_description_html": "<p dir=\"auto\">Refactor PhotographerTools.jsx by extracting logic and UI.</p>\n<h3 dir=\"auto\">Detailed Tasks:</h3>\n<p dir=\"auto\"><strong>1. Create Custom Hook (usePhotographerTools.js)</strong></p>\n<ul dir=\"auto\">\n<li>Extract all local state (drone, dslr, camera360, scanner3D, editedEquipment, invalidEquipmentFields, expandedKeys, savingEquipmentId, isFirstLoading).</li>\n<li>Extract Redux logic (photographer, status, dispatching SET_PHOTOGRAPHER_DATA).</li>\n<li>Extract API calls (getTools, saveTools, deleteTools).</li>\n<li>Extract form handlers (handleAddRow, handleRemoveNewRow, handleEquipmentFieldChange, executeSaveTools, handleDeleteTools).</li>\n<li>Extract React Router blockers and leave confirmation logic.</li>\n</ul>\n<p dir=\"auto\"><strong>2. Create UI Component (EquipmentAccordionItem.jsx)</strong></p>\n<ul dir=\"auto\">\n<li>Create a reusable wrapper for NextUI's AccordionItem.</li>\n<li>Accept props: \typeKey, \title, items, handleAddRow, isFirstLoading, etc.</li>\n<li>Handle rendering the empty states and mapping over items to render ListItemTools.</li>\n</ul>\n<p dir=\"auto\"><strong>3. Refactor Main Page (PhotographerTools.jsx)</strong></p>\n<ul dir=\"auto\">\n<li>Import and initialize usePhotographerTools().</li>\n<li>Replace the 4 repetitive AccordionItem blocks (Drone, 360 Camera, DSLR, 3D Scanner) with 4  components.</li>\n<li>Maintain the PageLayout, Status header, and Modals (DeleteModal, ConfirmProfileUpdateModal).</li>\n<li>Verify ESLint and Prettier formatting.</li>\n</ul>",
+      "metadata": {
+        "number": 4112,
+        "author": "alfarez21",
+        "updated_at": "2026-07-01T04:44:55Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Dashboard Frontend",
+    "date": "2026-07-01"
+  },
+  "docs": []
+}
