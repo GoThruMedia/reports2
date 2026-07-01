@@ -1,0 +1,22 @@
+{
+  "title": "Villume API Go Project Report",
+  "repository": "GoThruMedia/villume-backend-go",
+  "generated_at": "2026-07-01T09:23:15Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-villume-backend-go-181",
+      "display_title": "Issue #181: Setup Villume Database for Live",
+      "main_description_html": "<h2 dir=\"auto\">RESULT 01/07/26</h2>\n<h2 dir=\"auto\">✅ Implementation: DB &amp; Views Live</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-4d9f7447-b285-4c41-82b0-ed13d91dc00e.png\"><img width=\"393\" height=\"836\" alt=\"Image\" src=\"images/image-4d9f7447-b285-4c41-82b0-ed13d91dc00e.png\" style=\"max-width: 100%; height: auto; max-height: 836px;; aspect-ratio: 393 / 836; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<hr>\n<h2 dir=\"auto\">✅ Migration from yugabyte :</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-46f1cc8b-ddda-4b1a-a353-c17be64e39ec.png\"><img width=\"1906\" height=\"802\" alt=\"Image\" src=\"images/image-46f1cc8b-ddda-4b1a-a353-c17be64e39ec.png\" style=\"max-width: 100%; height: auto; max-height: 802px;; aspect-ratio: 1906 / 802; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<hr>\n<p dir=\"auto\">Setup the Villume database for the Live (production) environment.</p>",
+      "metadata": {
+        "number": 181,
+        "author": "anurdin01",
+        "updated_at": "2026-07-01T07:49:24Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Villume API Go",
+    "date": "2026-07-01"
+  },
+  "docs": []
+}
