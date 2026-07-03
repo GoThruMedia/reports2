@@ -1,0 +1,1679 @@
+# GoThru 3D — Next.js Frontend Auth & Persistence Implementation Plan (v2)
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Wire auth, session management, and project persistence into the existing Next.js frontend using NextAuth v5 and Server Actions — no proxy rewrites, no client-side fetches to the Go service.
+
+**Architecture:** NextAuth v5 (Auth.js) manages the session. On login, its credentials provider calls Go `/v1/auth/login` server-to-server and stores the returned JWT as `accessToken` in the encrypted NextAuth session cookie. All Go API calls are Server Actions (server → server with `Authorization: Bearer`). File upload is the only browser-initiated API call, routed through a Next.js Route Handler. No `next.config.ts` proxy rewrites. No `src/lib/api.ts` helper (replaced by Server Actions). Middleware uses NextAuth's `auth` wrapper — reads the NextAuth session cookie to determine login state and `emailVerified` status.
+
+**Tech Stack:** Next.js 16 · NextAuth v5 (next-auth@5) · React 19 · TypeScript 5 · Zustand 5
+
+## Global Constraints
+
+- No `next.config.ts` proxy rewrites — all Go calls are server-to-server
+- No `src/lib/api.ts` / `apiFetch` / `apiJSON` — replaced by Server Actions
+- No `gf_verified` cookie — `session.user.emailVerified` from NextAuth session is the gate
+- No `jose` JWT library in middleware — NextAuth `auth()` handles session decoding
+- All routes to Go use `process.env.GOTHRU_API_URL` (never hardcoded)
+- Go routes: `/v1/auth/*`, `/v1/projects/*`, `/v1/upload`, `/v1/files`, `/v1/reset`
+- Server Actions use `"use server"` directive and call Go with `Authorization: Bearer ${session.accessToken}`
+- File upload via `src/app/api/upload/route.ts` — browser → Next.js → Go (Bearer token added server-side)
+- `pnpm` package manager; typecheck with `npx tsc --noEmit` before declaring done
+- Env: `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, `GOTHRU_API_URL`
+- No source file may exceed 500 lines — if a file grows beyond this during implementation, split it into focused sub-files before committing (e.g. `src/actions/auth-session.ts` + `src/actions/auth-password.ts`); each sub-file must export only its own functions and import from the others if needed
+
+---
+
+## File Map
+
+| File | Responsibility |
+|------|---------------|
+| `src/auth.ts` | NextAuth config — credentials provider, jwt/session callbacks |
+| `src/app/api/auth/[...nextauth]/route.ts` | NextAuth route handler (GET + POST) |
+| `types/next-auth.d.ts` | Extend NextAuth Session/JWT types with `accessToken`, `emailVerified` |
+| `src/middleware.ts` | Auth guard using NextAuth `auth()` — replaces jose/cookie middleware |
+| `src/actions/auth.ts` | Server Actions: loginAction, registerAction, verifyEmailAction, resendVerificationAction, forgotPasswordAction, validateResetTokenAction, resetPasswordAction |
+| `src/actions/projects.ts` | Server Actions: listProjects, createProject, getProject, updateProject, deleteProject, publishProject |
+| `src/app/api/upload/route.ts` | Route Handler — forwards multipart file upload to Go with Bearer token |
+| `src/app/(auth)/login/page.tsx` | Login form — calls `loginAction` |
+| `src/app/(auth)/register/page.tsx` | Register form — calls `registerAction` |
+| `src/app/(auth)/verify-email-pending/page.tsx` | Pending verification — calls `resendVerificationAction`, `signOut` |
+| `src/app/(auth)/verify-email/page.tsx` | Verify link landing — calls `verifyEmailAction`, triggers session update |
+| `src/app/(auth)/forgot-password/page.tsx` | Forgot password — calls `forgotPasswordAction` |
+| `src/app/(auth)/reset-password/page.tsx` | Reset password — calls `validateResetTokenAction`, `resetPasswordAction` |
+| `src/app/dashboard/page.tsx` | Dashboard — calls `listProjects`, Server Actions for rename/delete |
+| `src/components/auth/LogoutButton.tsx` | Logout button — calls `signOut()` from `next-auth/react` |
+| `src/store/useMapStore.ts` | Zustand store — add `projectId`, `isSaving`, `lastSavedAt` fields |
+| `src/hooks/useWizardPersistence.ts` | Create project, save floor configs, save AI twin — all via Server Actions |
+| `src/components/editor/EditorTopbar.tsx` | Manual save + auto-save — calls `updateProject` Server Action |
+| `src/actions/billing.ts` | Billing Server Actions — checkout session, billing portal, subscription status |
+| `src/app/billing/page.tsx` | Billing page — show plan status, subscribe / manage buttons |
+| `src/app/billing/success/page.tsx` | Stripe payment success redirect — shows confirmation, redirects to dashboard |
+| `src/app/billing/cancel/page.tsx` | Stripe payment cancel redirect — shows cancellation message |
+
+---
+
+## Task 1: Install NextAuth v5 + Type Augmentation
+
+**Files:**
+- Modify: `package.json` (add `next-auth@5`)
+- Create: `src/auth.ts`
+- Create: `src/app/api/auth/[...nextauth]/route.ts`
+- Create: `types/next-auth.d.ts`
+
+**Interfaces:**
+- Produces: `{ handlers, auth, signIn, signOut }` from `@/auth`
+- Produces: `Session.accessToken: string`, `Session.user.emailVerified: boolean`, `Session.user.id: string`
+
+- [ ] **Step 1: Install next-auth v5**
+
+```bash
+pnpm add next-auth@5
+```
+
+Expected: `next-auth@5.x.x` in `node_modules`.
+
+- [ ] **Step 2: Create `src/auth.ts`**
+
+```typescript
+import NextAuth from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
+
+const API = process.env.GOTHRU_API_URL!
+
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  providers: [
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const res = await fetch(`${API}/v1/auth/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: credentials.email,
+            password: credentials.password,
+          }),
+        })
+        if (!res.ok) return null
+        const user = await res.json()
+        return {
+          id: user.userId,
+          email: user.email,
+          name: user.name,
+          accessToken: user.token,
+          emailVerified: user.emailVerified,
+        }
+      },
+    }),
+  ],
+  callbacks: {
+    async jwt({ token, user, trigger }) {
+      if (user) {
+        token.accessToken = (user as any).accessToken
+        token.emailVerified = (user as any).emailVerified
+        token.userId = user.id
+      }
+      // When session.update() is called (e.g., after email verification),
+      // re-fetch user data from Go to get the latest emailVerified status.
+      if (trigger === "update" && token.accessToken) {
+        try {
+          const res = await fetch(`${API}/v1/auth/me`, {
+            headers: { Authorization: `Bearer ${token.accessToken}` },
+          })
+          if (res.ok) {
+            const data = await res.json()
+            token.emailVerified = data.emailVerified
+          }
+        } catch {
+          // Non-fatal — keep existing token values
+        }
+      }
+      return token
+    },
+    session({ session, token }) {
+      session.accessToken = token.accessToken as string
+      session.user.emailVerified = token.emailVerified as boolean
+      session.user.id = token.userId as string
+      return session
+    },
+  },
+  pages: {
+    signIn: "/login",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+})
+```
+
+- [ ] **Step 3: Create `src/app/api/auth/[...nextauth]/route.ts`**
+
+```typescript
+import { handlers } from "@/auth"
+
+export const { GET, POST } = handlers
+```
+
+- [ ] **Step 4: Create `types/next-auth.d.ts`**
+
+```typescript
+import "next-auth"
+import { DefaultSession } from "next-auth"
+
+declare module "next-auth" {
+  interface Session {
+    accessToken?: string
+    user: {
+      id: string
+      emailVerified: boolean
+    } & DefaultSession["user"]
+  }
+
+  interface User {
+    accessToken?: string
+    emailVerified?: boolean
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    accessToken?: string
+    emailVerified?: boolean
+    userId?: string
+  }
+}
+```
+
+- [ ] **Step 5: Add required env vars to `.env.local`**
+
+```bash
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=<at-least-32-random-chars>
+GOTHRU_API_URL=http://localhost:8080
+```
+
+- [ ] **Step 6: Typecheck**
+
+```bash
+npx tsc --noEmit
+```
+
+Expected: no TypeScript errors.
+
+- [ ] **Step 7: Commit**
+
+```bash
+git add src/auth.ts src/app/api/auth/ types/next-auth.d.ts package.json pnpm-lock.yaml
+git commit -m "feat(auth): install NextAuth v5, credentials provider calls Go /v1/auth/login"
+```
+
+---
+
+## Task 2: Auth Server Actions
+
+**Files:**
+- Create: `src/actions/auth.ts`
+
+**Interfaces:**
+- Consumes: `auth`, `signIn`, `signOut` from `@/auth`; `GOTHRU_API_URL` env var
+- Produces:
+  - `loginAction(email, password) → {success:true} | {error:string}`
+  - `registerAction(fullName, email, password) → {success:true} | {error:string}`
+  - `verifyEmailAction(token) → {verified:true} | {error:string}`
+  - `resendVerificationAction() → {sent:true} | {error:string}`
+  - `forgotPasswordAction(email) → {sent:true}`
+  - `validateResetTokenAction(token) → {valid:true} | {error:string}`
+  - `resetPasswordAction(token, newPassword) → {success:true} | {error:string}`
+  - `logoutAction() → void`
+
+- [ ] **Step 1: Create `src/actions/auth.ts`**
+
+```typescript
+"use server"
+
+import { auth, signIn, signOut } from "@/auth"
+import { AuthError } from "next-auth"
+
+const API = process.env.GOTHRU_API_URL!
+
+export async function loginAction(email: string, password: string) {
+  try {
+    await signIn("credentials", { email, password, redirect: false })
+    return { success: true } as const
+  } catch (err) {
+    if (err instanceof AuthError) {
+      if (err.message?.includes("EMAIL_NOT_VERIFIED")) {
+        return { error: "EMAIL_NOT_VERIFIED" } as const
+      }
+      return { error: "Invalid email or password" } as const
+    }
+    return { error: "Login failed. Please try again." } as const
+  }
+}
+
+export async function registerAction(
+  fullName: string,
+  email: string,
+  password: string,
+) {
+  const res = await fetch(`${API}/v1/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fullName, email, password }),
+  })
+  const data = await res.json()
+  if (!res.ok) return { error: data.error ?? "Registration failed" } as const
+  try {
+    await signIn("credentials", { email, password, redirect: false })
+  } catch {
+    // Non-fatal — user can log in manually
+  }
+  return { success: true } as const
+}
+
+export async function verifyEmailAction(token: string) {
+  const res = await fetch(
+    `${API}/v1/auth/verify-email?token=${encodeURIComponent(token)}`,
+  )
+  const data = await res.json()
+  if (!res.ok) return { error: data.error ?? "INVALID_OR_EXPIRED_TOKEN" } as const
+  return { verified: true } as const
+}
+
+export async function resendVerificationAction() {
+  const session = await auth()
+  if (!session?.accessToken) return { error: "Not authenticated" } as const
+  const res = await fetch(`${API}/v1/auth/resend-verification`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${session.accessToken}` },
+  })
+  if (res.status === 429) return { error: "TOO_MANY_REQUESTS" } as const
+  if (!res.ok) return { error: "Failed to resend" } as const
+  return { sent: true } as const
+}
+
+export async function forgotPasswordAction(email: string) {
+  await fetch(`${API}/v1/auth/forgot-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  })
+  // Always return success — Go never reveals if email exists
+  return { sent: true } as const
+}
+
+export async function validateResetTokenAction(token: string) {
+  const res = await fetch(
+    `${API}/v1/auth/validate-reset-token?token=${encodeURIComponent(token)}`,
+  )
+  const data = await res.json()
+  if (!res.ok) return { error: data.error ?? "INVALID_OR_EXPIRED_TOKEN" } as const
+  return { valid: true } as const
+}
+
+export async function resetPasswordAction(token: string, newPassword: string) {
+  const res = await fetch(`${API}/v1/auth/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, newPassword }),
+  })
+  const data = await res.json()
+  if (!res.ok) return { error: data.error ?? "Reset failed" } as const
+  return { success: true } as const
+}
+
+export async function logoutAction() {
+  await signOut({ redirect: false })
+}
+```
+
+- [ ] **Step 2: Typecheck**
+
+```bash
+npx tsc --noEmit
+```
+
+Expected: no TypeScript errors.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/actions/auth.ts
+git commit -m "feat(actions): add auth Server Actions wrapping Go /v1/auth/* endpoints"
+```
+
+---
+
+## Task 3: Project Server Actions
+
+**Files:**
+- Create: `src/actions/projects.ts`
+
+**Interfaces:**
+- Consumes: `auth` from `@/auth`; `revalidatePath` from `next/cache`; `GOTHRU_API_URL` env var
+- Produces:
+  - `listProjects() → {projects: Project[]}`
+  - `createProject(data) → {id, name, status}`
+  - `getProject(id) → Project`
+  - `updateProject(id, data) → {id, status}`
+  - `deleteProject(id) → void`
+  - `publishProject(id) → {id, status}`
+  - `unpublishProject(id) → {id, status}`
+  - `getMeAction() → {userId, email, name, emailVerified}`
+  - `deleteFileAction(name, projectId) → void`
+
+- [ ] **Step 1: Create `src/actions/projects.ts`**
+
+```typescript
+"use server"
+
+import { auth } from "@/auth"
+import { revalidatePath } from "next/cache"
+
+const API = process.env.GOTHRU_API_URL!
+
+export type Project = {
+  id: string
+  name: string
+  status: "draft" | "scanned" | "edited" | "published" | "unpublished"
+  location_address?: string | null
+  location_lat?: number | null
+  location_lng?: number | null
+  floor_configs?: string | null
+  generated_twin?: string | null
+  canvas_data?: string | null
+  updated_at: string
+}
+
+async function getToken(): Promise<string> {
+  const session = await auth()
+  if (!session?.accessToken) throw new Error("Not authenticated")
+  return session.accessToken
+}
+
+export async function listProjects(): Promise<{ projects: Project[] }> {
+  const token = await getToken()
+  const res = await fetch(`${API}/v1/projects`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  })
+  if (!res.ok) throw new Error("Failed to fetch projects")
+  return res.json()
+}
+
+export async function createProject(data: {
+  name?: string
+  locationAddress?: string
+  locationLat?: number
+  locationLng?: number
+}): Promise<{ id: string; name: string; status: string }> {
+  const token = await getToken()
+  const res = await fetch(`${API}/v1/projects`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.error ?? "Failed to create project")
+  }
+  revalidatePath("/dashboard")
+  return res.json()
+}
+
+export async function getProject(id: string): Promise<Project> {
+  const token = await getToken()
+  const res = await fetch(`${API}/v1/projects/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  })
+  if (!res.ok) throw new Error("Project not found")
+  return res.json()
+}
+
+export async function updateProject(
+  id: string,
+  data: {
+    name?: string
+    floorConfigs?: string
+    generatedTwin?: string
+    canvasData?: string
+    status?: string
+  },
+): Promise<{ id: string; status: string }> {
+  const token = await getToken()
+  const res = await fetch(`${API}/v1/projects/${id}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.error ?? "Failed to update project")
+  }
+  revalidatePath("/dashboard")
+  return res.json()
+}
+
+export async function deleteProject(id: string): Promise<void> {
+  const token = await getToken()
+  await fetch(`${API}/v1/projects/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  revalidatePath("/dashboard")
+}
+
+export async function publishProject(
+  id: string,
+): Promise<{ id: string; status: string }> {
+  const token = await getToken()
+  const res = await fetch(`${API}/v1/projects/${id}/publish`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.error ?? "Failed to publish")
+  }
+  revalidatePath("/dashboard")
+  return res.json()
+}
+
+export async function unpublishProject(
+  id: string,
+): Promise<{ id: string; status: string }> {
+  const token = await getToken()
+  const res = await fetch(`${API}/v1/projects/${id}/unpublish`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) {
+    const err = await res.json()
+    throw new Error(err.error ?? "Failed to unpublish")
+  }
+  revalidatePath("/dashboard")
+  return res.json()
+}
+
+export async function getMeAction(): Promise<{
+  userId: string
+  email: string
+  name: string
+  emailVerified: boolean
+}> {
+  const token = await getToken()
+  const res = await fetch(`${API}/v1/auth/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  })
+  if (!res.ok) throw new Error("Not authenticated")
+  return res.json()
+}
+
+export async function deleteFileAction(
+  name: string,
+  projectId: string,
+): Promise<void> {
+  const token = await getToken()
+  await fetch(
+    `${API}/v1/files?name=${encodeURIComponent(name)}&projectId=${encodeURIComponent(projectId)}`,
+    {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  )
+}
+```
+
+- [ ] **Step 2: Typecheck**
+
+```bash
+npx tsc --noEmit
+```
+
+Expected: no TypeScript errors.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/actions/projects.ts
+git commit -m "feat(actions): add project Server Actions wrapping Go /v1/projects/* endpoints"
+```
+
+---
+
+## Task 4: Middleware (NextAuth-based)
+
+**Files:**
+- Modify: `src/middleware.ts`
+
+**Interfaces:**
+- Consumes: `auth` from `@/auth`
+- Behavior:
+  - Unauthenticated → redirect to `/login?from=<pathname>`
+  - Authenticated but `!emailVerified` on `/start/*` or `/editor/*` → redirect to `/verify-email-pending`
+  - `/dashboard` accessible without `emailVerified` (user can resend from there)
+
+- [ ] **Step 1: Replace `src/middleware.ts`**
+
+Read the existing file first, then overwrite with:
+
+```typescript
+import { auth } from "@/auth"
+import { NextResponse } from "next/server"
+
+export default auth((req) => {
+  const session = req.auth
+  const { pathname } = req.nextUrl
+
+  if (!session) {
+    const loginUrl = new URL(
+      `/login?from=${encodeURIComponent(pathname)}`,
+      req.url,
+    )
+    return NextResponse.redirect(loginUrl)
+  }
+
+  const emailGatedPaths = ["/start", "/editor"]
+  if (emailGatedPaths.some((p) => pathname.startsWith(p))) {
+    if (!session.user?.emailVerified) {
+      return NextResponse.redirect(
+        new URL("/verify-email-pending", req.url),
+      )
+    }
+  }
+
+  return NextResponse.next()
+})
+
+export const config = {
+  matcher: ["/start/:path*", "/editor/:path*", "/dashboard/:path*"],
+}
+```
+
+- [ ] **Step 2: Typecheck**
+
+```bash
+npx tsc --noEmit
+```
+
+Expected: no TypeScript errors.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/middleware.ts
+git commit -m "feat(middleware): replace jose/cookie middleware with NextAuth auth() session check"
+```
+
+---
+
+## Task 5: File Upload Route Handler
+
+**Files:**
+- Create: `src/app/api/upload/route.ts`
+
+**Interfaces:**
+- Consumes: `auth` from `@/auth`; `GOTHRU_API_URL` env var
+- Browser sends `POST /api/upload` with multipart `file` + `projectId` fields
+- Route Handler adds `Authorization: Bearer` and forwards to Go `/v1/upload`
+- No `Content-Type` header set manually — Node's FormData sets the multipart boundary
+
+- [ ] **Step 1: Create `src/app/api/upload/route.ts`**
+
+```typescript
+import { NextRequest, NextResponse } from "next/server"
+import { auth } from "@/auth"
+
+export async function POST(req: NextRequest) {
+  const session = await auth()
+  if (!session?.accessToken) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+
+  const formData = await req.formData()
+  const file = formData.get("file") as File | null
+  const projectId = formData.get("projectId") as string | null
+
+  if (!file || !projectId) {
+    return NextResponse.json(
+      { error: "file and projectId are required" },
+      { status: 400 },
+    )
+  }
+
+  const form = new FormData()
+  form.append("file", file)
+  form.append("projectId", projectId)
+
+  const res = await fetch(`${process.env.GOTHRU_API_URL}/v1/upload`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${session.accessToken}` },
+    body: form,
+  })
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({ error: "Upload failed" }))
+    return NextResponse.json(error, { status: res.status })
+  }
+
+  return NextResponse.json(await res.json())
+}
+```
+
+- [ ] **Step 2: Typecheck**
+
+```bash
+npx tsc --noEmit
+```
+
+Expected: no TypeScript errors.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/app/api/upload/route.ts
+git commit -m "feat(upload): add Route Handler forwarding multipart upload to Go with Bearer token"
+```
+
+---
+
+## Task 6: Update Auth Pages to Use Server Actions
+
+**Files:**
+- Modify: `src/app/(auth)/login/page.tsx`
+- Modify: `src/app/(auth)/register/page.tsx`
+- Modify: `src/app/(auth)/verify-email-pending/page.tsx`
+- Modify: `src/app/(auth)/verify-email/page.tsx`
+- Modify: `src/app/(auth)/forgot-password/page.tsx`
+- Modify: `src/app/(auth)/reset-password/page.tsx`
+
+**Interfaces:**
+- Consumes: all functions from `@/actions/auth`
+- No more `fetch()` or `apiFetch()` calls in any of these files
+- `verify-email/page.tsx` calls `session.update()` after successful verification to refresh `emailVerified` in NextAuth session
+
+### 6a: Login page
+
+- [ ] **Step 1: Update `src/app/(auth)/login/page.tsx`**
+
+Replace ALL `fetch`/`apiFetch`/`apiJSON` calls with `loginAction`:
+
+```typescript
+import { loginAction } from "@/actions/auth"
+import { useRouter } from "next/navigation"
+
+// Inside the component:
+const router = useRouter()
+const [error, setError] = useState<string | null>(null)
+
+async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault()
+  setError(null)
+  const result = await loginAction(email, password)
+  if ("error" in result) {
+    if (result.error === "EMAIL_NOT_VERIFIED") {
+      router.push("/verify-email-pending")
+    } else {
+      setError(result.error)
+    }
+    return
+  }
+  router.push("/dashboard")
+}
+```
+
+### 6b: Register page
+
+- [ ] **Step 2: Update `src/app/(auth)/register/page.tsx`**
+
+```typescript
+import { registerAction } from "@/actions/auth"
+
+async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault()
+  setError(null)
+  const result = await registerAction(fullName, email, password)
+  if ("error" in result) {
+    setError(result.error)
+    return
+  }
+  router.push("/verify-email-pending")
+}
+```
+
+### 6c: Verify-email-pending page
+
+- [ ] **Step 3: Update `src/app/(auth)/verify-email-pending/page.tsx`**
+
+```typescript
+import { resendVerificationAction, logoutAction } from "@/actions/auth"
+import { getMeAction } from "@/actions/projects"
+
+// On mount — get masked email:
+useEffect(() => {
+  getMeAction()
+    .then((data) => setMaskedEmail(maskEmail(data.email)))
+    .catch(() => {})
+}, [])
+
+// Resend handler:
+async function handleResend() {
+  setStatus("sending")
+  const result = await resendVerificationAction()
+  if ("error" in result && result.error === "TOO_MANY_REQUESTS") {
+    setStatus("rate-limited")
+    startCooldown(60)
+    return
+  }
+  setStatus("sent")
+  startCooldown(30)
+}
+
+// Sign out handler:
+async function handleSignOut() {
+  await logoutAction()
+  router.push("/register")
+}
+```
+
+### 6d: Verify-email page
+
+The verify-email page must call `session.update()` after verification so NextAuth re-fetches `emailVerified` from Go, updating the encrypted session cookie. This triggers the `trigger === "update"` branch in `src/auth.ts`.
+
+- [ ] **Step 4: Update `src/app/(auth)/verify-email/page.tsx`**
+
+```typescript
+// The inner client component (required for useSearchParams in Next.js 16):
+"use client"
+
+import { useSearchParams, useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import { useSession } from "next-auth/react"
+import { verifyEmailAction } from "@/actions/auth"
+
+function VerifyEmailInner() {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const { update } = useSession()
+  const [status, setStatus] = useState<"loading" | "success" | "error">("loading")
+
+  useEffect(() => {
+    const token = searchParams.get("token")
+    if (!token) { setStatus("error"); return }
+
+    verifyEmailAction(token).then(async (result) => {
+      if ("error" in result) {
+        setStatus("error")
+        return
+      }
+      // Refresh NextAuth session so emailVerified becomes true in the cookie
+      await update()
+      setStatus("success")
+      setTimeout(() => router.push("/start"), 2000)
+    })
+  }, [searchParams, router, update])
+
+  if (status === "loading") return <div>Verifying your email…</div>
+  if (status === "success") return <div>Email verified! Redirecting…</div>
+  return (
+    <div>
+      This link has expired or is invalid.{" "}
+      <a href="/verify-email-pending">Request a new link</a>
+    </div>
+  )
+}
+
+// Outer server component wraps in Suspense (required for useSearchParams):
+import { Suspense } from "react"
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={<div>Loading…</div>}>
+      <VerifyEmailInner />
+    </Suspense>
+  )
+}
+```
+
+### 6e: Forgot-password page
+
+- [ ] **Step 5: Update `src/app/(auth)/forgot-password/page.tsx`**
+
+```typescript
+import { forgotPasswordAction } from "@/actions/auth"
+
+async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault()
+  setStage("submitting")
+  await forgotPasswordAction(email)
+  setStage("sent") // Always success — Go never reveals if email exists
+}
+```
+
+### 6f: Reset-password page
+
+- [ ] **Step 6: Update `src/app/(auth)/reset-password/page.tsx`**
+
+```typescript
+import { validateResetTokenAction, resetPasswordAction } from "@/actions/auth"
+
+// On mount (inside Suspense inner component):
+useEffect(() => {
+  const token = searchParams.get("token")
+  if (!token) { setTokenStatus("invalid"); return }
+  setActiveToken(token)
+
+  validateResetTokenAction(token).then((result) => {
+    setTokenStatus("error" in result ? "invalid" : "valid")
+  })
+}, [searchParams])
+
+// Reset handler:
+async function handleReset(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault()
+  if (newPassword !== confirmPassword) {
+    setError("Passwords do not match"); return
+  }
+  if (newPassword.length < 8) {
+    setError("Password must be at least 8 characters"); return
+  }
+  const result = await resetPasswordAction(activeToken!, newPassword)
+  if ("error" in result) {
+    setError(result.error); return
+  }
+  setSuccess(true)
+}
+```
+
+- [ ] **Step 7: Typecheck all auth pages**
+
+```bash
+npx tsc --noEmit
+```
+
+Expected: no TypeScript errors.
+
+- [ ] **Step 8: Commit**
+
+```bash
+git add src/app/(auth)/
+git commit -m "feat(auth-pages): replace all fetch calls with Server Actions"
+```
+
+---
+
+## Task 7: Update Dashboard Page
+
+**Files:**
+- Modify: `src/app/dashboard/page.tsx`
+
+**Interfaces:**
+- Consumes: `listProjects`, `updateProject`, `deleteProject`, `getMeAction` from `@/actions/projects`; `resendVerificationAction`, `logoutAction` from `@/actions/auth`
+- No more `fetch` / `apiFetch` / `apiJSON` calls
+- Unverified banner uses `session.user.emailVerified` from `useSession()` — not `gf_verified` cookie
+
+- [ ] **Step 1: Update `src/app/dashboard/page.tsx`**
+
+Key replacements:
+
+```typescript
+import { listProjects, updateProject, deleteProject, getMeAction } from "@/actions/projects"
+import { resendVerificationAction, logoutAction } from "@/actions/auth"
+import { useSession } from "next-auth/react"
+
+const { data: session } = useSession()
+
+// Loading data:
+useEffect(() => {
+  Promise.all([getMeAction(), listProjects()])
+    .then(([me, { projects }]) => {
+      setUser(me)
+      setProjects(projects)
+    })
+    .catch(() => router.push("/login"))
+    .finally(() => setLoading(false))
+}, [router])
+
+// Rename:
+async function handleRename(id: string, name: string) {
+  await updateProject(id, { name })
+  setProjects((prev) =>
+    prev.map((p) => (p.id === id ? { ...p, name } : p)),
+  )
+}
+
+// Delete:
+async function handleDelete(id: string) {
+  await deleteProject(id)
+  setProjects((prev) => prev.filter((p) => p.id !== id))
+}
+
+// Resend verification banner — shown when !session?.user?.emailVerified:
+async function handleResend() {
+  setResendStatus("sending")
+  const result = await resendVerificationAction()
+  setResendStatus("error" in result ? "error" : "sent")
+}
+
+// Logout:
+async function handleLogout() {
+  localStorage.removeItem("gf_project_id")
+  await logoutAction()
+  router.push("/login")
+}
+```
+
+Unverified email banner condition:
+
+```typescript
+{!session?.user?.emailVerified && (
+  <div className="amber-banner">
+    Please verify your email —{" "}
+    <button onClick={handleResend}>
+      {resendStatus === "sending" ? "Sending…" : "Resend email"}
+    </button>
+  </div>
+)}
+```
+
+- [ ] **Step 2: Typecheck**
+
+```bash
+npx tsc --noEmit
+```
+
+Expected: no TypeScript errors.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/app/dashboard/page.tsx
+git commit -m "feat(dashboard): replace fetch calls with Server Actions for projects and user data"
+```
+
+---
+
+## Task 8: LogoutButton Component
+
+**Files:**
+- Modify or Create: `src/components/auth/LogoutButton.tsx`
+
+**Interfaces:**
+- Consumes: `logoutAction` from `@/actions/auth`
+- Used in `/editor` top-right header
+
+- [ ] **Step 1: Update `src/components/auth/LogoutButton.tsx`**
+
+```typescript
+"use client"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { logoutAction } from "@/actions/auth"
+
+export function LogoutButton() {
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+
+  async function handleLogout() {
+    setLoading(true)
+    localStorage.removeItem("gf_project_id")
+    await logoutAction()
+    router.push("/login")
+  }
+
+  return (
+    <button
+      onClick={handleLogout}
+      disabled={loading}
+      className="..."
+    >
+      {loading ? "Signing out…" : "Sign out"}
+    </button>
+  )
+}
+```
+
+- [ ] **Step 2: Typecheck**
+
+```bash
+npx tsc --noEmit
+```
+
+Expected: no TypeScript errors.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/components/auth/LogoutButton.tsx
+git commit -m "feat(logout): update LogoutButton to use logoutAction Server Action"
+```
+
+---
+
+## Task 9: Zustand Store — Add Persistence Fields
+
+**Files:**
+- Modify: `src/store/useMapStore.ts`
+
+**Interfaces:**
+- Produces: `projectId`, `isSaving`, `lastSavedAt` fields and setters
+
+- [ ] **Step 1: Add fields to `src/store/useMapStore.ts`**
+
+Read the current store file first. Locate the state interface and add:
+
+```typescript
+// Fields to add inside the store state interface:
+projectId: string | null
+isSaving: boolean
+lastSavedAt: Date | null
+
+// Actions to add:
+setProjectId: (id: string) => void
+clearProjectId: () => void
+setSaving: (saving: boolean) => void
+setLastSavedAt: (date: Date) => void
+```
+
+Implementation inside the `create()` call:
+
+```typescript
+projectId: null,
+isSaving: false,
+lastSavedAt: null,
+
+setProjectId: (id) => {
+  if (typeof window !== "undefined") localStorage.setItem("gf_project_id", id)
+  set({ projectId: id })
+},
+clearProjectId: () => {
+  if (typeof window !== "undefined") localStorage.removeItem("gf_project_id")
+  set({ projectId: null })
+},
+setSaving: (saving) => set({ isSaving: saving }),
+setLastSavedAt: (date) => set({ lastSavedAt: date }),
+```
+
+- [ ] **Step 2: Typecheck**
+
+```bash
+npx tsc --noEmit
+```
+
+Expected: no TypeScript errors.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/store/useMapStore.ts
+git commit -m "feat(store): add projectId, isSaving, lastSavedAt fields to useMapStore"
+```
+
+---
+
+## Task 10: Wizard Persistence
+
+**Files:**
+- Modify: `src/hooks/useWizardPersistence.ts`
+
+**Interfaces:**
+- Consumes: `createProject`, `updateProject`, `getProject` from `@/actions/projects`
+- Consumes: `useMapStore` for `projectId`, `setProjectId`
+
+- [ ] **Step 1: Update wizard persistence hooks**
+
+Read the current file first. Replace all `fetch`/`apiFetch` calls with Server Actions:
+
+```typescript
+import { createProject, updateProject, getProject } from "@/actions/projects"
+
+// Step 1 confirmed → create project:
+async function handleStep1Confirmed(data: {
+  name: string
+  locationAddress?: string
+  locationLat?: number
+  locationLng?: number
+}) {
+  const project = await createProject(data)
+  store.setProjectId(project.id) // also writes to localStorage via store action
+}
+
+// Step 3 → Step 4 transition → save floor configs:
+async function handleFloorConfigsSaved(floorConfigs: string) {
+  const id = store.projectId
+  if (!id) return
+  await updateProject(id, { floorConfigs })
+}
+
+// Step 4 scan success → save AI output:
+async function handleScanSuccess(generatedTwin: string) {
+  const id = store.projectId
+  if (!id) return
+  await updateProject(id, { generatedTwin, status: "scanned" })
+}
+
+// Page load → restore from DB:
+useEffect(() => {
+  const savedId = typeof window !== "undefined"
+    ? localStorage.getItem("gf_project_id")
+    : null
+  if (!savedId) return
+  getProject(savedId)
+    .then((project) => {
+      store.setProjectId(project.id)
+      store.restoreFromProject(project)
+    })
+    .catch(() => {
+      if (typeof window !== "undefined") localStorage.removeItem("gf_project_id")
+    })
+}, [])
+```
+
+- [ ] **Step 2: Update file upload call (keep as browser fetch — not a Server Action)**
+
+```typescript
+// File upload — browser fetch to Next.js Route Handler (NOT a Server Action):
+async function uploadFile(file: File, projectId: string) {
+  const form = new FormData()
+  form.append("file", file)
+  form.append("projectId", projectId)
+  // No Content-Type header — browser sets multipart boundary automatically
+  const res = await fetch("/api/upload", { method: "POST", body: form })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: "Upload failed" }))
+    throw new Error(err.error)
+  }
+  return res.json() as Promise<{ path: string }>
+}
+```
+
+- [ ] **Step 3: Update file delete call**
+
+```typescript
+import { deleteFileAction } from "@/actions/projects"
+
+async function handleFileDelete(name: string) {
+  const id = store.projectId
+  if (!id) return
+  await deleteFileAction(name, id)
+}
+```
+
+- [ ] **Step 4: Typecheck**
+
+```bash
+npx tsc --noEmit
+```
+
+Expected: no TypeScript errors.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add src/hooks/useWizardPersistence.ts
+git commit -m "feat(wizard): replace apiFetch calls with Server Actions, keep file upload as browser fetch"
+```
+
+---
+
+## Task 11: Editor Save
+
+**Files:**
+- Modify: `src/components/editor/EditorTopbar.tsx`
+
+**Interfaces:**
+- Consumes: `updateProject` from `@/actions/projects`; `useMapStore` for `projectId`, `isSaving`, `lastSavedAt`
+
+- [ ] **Step 1: Update `src/components/editor/EditorTopbar.tsx`**
+
+Read the current file first. Replace `apiFetch`/`fetch` calls:
+
+```typescript
+import { updateProject } from "@/actions/projects"
+
+// Manual save button:
+async function handleSave() {
+  const id = store.projectId
+  if (!id) return
+  store.setSaving(true)
+  try {
+    await updateProject(id, {
+      canvasData: JSON.stringify(store.canvasData),
+      status: "edited",
+    })
+    store.setLastSavedAt(new Date())
+  } finally {
+    store.setSaving(false)
+  }
+}
+
+// Auto-save (debounced 2s after canvas change):
+const debouncedSave = useCallback(
+  debounce(async (id: string, canvasData: unknown) => {
+    try {
+      await updateProject(id, { canvasData: JSON.stringify(canvasData) })
+      store.setLastSavedAt(new Date())
+    } catch {
+      // Fallback to localStorage on network failure
+      if (typeof window !== "undefined") {
+        localStorage.setItem("gf_canvas_fallback", JSON.stringify(canvasData))
+      }
+    }
+  }, 2000),
+  [],
+)
+
+useEffect(() => {
+  if (store.projectId && store.canvasData) {
+    debouncedSave(store.projectId, store.canvasData)
+  }
+}, [store.canvasData, store.projectId, debouncedSave])
+
+// In JSX:
+{store.isSaving && <span>Saving…</span>}
+{!store.isSaving && store.lastSavedAt && (
+  <span>Saved {timeAgo(store.lastSavedAt)}</span>
+)}
+```
+
+- [ ] **Step 2: Typecheck**
+
+```bash
+npx tsc --noEmit
+```
+
+Expected: no TypeScript errors.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/components/editor/EditorTopbar.tsx
+git commit -m "feat(editor): manual save and auto-save via updateProject Server Action"
+```
+
+---
+
+## Task 12: Remove Proxy Rewrites from `next.config.ts`
+
+**Files:**
+- Modify: `next.config.ts`
+
+Server Actions call Go server-to-server using `GOTHRU_API_URL`. The browser never calls Go directly. Remove any proxy rewrite rules.
+
+- [ ] **Step 1: Read `next.config.ts`**
+
+Find and remove any block matching this pattern:
+
+```typescript
+// REMOVE this entire async rewrites() block:
+async rewrites() {
+  return [
+    {
+      source: "/api/v1/:path*",
+      destination: `${process.env.GOTHRU_API_URL}/v1/:path*`,
+    },
+  ]
+},
+```
+
+- [ ] **Step 2: Typecheck and build**
+
+```bash
+npx tsc --noEmit
+pnpm build
+```
+
+Expected: no TypeScript errors, clean build.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add next.config.ts
+git commit -m "chore(config): remove proxy rewrites — Server Actions call Go server-to-server"
+```
+
+---
+
+## Task 13: Final Audit + Smoke Test
+
+- [ ] **Step 1: Search for any remaining direct fetch calls to Go**
+
+```bash
+grep -r "api/v1" src/ --include="*.ts" --include="*.tsx"
+grep -r "apiFetch\|apiJSON" src/ --include="*.ts" --include="*.tsx"
+grep -r "gf_verified\|gf_token" src/ --include="*.ts" --include="*.tsx"
+```
+
+Expected: no results. All Go calls go through Server Actions or the upload Route Handler.
+
+- [ ] **Step 2: Run typecheck and build**
+
+```bash
+npx tsc --noEmit
+pnpm build
+```
+
+Expected: clean typecheck, no build errors.
+
+- [ ] **Step 3: Manual smoke test (dev server)**
+
+```bash
+pnpm dev
+```
+
+Verify end-to-end with Go service running:
+
+| Flow | Expected |
+|------|----------|
+| `/register` → submit | Creates user in DB, redirects to `/verify-email-pending` |
+| `/verify-email-pending` → Resend | Plunk track event sent, 30s cooldown |
+| `/verify-email?token=...` | Verifies in DB, `session.update()` called, `emailVerified=true`, redirects to `/start` |
+| `/login` (unverified) | Shows amber banner with link to `/verify-email-pending` |
+| `/login` (verified) | Redirects to `/dashboard` |
+| `/dashboard` | Lists projects, rename/delete work |
+| `/start` → create project | Project saved to DB, `projectId` in localStorage |
+| Editor save | `updateProject` Server Action called with `canvasData` |
+| File upload | Browser → `/api/upload` → Go `/v1/upload` |
+| Logout | Session cleared, redirects to `/login` |
+| Direct `/start` unverified | Middleware redirects to `/verify-email-pending` |
+| Direct `/editor` unverified | Middleware redirects to `/verify-email-pending` |
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add .
+git commit -m "chore(audit): verify no direct Go fetch calls remain; all routes use Server Actions"
+```
+
+---
+
+## Task 14: Billing Server Actions
+
+**Files:**
+- Create: `src/actions/billing.ts`
+
+**Interfaces:**
+- Consumes: `auth` from `@/auth`; `GOTHRU_API_URL` env var
+- Produces:
+  - `createCheckoutSession(): Promise<{url: string} | {error: string}>` — calls `POST /v1/billing/checkout`
+  - `createBillingPortalSession(): Promise<{url: string} | {error: string}>` — calls `POST /v1/billing/portal`
+  - `getBillingStatus(): Promise<{status: 'active'|'inactive'|'past_due'|'canceled', currentPeriodEnd: string|null}>` — calls `GET /v1/billing/status`
+
+- [ ] **Step 1: Create `src/actions/billing.ts`**
+
+```typescript
+"use server"
+
+import { auth } from "@/auth"
+
+const API = process.env.GOTHRU_API_URL!
+
+export async function createCheckoutSession(): Promise<
+  { url: string } | { error: string }
+> {
+  const session = await auth()
+  if (!session?.accessToken) return { error: "Not authenticated" }
+  const res = await fetch(`${API}/v1/billing/checkout`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${session.accessToken}` },
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    return { error: (err as { error?: string }).error ?? "Failed to create checkout session" }
+  }
+  return res.json()
+}
+
+export async function createBillingPortalSession(): Promise<
+  { url: string } | { error: string }
+> {
+  const session = await auth()
+  if (!session?.accessToken) return { error: "Not authenticated" }
+  const res = await fetch(`${API}/v1/billing/portal`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${session.accessToken}` },
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    return { error: (err as { error?: string }).error ?? "Failed to open billing portal" }
+  }
+  return res.json()
+}
+
+export async function getBillingStatus(): Promise<{
+  status: "active" | "inactive" | "past_due" | "canceled"
+  currentPeriodEnd: string | null
+}> {
+  const session = await auth()
+  if (!session?.accessToken) return { status: "inactive", currentPeriodEnd: null }
+  const res = await fetch(`${API}/v1/billing/status`, {
+    headers: { Authorization: `Bearer ${session.accessToken}` },
+    cache: "no-store",
+  })
+  if (!res.ok) return { status: "inactive", currentPeriodEnd: null }
+  return res.json()
+}
+```
+
+- [ ] **Step 2: Typecheck**
+
+```bash
+npx tsc --noEmit
+```
+
+Expected: no TypeScript errors.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/actions/billing.ts
+git commit -m "feat(billing): add billing Server Actions for checkout, portal, and status"
+```
+
+---
+
+## Task 15: Billing Pages
+
+**Files:**
+- Create: `src/app/billing/page.tsx`
+- Create: `src/app/billing/success/page.tsx`
+- Create: `src/app/billing/cancel/page.tsx`
+
+**Interfaces:**
+- Consumes: `createCheckoutSession`, `createBillingPortalSession`, `getBillingStatus` from `@/actions/billing`
+- Stripe redirects to `NEXT_PUBLIC_APP_URL/billing/success?session_id={CHECKOUT_SESSION_ID}` on success
+- Stripe redirects to `NEXT_PUBLIC_APP_URL/billing/cancel` when user cancels
+
+- [ ] **Step 1: Create `src/app/billing/page.tsx`**
+
+```typescript
+"use client"
+
+import { useEffect, useState } from "react"
+import {
+  getBillingStatus,
+  createCheckoutSession,
+  createBillingPortalSession,
+} from "@/actions/billing"
+
+type BillingStatus = "loading" | "active" | "inactive" | "past_due" | "canceled"
+
+export default function BillingPage() {
+  const [status, setStatus] = useState<BillingStatus>("loading")
+  const [periodEnd, setPeriodEnd] = useState<string | null>(null)
+  const [working, setWorking] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    getBillingStatus().then((data) => {
+      setStatus(data.status)
+      setPeriodEnd(data.currentPeriodEnd)
+    })
+  }, [])
+
+  async function handleSubscribe() {
+    setWorking(true)
+    setError(null)
+    const result = await createCheckoutSession()
+    if ("url" in result) {
+      window.location.href = result.url
+    } else {
+      setError(result.error)
+      setWorking(false)
+    }
+  }
+
+  async function handleManage() {
+    setWorking(true)
+    setError(null)
+    const result = await createBillingPortalSession()
+    if ("url" in result) {
+      window.location.href = result.url
+    } else {
+      setError(result.error)
+      setWorking(false)
+    }
+  }
+
+  if (status === "loading") return <div>Loading billing status…</div>
+
+  return (
+    <div>
+      <h1>Billing</h1>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {status === "active" ? (
+        <div>
+          <p>Your subscription is active.</p>
+          {periodEnd && (
+            <p>Renews on {new Date(periodEnd).toLocaleDateString()}</p>
+          )}
+          <button onClick={handleManage} disabled={working}>
+            {working ? "Loading…" : "Manage subscription"}
+          </button>
+        </div>
+      ) : (
+        <div>
+          <p>
+            {status === "past_due"
+              ? "Your subscription payment is past due."
+              : status === "canceled"
+                ? "Your subscription has been canceled."
+                : "You don't have an active subscription."}
+          </p>
+          <button onClick={handleSubscribe} disabled={working}>
+            {working ? "Loading…" : "Subscribe"}
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+```
+
+- [ ] **Step 2: Create `src/app/billing/success/page.tsx`**
+
+```typescript
+"use client"
+
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+
+export default function BillingSuccessPage() {
+  const router = useRouter()
+
+  useEffect(() => {
+    const t = setTimeout(() => router.push("/dashboard"), 3000)
+    return () => clearTimeout(t)
+  }, [router])
+
+  return (
+    <div>
+      <h1>Payment successful!</h1>
+      <p>Your subscription is now active. Redirecting to dashboard…</p>
+    </div>
+  )
+}
+```
+
+- [ ] **Step 3: Create `src/app/billing/cancel/page.tsx`**
+
+```typescript
+"use client"
+
+import { useRouter } from "next/navigation"
+
+export default function BillingCancelPage() {
+  const router = useRouter()
+
+  return (
+    <div>
+      <h1>Payment cancelled</h1>
+      <p>No charge was made.</p>
+      <button onClick={() => router.push("/billing")}>Back to billing</button>
+    </div>
+  )
+}
+```
+
+- [ ] **Step 4: Typecheck**
+
+```bash
+npx tsc --noEmit
+```
+
+Expected: no TypeScript errors.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add src/app/billing/
+git commit -m "feat(billing): add billing page, payment success, and payment cancel pages"
+```
+
+---
+
+## Environment Variables (`.env.local`)
+
+```bash
+# NextAuth
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=<32+ random chars>
+
+# Go service (server-side only — never sent to browser)
+GOTHRU_API_URL=http://localhost:8080
+```
+
+> Generate `NEXTAUTH_SECRET` with: `openssl rand -base64 32`
+
+---
+
+## Self-Review Checklist
+
+- [x] No `next.config.ts` proxy rewrites for `/api/v1/*`
+- [x] No `src/lib/api.ts` / `apiFetch` / `apiJSON` — replaced by Server Actions
+- [x] No `gf_verified` cookie checks — `session.user.emailVerified` used everywhere
+- [x] No `jose` or manual JWT decoding in middleware — NextAuth `auth()` handles it
+- [x] All Go calls in Server Actions use `Authorization: Bearer ${session.accessToken}`
+- [x] File upload stays as browser `fetch` to `/api/upload` Route Handler (file bytes cannot pass through Server Actions)
+- [x] `verifyEmailAction` returns `{verified: true}` from Go (not a redirect); client calls `session.update()` next
+- [x] `jwt` callback handles `trigger === "update"` — calls Go `/v1/auth/me` to get latest `emailVerified`
+- [x] `logoutAction` calls `signOut({ redirect: false })` — caller handles redirect
+- [x] Middleware matcher covers `/start/:path*`, `/editor/:path*`, `/dashboard/:path*` only
+- [x] `GOTHRU_API_URL` used throughout — never hardcoded
+- [x] `NEXTAUTH_SECRET` in `.env.local` — never committed
+- [x] TypeScript errors resolved before each commit
+- [x] `src/actions/billing.ts` — all 3 actions use `"use server"`, read `GOTHRU_API_URL`, pass `Authorization: Bearer` header
+- [x] `src/app/billing/page.tsx` — calls `getBillingStatus` on mount; `handleSubscribe` / `handleManage` redirect via `window.location.href`
+- [x] Success and cancel pages exist at `/billing/success` and `/billing/cancel` matching Stripe redirect URLs
+- [x] No Stripe client-side library (`@stripe/stripe-js`) — Stripe Hosted Checkout means only the redirect URL is needed

@@ -1,0 +1,714 @@
+# Hover Color & Area Label UX Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Make hover fill and area labels mode-aware — disabled fill + hover-only labels in editor, subtle fill + zoom-adaptive labels in preview/map.
+
+**Architecture:** Add a `viewMode: "editor" | "preview" | "map"` prop to `useFloorPlanLayer` and `useFloorPlanLabels`. The highlight suppression and paint override live in `useFloorPlanLayer`; the draw-loop branching and zoom listener live in `useFloorPlanLabels`. Consuming components pass the correct viewMode and forward `hoveredAreaId` / `buildingName` as needed.
+
+**Tech Stack:** TypeScript 5, React 19, MapLibre 5, Zustand 5, Next.js 16
+
+## Global Constraints
+
+- Do not add any new npm dependencies
+- Do not modify the Zustand store shape (`useMapStore.ts`)
+- `FloorPlanRenderMode` ("flat" | "3d") already exists on `useFloorPlanLayer` as `mode` — the new prop must be named `viewMode` to avoid collision
+- All TypeScript must pass `npx tsc --noEmit` with zero new errors
+- ESLint must pass with `npx eslint src/lib/map src/components/editor`
+- Commit after every task
+
+---
+
+## File Map
+
+| File | Role in this change |
+|---|---|
+| `src/lib/map/layer-definitions.ts` | Add two new exported constants for subtle hover fill |
+| `src/lib/map/useFloorPlanLayer.ts` | Add `viewMode` prop; suppress highlight & override paint per mode |
+| `src/lib/map/useFloorPlanLabels.ts` | Add `viewMode`, `hoveredAreaId`, `buildingName` props; branch draw loop; add zoom listener |
+| `src/components/editor/Editor3DMapView.tsx` | Pass `viewMode="editor"` + `hoveredAreaId` to both hooks |
+| `src/components/editor/PreviewOverlay.tsx` | Pass `viewMode="preview"` + `buildingName`; add name-gate to mousemove |
+
+---
+
+## Task 1: Add Subtle Hover Color Constants
+
+**Files:**
+- Modify: `src/lib/map/layer-definitions.ts`
+
+**Interfaces:**
+- Produces: `HOVER_FILL_COLOR_SUBTLE: string`, `HOVER_FILL_OPACITY_SUBTLE: number` — consumed by Task 2
+
+- [ ] **Step 1: Open `src/lib/map/layer-definitions.ts` and add two constants after line 9 (after `WALL_LINE_COLOR`)**
+
+  Insert immediately after the `WALL_LINE_COLOR` line:
+
+  ```ts
+  export const HOVER_FILL_COLOR_SUBTLE   = "#e8f0fe";  // very light blue-grey, Mappedin-style subtle hover
+  export const HOVER_FILL_OPACITY_SUBTLE = 0.18;
+  ```
+
+  The top of the file should now read:
+  ```ts
+  export const AREA_COLOR_EXPR = "#f2eee6";
+  export const WALL_COLOR = "#ebeae7";
+  export const WALL_TOP_COLOR = "#9b9994";
+  export const WALL_CAP_THICKNESS = 0.05;
+  export const AREA_LINE_COLOR = "#d8d5cf";
+  export const WALL_LINE_COLOR = "#c7c4be";
+  export const HOVER_FILL_COLOR_SUBTLE   = "#e8f0fe";
+  export const HOVER_FILL_OPACITY_SUBTLE = 0.18;
+  ```
+
+- [ ] **Step 2: Typecheck**
+
+  Run: `npx tsc --noEmit`
+  Expected: 0 errors
+
+- [ ] **Step 3: Commit**
+
+  ```bash
+  git add src/lib/map/layer-definitions.ts
+  git commit -m "feat(map): add subtle hover fill color constants"
+  ```
+
+---
+
+## Task 2: Add `viewMode` to `useFloorPlanLayer`
+
+**Files:**
+- Modify: `src/lib/map/useFloorPlanLayer.ts`
+
+**Interfaces:**
+- Consumes: `HOVER_FILL_COLOR_SUBTLE`, `HOVER_FILL_OPACITY_SUBTLE` from Task 1
+- Produces: `FloorPlanLayerOptions.viewMode?: "editor" | "preview" | "map"` — consumed by Tasks 4 & 5
+
+The goal: when `viewMode === "editor"`, `applyHighlight` always clears the highlight (passes `null`). When `viewMode` is `"preview"` or `"map"`, the `highlightArea3d` layer's paint uses the subtle colors instead of the vivid blue.
+
+- [ ] **Step 1: Update the import from `layer-definitions.ts`**
+
+  Find the existing import block (lines 7–14) in `src/lib/map/useFloorPlanLayer.ts`:
+  ```ts
+  import {
+    SOURCE_ID,
+    LAYER_IDS,
+    FLAT_LAYER_SPECS,
+    EXTRUSION_LAYER_SPECS,
+    HIGHLIGHT_LAYER_SPECS,
+    SELECTED_LAYER_SPECS,
+  } from "./layer-definitions";
+  ```
+
+  Replace it with:
+  ```ts
+  import {
+    SOURCE_ID,
+    LAYER_IDS,
+    FLAT_LAYER_SPECS,
+    EXTRUSION_LAYER_SPECS,
+    HIGHLIGHT_LAYER_SPECS,
+    SELECTED_LAYER_SPECS,
+    HOVER_FILL_COLOR_SUBTLE,
+    HOVER_FILL_OPACITY_SUBTLE,
+  } from "./layer-definitions";
+  ```
+
+- [ ] **Step 2: Export the `ViewMode` type**
+
+  After the existing `export type FloorPlanRenderMode = "flat" | "3d";` line (line 16), add:
+  ```ts
+  export type ViewMode = "editor" | "preview" | "map";
+  ```
+
+- [ ] **Step 3: Add `viewMode` to `FloorPlanLayerOptions`**
+
+  In the `FloorPlanLayerOptions` interface (starting at line 18), add `viewMode` after `hoveredFeatureId`:
+  ```ts
+  export interface FloorPlanLayerOptions {
+    map: maplibregl.Map | null;
+    canvasData: CanvasData | null;
+    floorConfigs: FloorConfig[];
+    location: { lat: number; lng: number } | null;
+    activeLevelId: string | null;
+    visible: boolean;
+    mode: FloorPlanRenderMode;
+    hoveredFeatureId?: string | null;
+    selectedFeatureIds?: string[];
+    /** null = all levels (3D default), undefined/null in flat = only active level */
+    visibleLevelIds?: string[] | null;
+    /** Controls hover highlight behaviour and fill colour. Defaults to "preview" when omitted. */
+    viewMode?: ViewMode;
+  }
+  ```
+
+- [ ] **Step 4: Add a `viewModeRef` to the hook body**
+
+  In `useFloorPlanLayer` (starting at line 119), add `viewMode` to the destructured parameters and add a ref for it alongside the existing refs:
+
+  Change the destructuring line:
+  ```ts
+  export function useFloorPlanLayer({
+    map, canvasData, floorConfigs, location, activeLevelId, visible, mode,
+    hoveredFeatureId, selectedFeatureIds, visibleLevelIds,
+  }: FloorPlanLayerOptions) {
+  ```
+  to:
+  ```ts
+  export function useFloorPlanLayer({
+    map, canvasData, floorConfigs, location, activeLevelId, visible, mode,
+    hoveredFeatureId, selectedFeatureIds, visibleLevelIds, viewMode,
+  }: FloorPlanLayerOptions) {
+  ```
+
+  Then add a ref for `viewMode` directly after the block of existing `useRef` declarations (after `visibleLevelIdsRef`):
+  ```ts
+  const viewModeRef = useRef(viewMode);
+  ```
+
+  And add its sync effect alongside the other sync effects:
+  ```ts
+  useEffect(() => { viewModeRef.current = viewMode; }, [viewMode]);
+  ```
+
+- [ ] **Step 5: Add `applyHighlightPaint` helper function**
+
+  Insert this new function immediately before the `useFloorPlanLayer` export (i.e., before line 119 in the original file, after the existing `applyHighlight` function):
+
+  ```ts
+  function applyHighlightPaint(map: maplibregl.Map, vm: ViewMode | undefined) {
+    if (!map.getLayer(LAYER_IDS.highlightArea3d)) return;
+    const subtle = vm === "preview" || vm === "map";
+    map.setPaintProperty(
+      LAYER_IDS.highlightArea3d,
+      "fill-extrusion-color",
+      subtle ? HOVER_FILL_COLOR_SUBTLE : "#3b82f6",
+    );
+    map.setPaintProperty(
+      LAYER_IDS.highlightArea3d,
+      "fill-extrusion-opacity",
+      subtle ? HOVER_FILL_OPACITY_SUBTLE : 0.55,
+    );
+  }
+  ```
+
+- [ ] **Step 6: Suppress highlight in editor mode and call `applyHighlightPaint` in the hover effect**
+
+  Find the "Apply highlight on hover change" effect (lines 173–176):
+  ```ts
+  // Apply highlight on hover change
+  useEffect(() => {
+    if (!map) return;
+    applyHighlight(map, hoveredFeatureId);
+  }, [map, hoveredFeatureId]);
+  ```
+
+  Replace it with:
+  ```ts
+  // Apply highlight on hover change — suppressed entirely in editor mode
+  useEffect(() => {
+    if (!map) return;
+    const suppress = viewModeRef.current === "editor";
+    applyHighlight(map, suppress ? null : hoveredFeatureId);
+  }, [map, hoveredFeatureId, viewMode]);
+
+  // Override highlight layer paint when viewMode changes
+  useEffect(() => {
+    if (!map) return;
+    applyHighlightPaint(map, viewMode);
+  }, [map, viewMode]);
+  ```
+
+- [ ] **Step 7: Call `applyHighlightPaint` after `addSourceAndLayers` in the mode-switch effect**
+
+  Find the mode-switch effect (the `useEffect` with `[map, mode]` dependency). It ends with `applySelection(map, selectedIdsRef.current);`. Add the paint call right after:
+
+  ```ts
+  applyHighlight(map, viewModeRef.current === "editor" ? null : hoveredFeatureRef.current);
+  applySelection(map, selectedIdsRef.current);
+  applyHighlightPaint(map, viewModeRef.current);  // <-- add this line
+  ```
+
+  Also update the existing `applyHighlight` line in the same block (line 199) which currently reads:
+  ```ts
+  applyHighlight(map, hoveredFeatureRef.current);
+  ```
+  Change it to:
+  ```ts
+  applyHighlight(map, viewModeRef.current === "editor" ? null : hoveredFeatureRef.current);
+  ```
+
+- [ ] **Step 8: Call `applyHighlightPaint` in the mount/style-reload `setup` function**
+
+  Inside the `setup` function in the mount `useEffect` (the one with `[map]` dependency), find the final two lines:
+  ```ts
+  applyHighlight(map, hoveredFeatureRef.current);
+  applySelection(map, selectedIdsRef.current);
+  ```
+  Replace with:
+  ```ts
+  applyHighlight(map, viewModeRef.current === "editor" ? null : hoveredFeatureRef.current);
+  applySelection(map, selectedIdsRef.current);
+  applyHighlightPaint(map, viewModeRef.current);
+  ```
+
+- [ ] **Step 9: Typecheck and lint**
+
+  Run: `npx tsc --noEmit`
+  Expected: 0 errors
+
+  Run: `npx eslint src/lib/map/useFloorPlanLayer.ts`
+  Expected: 0 errors
+
+- [ ] **Step 10: Commit**
+
+  ```bash
+  git add src/lib/map/useFloorPlanLayer.ts
+  git commit -m "feat(map): add viewMode to useFloorPlanLayer — suppress highlight and subtle paint in preview/map"
+  ```
+
+---
+
+## Task 3: Add `viewMode`, Hover-Only Labels, and Zoom-Adaptive Labels to `useFloorPlanLabels`
+
+**Files:**
+- Modify: `src/lib/map/useFloorPlanLabels.ts`
+
+**Interfaces:**
+- Consumes: nothing new from prior tasks (standalone hook change)
+- Produces: `Options.viewMode?: ViewMode`, `Options.hoveredAreaId?: string | null`, `Options.buildingName?: string` — consumed by Tasks 4 & 5
+
+- [ ] **Step 1: Add the `LABEL_DETAIL_ZOOM` constant**
+
+  At the top of `src/lib/map/useFloorPlanLabels.ts`, after the existing constants (`LEVEL_GAP`, `LABEL_LAYER`), add:
+  ```ts
+  const LABEL_DETAIL_ZOOM = 17.5;
+  ```
+
+- [ ] **Step 2: Add new props to the `Options` interface**
+
+  The current `Options` interface ends at line 24. Extend it:
+  ```ts
+  interface Options {
+    map: maplibregl.Map | null;
+    canvasData: CanvasData | null;
+    location: { lat: number; lng: number } | null;
+    floorConfigs: FloorConfig[];
+    /** null = all levels (3D default), string[] = only these level IDs */
+    visibleLevelIds: string[] | null;
+    visible: boolean;
+    /** Area ids whose canvas label should be suppressed (e.g. the selected room showing a pin). */
+    hideAreaIds?: string[];
+    /** A large label drawn on top of everything (the selected room's pin label). */
+    pinLabel?: { lng: number; lat: number; h: number; text: string } | null;
+    /** Controls label draw behaviour. Defaults to "preview" when omitted (all labels visible). */
+    viewMode?: "editor" | "preview" | "map";
+    /** Editor mode: the id of the currently hovered area — only its label is drawn. */
+    hoveredAreaId?: string | null;
+    /** Map/preview mode: shown at the building centre when zoom < LABEL_DETAIL_ZOOM. */
+    buildingName?: string;
+  }
+  ```
+
+- [ ] **Step 3: Add refs for the new props at the top of `useFloorPlanLabels`**
+
+  The hook signature currently reads:
+  ```ts
+  export function useFloorPlanLabels({
+    map, canvasData, location, floorConfigs, visibleLevelIds, visible, hideAreaIds, pinLabel,
+  }: Options) {
+  ```
+  Change it to:
+  ```ts
+  export function useFloorPlanLabels({
+    map, canvasData, location, floorConfigs, visibleLevelIds, visible,
+    hideAreaIds, pinLabel, viewMode, hoveredAreaId, buildingName,
+  }: Options) {
+  ```
+
+  Then, directly after the existing `pinRef` declaration and its sync effect (after line 61), add:
+  ```ts
+  const viewModeRef  = useRef(viewMode);
+  const hoveredIdRef = useRef(hoveredAreaId ?? null);
+  const buildingRef  = useRef(buildingName ?? "");
+  const zoomRef      = useRef(0);
+
+  useEffect(() => { viewModeRef.current  = viewMode ?? "preview"; }, [viewMode]);
+  useEffect(() => {
+    hoveredIdRef.current = hoveredAreaId ?? null;
+    map?.triggerRepaint();
+  }, [map, hoveredAreaId]);
+  useEffect(() => { buildingRef.current  = buildingName ?? ""; }, [buildingName]);
+  ```
+
+- [ ] **Step 4: Add zoom tracking inside the main `useEffect`**
+
+  The main `useEffect` currently ends at line 201 with:
+  ```ts
+  }, [map, visible, canvasData, location, floorConfigs, visibleLevelIds]);
+  ```
+
+  Inside the effect, after `map.on("resize", onResize);` (line 193) and before `return () => {`, add the zoom listener:
+  ```ts
+  zoomRef.current = map.getZoom();
+  const onZoom = () => {
+    zoomRef.current = map.getZoom();
+    map.triggerRepaint();
+  };
+  map.on("zoom", onZoom);
+  ```
+
+  And in the cleanup `return () => {` block, before `canvas.remove();`, add:
+  ```ts
+  map.off("zoom", onZoom);
+  ```
+
+  Also add `viewMode` to the dependency array so the canvas is recreated when the mode switches:
+  ```ts
+  }, [map, visible, canvasData, location, floorConfigs, visibleLevelIds, viewMode]);
+  ```
+
+- [ ] **Step 5: Replace the per-anchor drawing loop in `draw` with mode-aware branching**
+
+  The `draw` function currently has this structure (lines 122–175):
+  ```ts
+  function draw(m: ArrayLike<number>) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    ctx.lineJoin = "round";
+    const placed: { x0: number; y0: number; x1: number; y1: number }[] = [];
+
+    // pin reservation block (lines 129–139)
+    const pin = pinRef.current;
+    let pinDraw: { x: number; y: number; text: string; tw: number } | null = null;
+    if (pin) { ... }
+
+    ctx.font = "600 11px system-ui,-apple-system,sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    for (let i = 0; i < anchors.length; i++) {
+      // ... existing declutter + draw loop (lines 144–162)
+    }
+
+    // pin label draw (lines 164–174)
+    if (pinDraw) { ... }
+  }
+  ```
+
+  Replace **only the section between the pin reservation block and the pin label draw** — i.e., replace lines 141–162 (the `ctx.font` setup + the for-loop) with:
+
+  ```ts
+  ctx.font = "600 11px system-ui,-apple-system,sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  const vm   = viewModeRef.current ?? "preview";
+  const zoom = zoomRef.current;
+
+  if (vm === "editor") {
+    // Editor mode: show only the hovered area's label (if it has a name)
+    const hovId = hoveredIdRef.current;
+    if (hovId) {
+      const idx = anchors.findIndex((a) => a.id === hovId);
+      if (idx >= 0 && anchors[idx].name && !hideRef.current.has(hovId)) {
+        const sp = projScreen(m, merc[idx]);
+        if (sp) {
+          const name = anchors[idx].name;
+          ctx.lineWidth = 3; ctx.strokeStyle = "rgba(15,23,42,0.85)";
+          ctx.strokeText(name, sp[0], sp[1]);
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText(name, sp[0], sp[1]);
+        }
+      }
+    }
+  } else if (zoom < LABEL_DETAIL_ZOOM) {
+    // Map/preview zoomed out: show building name at location centre (height 0)
+    const bName = buildingRef.current;
+    if (bName) {
+      const locMerc = MercatorCoordinate.fromLngLat([loc.lng, loc.lat], 0);
+      const sp = projScreen(m, locMerc);
+      if (sp) {
+        ctx.font = "700 14px system-ui,-apple-system,sans-serif";
+        ctx.lineWidth = 3; ctx.strokeStyle = "rgba(15,23,42,0.85)";
+        ctx.strokeText(bName, sp[0], sp[1]);
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText(bName, sp[0], sp[1]);
+        // restore font for any subsequent draw (pin label uses its own font)
+        ctx.font = "600 11px system-ui,-apple-system,sans-serif";
+      }
+    }
+  } else {
+    // Map/preview zoomed in (or default): all area labels with declutter
+    for (let i = 0; i < anchors.length; i++) {
+      if (hideRef.current.has(anchors[i].id)) continue;
+      const p = merc[i];
+      const [cx, cy, , cw] = project(m, p.x, p.y, p.z);
+      if (cw <= 0) continue;
+      const sx = (cx / cw * 0.5 + 0.5) * W;
+      const sy = (1 - (cy / cw * 0.5 + 0.5)) * H;
+      if (sx < -50 || sy < -20 || sx > W + 50 || sy > H + 20) continue;
+      const name = anchors[i].name;
+      const tw = ctx.measureText(name).width;
+      const box = { x0: sx - tw / 2 - 3, y0: sy - 9, x1: sx + tw / 2 + 3, y1: sy + 9 };
+      if (placed.some((b) => box.x0 < b.x1 && box.x1 > b.x0 && box.y0 < b.y1 && box.y1 > b.y0)) continue;
+      placed.push(box);
+      ctx.lineWidth = 3; ctx.strokeStyle = "rgba(15,23,42,0.85)";
+      ctx.strokeText(name, sx, sy);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText(name, sx, sy);
+    }
+  }
+  ```
+
+  The pin label block (the `if (pinDraw)` section at lines 164–174) is **unchanged** — leave it exactly as-is so the selected-room pin label still renders in all modes.
+
+- [ ] **Step 6: Typecheck and lint**
+
+  Run: `npx tsc --noEmit`
+  Expected: 0 errors
+
+  Run: `npx eslint src/lib/map/useFloorPlanLabels.ts`
+  Expected: 0 errors
+
+- [ ] **Step 7: Commit**
+
+  ```bash
+  git add src/lib/map/useFloorPlanLabels.ts
+  git commit -m "feat(map): add viewMode, hover-only labels, and zoom-adaptive labels to useFloorPlanLabels"
+  ```
+
+---
+
+## Task 4: Wire Editor3DMapView
+
+**Files:**
+- Modify: `src/components/editor/Editor3DMapView.tsx`
+
+**Interfaces:**
+- Consumes: `ViewMode` from Task 2; updated `useFloorPlanLayer` and `useFloorPlanLabels` props from Tasks 2–3
+
+- [ ] **Step 1: Pass `viewMode="editor"` to `useFloorPlanLayer`**
+
+  Find the `useFloorPlanLayer` call (lines 85–96):
+  ```ts
+  useFloorPlanLayer({
+    map: mapInstance,
+    canvasData,
+    floorConfigs,
+    location: { lat, lng },
+    activeLevelId: activeId,
+    visible: true,
+    mode: "3d",
+    hoveredFeatureId,
+    selectedFeatureIds,
+    visibleLevelIds,
+  });
+  ```
+
+  Add `viewMode="editor"` after `mode: "3d"`:
+  ```ts
+  useFloorPlanLayer({
+    map: mapInstance,
+    canvasData,
+    floorConfigs,
+    location: { lat, lng },
+    activeLevelId: activeId,
+    visible: true,
+    mode: "3d",
+    viewMode: "editor",
+    hoveredFeatureId,
+    selectedFeatureIds,
+    visibleLevelIds,
+  });
+  ```
+
+- [ ] **Step 2: Pass `viewMode="editor"` and `hoveredAreaId` to `useFloorPlanLabels`**
+
+  Find the `useFloorPlanLabels` call (lines 98–105):
+  ```ts
+  useFloorPlanLabels({
+    map: mapInstance,
+    canvasData,
+    location: { lat, lng },
+    floorConfigs,
+    visibleLevelIds: visibleLevelIds ?? null,
+    visible: areaLabelsVisible,
+  });
+  ```
+
+  Replace with:
+  ```ts
+  useFloorPlanLabels({
+    map: mapInstance,
+    canvasData,
+    location: { lat, lng },
+    floorConfigs,
+    visibleLevelIds: visibleLevelIds ?? null,
+    visible: areaLabelsVisible,
+    viewMode: "editor",
+    hoveredAreaId: hoveredFeatureId,
+  });
+  ```
+
+  Note: `hoveredFeatureId` is already destructured from `useMapStore()` at the top of the component (line 47) — no additional store access needed.
+
+- [ ] **Step 3: Typecheck and lint**
+
+  Run: `npx tsc --noEmit`
+  Expected: 0 errors
+
+  Run: `npx eslint src/components/editor/Editor3DMapView.tsx`
+  Expected: 0 errors
+
+- [ ] **Step 4: Commit**
+
+  ```bash
+  git add src/components/editor/Editor3DMapView.tsx
+  git commit -m "feat(editor): pass viewMode=editor and hoveredAreaId to floor plan hooks"
+  ```
+
+---
+
+## Task 5: Wire PreviewOverlay
+
+**Files:**
+- Modify: `src/components/editor/PreviewOverlay.tsx`
+
+**Interfaces:**
+- Consumes: updated `useFloorPlanLayer` and `useFloorPlanLabels` props from Tasks 2–3
+
+Changes:
+1. Pass `viewMode="preview"` to both hooks
+2. Add a name-gate to the mousemove handler — only call `setHovered` if the hovered area has a non-empty `name` property
+3. Pass `buildingName` — derived from the first `informationRecord` title if available, otherwise empty string (which silently omits the zoom-out label)
+
+- [ ] **Step 1: Add `viewMode="preview"` to `useFloorPlanLayer`**
+
+  Find the `useFloorPlanLayer` call (lines 107–110):
+  ```ts
+  useFloorPlanLayer({
+    map, canvasData, floorConfigs, location: { lat, lng }, activeLevelId: activeId,
+    visible: true, mode: "3d", visibleLevelIds, hoveredFeatureId: hovered,
+  });
+  ```
+
+  Add `viewMode: "preview"`:
+  ```ts
+  useFloorPlanLayer({
+    map, canvasData, floorConfigs, location: { lat, lng }, activeLevelId: activeId,
+    visible: true, mode: "3d", viewMode: "preview", visibleLevelIds, hoveredFeatureId: hovered,
+  });
+  ```
+
+- [ ] **Step 2: Add `viewMode="preview"` and `buildingName` to `useFloorPlanLabels`**
+
+  Find the `useFloorPlanLabels` call (lines 111–115):
+  ```ts
+  useFloorPlanLabels({
+    map, canvasData, location: { lat, lng }, floorConfigs, visibleLevelIds: visibleLevelIds ?? null, visible: true,
+    hideAreaIds: selection?.kind === "area" ? [selection.id.replace(/(_d)+$/, "")] : [],
+    pinLabel,
+  });
+  ```
+
+  Replace with:
+  ```ts
+  useFloorPlanLabels({
+    map, canvasData, location: { lat, lng }, floorConfigs, visibleLevelIds: visibleLevelIds ?? null, visible: true,
+    viewMode: "preview",
+    buildingName: informationRecords[0]?.title ?? "",
+    hideAreaIds: selection?.kind === "area" ? [selection.id.replace(/(_d)+$/, "")] : [],
+    pinLabel,
+  });
+  ```
+
+  `informationRecords` is already destructured from `useMapStore()` at line 70.
+
+- [ ] **Step 3: Add name-gate to the mousemove handler**
+
+  Find the `onMove` handler inside the area-extrusion click/hover `useEffect` (line 134):
+  ```ts
+  const onMove = (e: maplibregl.MapLayerMouseEvent) => { const id = e.features?.[0]?.properties?.id; setHovered(id != null ? String(id) : null); };
+  ```
+
+  Replace with:
+  ```ts
+  const onMove = (e: maplibregl.MapLayerMouseEvent) => {
+    const props = e.features?.[0]?.properties;
+    const hasName = props?.name && String(props.name).trim() !== "";
+    setHovered(hasName ? String(props!.id) : null);
+  };
+  ```
+
+  This ensures that hovering over an unnamed area clears the highlight rather than triggering a fill.
+
+- [ ] **Step 4: Typecheck and lint**
+
+  Run: `npx tsc --noEmit`
+  Expected: 0 errors
+
+  Run: `npx eslint src/components/editor/PreviewOverlay.tsx`
+  Expected: 0 errors
+
+- [ ] **Step 5: Commit**
+
+  ```bash
+  git add src/components/editor/PreviewOverlay.tsx
+  git commit -m "feat(preview): pass viewMode=preview, buildingName, and name-gate hover to floor plan hooks"
+  ```
+
+---
+
+## Task 6: Pattern for Future Public Map Viewer
+
+The public-facing map viewer (`mode="map"`) does not exist yet in the codebase. When it is built, apply the following pattern:
+
+```ts
+// In the public map viewer component — exact same as PreviewOverlay changes:
+
+useFloorPlanLayer({
+  map, canvasData, floorConfigs, location: { lat, lng }, activeLevelId: activeId,
+  visible: true, mode: "3d", viewMode: "map", visibleLevelIds, hoveredFeatureId: hovered,
+});
+
+useFloorPlanLabels({
+  map, canvasData, location: { lat, lng }, floorConfigs,
+  visibleLevelIds: visibleLevelIds ?? null, visible: true,
+  viewMode: "map",
+  buildingName: "<location name from your data source>",
+  pinLabel,
+});
+
+// Name-gate in mousemove handler:
+const onMove = (e: maplibregl.MapLayerMouseEvent) => {
+  const props = e.features?.[0]?.properties;
+  const hasName = props?.name && String(props.name).trim() !== "";
+  setHovered(hasName ? String(props!.id) : null);
+};
+```
+
+No commit needed for this task — it is documentation only.
+
+---
+
+## Manual Verification Checklist
+
+After all tasks are committed, verify these behaviours in the running app (`npm run dev`):
+
+**Editor mode (3D tab in the editor):**
+- [ ] Hovering an area with a name: the area label appears, no fill colour change on the extrusion
+- [ ] Hovering an area without a name: nothing appears
+- [ ] Moving the cursor off an area: the label disappears immediately
+- [ ] Area labels are not visible when nothing is hovered
+
+**Preview mode (eye-icon overlay):**
+- [ ] Hovering a named area: very light blue-grey fill appears (`#e8f0fe` at 0.18 opacity — subtle, Mappedin-style)
+- [ ] Hovering an unnamed area: no fill appears
+- [ ] Zoom out past level 17.5: individual area labels disappear; building name appears at the building centre
+- [ ] Zoom in past level 17.5: individual area labels reappear
+- [ ] Selected-room pin label still renders correctly in all zoom levels
+
+**Regression checks:**
+- [ ] Selection highlight (blue fill + outline on selected area) still works correctly
+- [ ] Pin labels beside the teardrop pin still render correctly
+- [ ] Label declutter (no overlapping labels at high zoom) still works
+- [ ] Switching between 2D editor tab and 3D map tab does not break labels
