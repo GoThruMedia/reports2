@@ -1,0 +1,73 @@
+# Virtual Tour Manager — Dropdown Menu Item
+
+**Date:** 2026-06-02
+**Branch:** master
+**Status:** Approved
+
+## Overview
+
+Add a "Virtual Tour Manager" item to the Virtual Tour dropdown on each tour card in My Tours. Clicking it navigates the user to the existing Virtual Tour Manager page (`/my-tours/:mid/hosted`) using internal React Router navigation.
+
+## Affected File
+
+`src/components/organism/ListTour/VirtualTourDropdown.jsx`
+
+## Placement
+
+The new item is appended as the **last entry** in the `DropdownMenu`, after the existing "Edit Virtual Tour" item.
+
+Final menu order:
+
+| # | Item | Condition |
+|---|---|---|
+| 1 | View Virtual Tour | `item.overlay_active` |
+| 2 | View Google Virtual Tour | `item.goverlay_active` |
+| 3 | Edit Virtual Tour | always shown |
+| 4 | Virtual Tour Manager | always shown (new) |
+
+## Navigation
+
+Uses `useNavigate` from `react-router-dom` to navigate internally to `/my-tours/${item.mid}/hosted`. This is an SPA transition — no full page reload.
+
+The target route `/my-tours/:mid/hosted` already exists in `src/routes/myTours.js` (line 44) and renders `src/pages/Tour/Detail/Hosted/HostedTour/HostedTour.jsx`.
+
+## Component Change
+
+`VirtualTourDropdown.jsx` gains:
+- `useNavigate` import from `react-router-dom`
+- One new `DropdownItem` at the bottom of `DropdownMenu`
+
+```jsx
+import { useNavigate } from 'react-router-dom';
+
+// inside component:
+const navigate = useNavigate();
+
+// last DropdownItem in DropdownMenu:
+<DropdownItem
+  key="manager"
+  color="default"
+  onPress={() => {
+    navigate(`/my-tours/${item.mid}/hosted`);
+  }}
+>
+  {t('t_my_tours.t_virtual_tour_dropdown.t_manager')}
+</DropdownItem>
+```
+
+## Localization
+
+One new key added to all 18 locale files after the existing `t_my_tours.t_virtual_tour_dropdown` sibling keys:
+
+| Key | Value (EN) |
+|---|---|
+| `t_my_tours.t_virtual_tour_dropdown.t_manager` | `"Virtual Tour Manager"` |
+
+English string is used as the initial value for all non-English locales.
+
+## What Does NOT Change
+
+- No new components, hooks, or routes
+- No changes to `TourCard.jsx`, `ToursTable.jsx`, or `List.jsx`
+- The existing "Edit Virtual Tour" item (external overlay editor) is untouched
+- The `VirtualTourDropdown` visibility logic (`overlay_active || goverlay_active`) in the parent is untouched
