@@ -1,0 +1,160 @@
+# Notify Support Button — PhotographerStatus Page
+
+**Date:** 2026-06-02  
+**Branch:** wizard-photographer  
+**Status:** Approved
+
+---
+
+## Overview
+
+Update the `PhotographerStatus` page to:
+1. Replace the "Contact Support" primary button with a "Notify Support" button that calls `POST /photographers/{gothruUserId}/notify-update`
+2. Show a spinner and disable the button while the request is in-flight
+3. Show a toast notification on completion (success or error)
+4. Update the description copy in all locale files
+
+---
+
+## Files Changed
+
+| File | Change |
+|------|--------|
+| `src/pages/Photographer/PhotographerStatus.jsx` | Replace contact-support handler with notify-support API call |
+| `src/locales/en.json` | Update `t_thank_you`, rename key to `t_notify_support` |
+| `src/locales/*.json` (all other languages) | Same two keys updated with English placeholder values |
+
+---
+
+## Component Changes — `PhotographerStatus.jsx`
+
+### Imports added
+- `usePost` from `@hooks`
+- `useToast` from `@hooks`
+
+### Removed
+- `handleContactSupport` callback (opens `mailto:`)
+
+### Added
+```js
+const [toast] = useToast();
+const [notifySupport, { loading: onNotifying }] = usePost({
+  url: '/photographers/{gothruUserId}/notify-update',
+});
+
+const handleNotifySupport = useCallback(() => {
+  notifySupport({
+    pathParams: { gothruUserId: photographer?.gothruUserId },
+    onCompleted: (res) => { toast({ data: res }); },
+    onError: (err) => { toast({ data: err }); },
+  });
+}, [notifySupport, photographer?.gothruUserId, toast]);
+```
+
+### Button change
+```jsx
+// Before
+<Button color="primary" className="font-semibold" onPress={handleContactSupport}>
+  {t('t_photographer.t_submission.t_contact_support')}
+</Button>
+
+// After
+<Button
+  color="primary"
+  className="font-semibold"
+  onPress={handleNotifySupport}
+  isLoading={onNotifying}
+  isDisabled={onNotifying}
+>
+  {t('t_photographer.t_submission.t_notify_support')}
+</Button>
+```
+
+---
+
+## Locale Changes — `en.json`
+
+Under `t_photographer.t_submission`:
+
+```json
+"t_thank_you": "Thank you for applying to become a photographer. Your submission has been securely saved and is currently under review by our team. We will notify you of any status updates directly via email. If you make any changes to your application, please click the 'Notify Support' button so we can review your latest updates.",
+"t_notify_support": "Notify Support"
+```
+
+The key `t_contact_support` (under `t_photographer.t_submission`) is **removed** and replaced by `t_notify_support`. Note: the unrelated `t_payment_status.t_contact_support` key is untouched.
+
+All other locale files (`zh.json`, `sv.json`, `es.json`, etc.) receive the same update — English values are used as placeholders until the strings are formally localised.
+
+---
+
+## API
+
+| Property | Value |
+|----------|-------|
+| Method | `POST` |
+| Path | `/photographers/{gothruUserId}/notify-update` |
+| Path param | `gothruUserId` — from `photographer?.gothruUserId` (Redux state) |
+| Request body | empty |
+| Success handling | `toast({ data: res })` |
+| Error handling | `toast({ data: err })` |
+
+The hook is wired via `usePost` with `pathParams`, matching the `formatURLPath` pattern already used project-wide.
+
+---
+
+## Button State Machine
+
+```
+idle
+  └─ onPress ──► [isLoading=true, isDisabled=true]
+                    ├─ onCompleted ──► toast(success) → idle
+                    └─ onError    ──► toast(error)   → idle
+```
+
+---
+
+## What Is Not Changed
+
+- "Edit Submission" secondary button — unchanged
+- Page structure, camera icon, heading, Status chip — unchanged
+- Page-level loading/spinner for initial data fetch — unchanged
+- `t_payment_status.t_contact_support` locale key — unchanged
+
+---
+
+## Acceptance Criteria
+
+### AC-1: Description text
+- [ ] The description paragraph on the page reads exactly: "Thank you for applying to become a photographer. Your submission has been securely saved and is currently under review by our team. We will notify you of any status updates directly via email. If you make any changes to your application, please click the 'Notify Support' button so we can review your latest updates."
+- [ ] The old description ("If you have any questions or need to confirm your application details, please feel free to reach out to us.") no longer appears
+
+### AC-2: Button label
+- [ ] The primary button label reads "Notify Support"
+- [ ] The "Contact Support" label no longer appears on this page
+- [ ] The "Edit Submission" secondary button is unaffected
+
+### AC-3: API call
+- [ ] Pressing "Notify Support" sends `POST /photographers/{gothruUserId}/notify-update` where `{gothruUserId}` is the authenticated user's photographer ID
+- [ ] No request body is required
+- [ ] The request uses the same base URL as all other API hooks in the project
+
+### AC-4: Loading state
+- [ ] While the request is in-flight, the "Notify Support" button shows a spinner (NextUI `isLoading` prop)
+- [ ] While the request is in-flight, the button is disabled and cannot be pressed again (NextUI `isDisabled` prop)
+- [ ] The "Edit Submission" button is not affected by the loading state
+
+### AC-5: Toast on completion
+- [ ] On a successful API response, a toast notification is displayed using the project's `useToast` hook with `toast({ data: res })`
+- [ ] On an API error, a toast notification is displayed using `toast({ data: err })`
+- [ ] After either outcome the button returns to idle (enabled, no spinner)
+
+### AC-6: Locale — English
+- [ ] `t_photographer.t_submission.t_thank_you` in `en.json` contains the new description text
+- [ ] `t_photographer.t_submission.t_notify_support` exists with value `"Notify Support"`
+- [ ] `t_photographer.t_submission.t_contact_support` no longer exists in `en.json`
+
+### AC-7: Locale — other languages
+- [ ] All non-English locale files contain `t_photographer.t_submission.t_thank_you` with the updated English text as a placeholder
+- [ ] All non-English locale files contain `t_photographer.t_submission.t_notify_support` with value `"Notify Support"` as a placeholder
+- [ ] `t_photographer.t_submission.t_contact_support` is removed from all locale files
+- [ ] `t_payment_status.t_contact_support` in every locale file is untouched
