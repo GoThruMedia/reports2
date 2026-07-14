@@ -1,0 +1,191 @@
+# Map 2D/3D Toggle Button — Design Spec
+
+**Date:** 2026-06-08  
+**Status:** Approved
+
+---
+
+## Context
+
+When users open a tour in the dashboard, they see a map showing where all their panorama photos are located. Right now, that map always loads in 3D mode — it shows the world at an angle, with depth and tilt. While this looks visually impressive, it can make it harder to quickly understand where panoramas are placed, especially for users who just want a clear, top-down view of their tour layout.
+
+There is currently no way for users to switch between the 3D view and a simpler flat map. They are stuck with whichever view the app decides to show them.
+
+---
+
+## Goal
+
+Give users a simple button inside the map that lets them switch between a **flat 2D view** (top-down, easy to read) and an **angled 3D view** (tilted, gives a sense of depth). The flat 2D view becomes the new default since it's clearer for most users. The button is small, unobtrusive, and sits in the top-right corner of the map — always within reach without cluttering the interface.
+
+This applies to all three map views inside a tour: the main view map, the walking tour map, and the slideshow map.
+
+---
+
+## Acceptance Criteria
+
+- [ ] When a user opens any tour map, it loads in **flat 2D view by default** (not 3D)
+- [ ] There is a small button in the **top-right corner** of each tour map (View, Walking, Slideshow)
+- [ ] Clicking the button **smoothly switches** from 2D to 3D — the map tilts into place with a short animation
+- [ ] Clicking the button again **switches back** to 2D — the map flattens out
+- [ ] The button icon changes to reflect what will happen when clicked:
+  - In 2D mode → shows a **cube icon** (meaning: "click to see in 3D")
+  - In 3D mode → shows a **map icon** (meaning: "click to go back to flat")
+- [ ] Hovering over the button shows a short label: **"3D View"** or **"2D View"**
+- [ ] Each map works **independently** — switching to 3D on the walking map does not change the view map
+- [ ] The existing map controls (zoom in/out, locate me, fullscreen) remain accessible — they move to the bottom-right corner to make room for the toggle
+- [ ] The toggle works correctly on all three maps: View, Walking, and Slideshow
+
+---
+
+## Overview
+
+Add a toggle button inside the map that switches between a 2D flat map view (default) and a 3D pitched view. The button is placed in the top-right corner of the map. This applies to three map components: `MapLinks`, `MapWalking`, and `MapSlideshow`.
+
+**Default behavior change:** The current default is a 3D style. After this change, the default is 2D flat.
+
+---
+
+## Architecture
+
+### New Files
+
+| File | Purpose |
+|---|---|
+| `src/hooks/useMapMode.jsx` | Manages `is3D` state; returns map style URL, pitch value, and toggle function |
+| `src/components/organism/MapLibre/Map3DToggleButton.jsx` | Renders the icon button overlay inside the map |
+
+### Modified Files
+
+| File | Change |
+|---|---|
+| `src/hooks/index.js` | Export `useMapMode` |
+| `src/components/organism/MapLibre/MapLinks.jsx` | Consume `useMapMode`, render `Map3DToggleButton`, move controls to bottom-right |
+| `src/components/organism/MapLibre/MapWalking.jsx` | Same as above; add `mapRef` if missing |
+| `src/components/organism/MapLibre/MapSlideshow.jsx` | Same as above; add `mapRef` if missing |
+
+Each map component holds its own **independent** toggle state — toggling 3D on the walking map does not affect the view map. `useMapStyle` hook remains unchanged and available for other consumers.
+
+---
+
+## `useMapMode` Hook
+
+**Location:** `src/hooks/useMapMode.jsx`
+
+```js
+const STYLE_2D = 'https://demotiles.maplibre.org/style.json' // free public, no API key
+const STYLE_3D = 'https://map-embed-orig.gothru.co/v1/vector/style.json'
+
+export const useMapMode = () => {
+  const [is3D, setIs3D] = useState(false)  // default: 2D flat
+  const toggleMode = useCallback(() => setIs3D(p => !p), [])
+  return {
+    is3D,
+    toggleMode,
+    mapStyle: is3D ? STYLE_3D : STYLE_2D,
+    pitch: is3D ? 45 : 0,
+  }
+}
+```
+
+**Behavior:**
+- `is3D = false` (default): flat style URL, pitch 0°
+- `is3D = true`: gothru 3D style URL, pitch 45°
+- `mapStyle` is passed directly to `<Map mapStyle={mapStyle}>` — MapLibre handles style swaps reactively
+- `pitch` is applied via `mapRef.current.getMap().easeTo({ pitch, duration: 500 })` in a `useEffect`
+
+---
+
+## `Map3DToggleButton` Component
+
+**Location:** `src/components/organism/MapLibre/Map3DToggleButton.jsx`
+
+**Props:**
+- `is3D: boolean` — current mode
+- `onToggle: () => void` — called on click
+
+**Positioning:** Rendered as the first child inside `<Map>`. The Map container is `position: relative`, so an absolutely-positioned child overlays the map canvas. Positioned at `top-2.5 right-2.5` (10px from top-right).
+
+**Icon logic:**
+- 2D mode: `fa-cube` icon (communicates "click to go 3D")
+- 3D mode: `fa-map` icon (communicates "click to go flat")
+
+**Tooltip:** `@nextui-org/react` `Tooltip` component — shows `"3D View"` in 2D mode, `"2D View"` in 3D mode.
+
+**Styling:** Small white rounded button with shadow, consistent with MapLibre's native control visual weight.
+
+```jsx
+<div className="absolute top-2.5 right-2.5 z-10">
+  <Tooltip content={is3D ? '2D View' : '3D View'} placement="left">
+    <button className="bg-white rounded shadow p-1.5 text-gray-700 hover:bg-gray-100 transition-colors">
+      <i className={`fa-solid ${is3D ? 'fa-map' : 'fa-cube'} text-sm`} />
+    </button>
+  </Tooltip>
+</div>
+```
+
+---
+
+## Map Component Changes (MapLinks, MapWalking, MapSlideshow)
+
+Each of the three components receives identical changes:
+
+### 1. Import additions
+```js
+import { useMapMode } from '@hooks'
+import { Map3DToggleButton } from './Map3DToggleButton'
+```
+
+### 2. Hook call (top of component body)
+```js
+const { is3D, toggleMode, mapStyle, pitch } = useMapMode()
+```
+
+### 3. Pitch animation effect
+```js
+useEffect(() => {
+  if (!mapRef.current) return
+  mapRef.current.getMap().easeTo({ pitch, duration: 500 })
+}, [is3D, pitch])
+```
+
+> All three components already have `mapRef = useRef(null)` and pass it to `<Map ref={mapRef}>` — no ref setup needed.
+
+### 4. Map props update
+- Replace `mapStyle={mapStyle}` source: was from `useMapStyle()`, now from `useMapMode()`
+- Remove `useMapStyle` import from components that no longer call it
+
+### 5. Control repositioning
+Move all three built-in controls to `bottom-right` to free up top-right for the toggle:
+```jsx
+<NavigationControl position="bottom-right" />
+<GeolocateControl position="bottom-right" />
+<FullscreenControl position="bottom-right" />
+```
+
+### 6. Button placement inside `<Map>`
+```jsx
+<Map ref={mapRef} mapStyle={mapStyle} ...>
+  <Map3DToggleButton is3D={is3D} onToggle={toggleMode} />
+  {/* existing children */}
+</Map>
+```
+
+---
+
+## Behavior Summary
+
+| State | Style URL | Camera Pitch | Button Icon | Tooltip |
+|---|---|---|---|---|
+| 2D (default) | `demotiles.maplibre.org` | 0° | `fa-cube` | "3D View" |
+| 3D | `map-embed-orig.gothru.co/v1/vector/style.json` | 45° | `fa-map` | "2D View" |
+
+Pitch transition is animated (500ms ease). Style swap is reactive via MapLibre's built-in style diffing. Each map instance is independent — modes do not sync across maps on the same page.
+
+---
+
+## Out of Scope
+
+- Persisting the user's 2D/3D preference across sessions or page navigation
+- Syncing mode across multiple maps on the same page
+- `MapBasic` component (used for location pickers, not tour maps — no toggle needed)
+- `MapPanoStatus` component (separate use case)
