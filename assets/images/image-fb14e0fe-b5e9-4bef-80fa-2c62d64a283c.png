@@ -1,0 +1,259 @@
+# Photographer Profile Update Confirmation Modal — Design Spec
+
+**Date:** 2026-06-11  
+**Status:** Approved for implementation
+
+---
+
+## Context
+
+GoThru reviews every approved photographer's profile to make sure the information shown to clients is accurate and up to date. Once a photographer is approved, their profile is visible to clients and they can receive bookings.
+
+The problem: right now, when an approved photographer edits and saves any part of their profile — whether it's their personal details, their location, their portfolio, or their equipment — the changes are submitted immediately, but the photographer gets no warning that this will temporarily remove their approved status. The profile goes back into review without the photographer knowing this was going to happen. This can be confusing and may disrupt their ability to be discovered by clients while the review is in progress.
+
+This feature fixes that by showing a clear confirmation popup before anything is saved — so the photographer knows exactly what will happen and can choose to proceed or cancel.
+
+---
+
+## Goal
+
+Show a confirmation popup every time an approved photographer clicks Save on any of their profile pages. The popup must clearly explain that saving will temporarily put their profile back into pending review. The photographer can then choose to go ahead and save, or cancel and keep editing.
+
+---
+
+## Acceptance Criteria
+
+These are the conditions that must be true for this feature to be considered complete. Each one can be verified by opening the app and going through the steps manually — no technical knowledge required.
+
+1. **Popup appears before saving** — When an approved photographer clicks the Save button on any of these pages (Profile, Location, Portfolio, or Tools), a popup appears. Nothing is saved yet at this point.
+
+2. **Popup shows the right content** — The popup displays:
+   - Title: "Profile Update Confirmation"
+   - Message: "Modifying an approved profile will temporarily change your status to pending while our team reviews the new details. Please confirm to proceed with saving these updates."
+   - Two buttons: "Cancel" (left) and "Save Updates" (right, highlighted as the primary action)
+
+3. **Cancel stops everything** — Clicking "Cancel", clicking the X button, or clicking outside the popup closes it without saving anything. The form stays exactly as the photographer left it — no data is lost.
+
+4. **Save Updates submits the changes** — Clicking "Save Updates" sends the photographer's changes to the server and closes the popup once the save is successful.
+
+5. **Loading state is handled** — While the save is in progress, both buttons are disabled and the "Save Updates" button shows a loading indicator. The photographer cannot close or dismiss the popup while saving is in progress.
+
+6. **Errors keep the popup open** — If the save fails for any reason (server error, network issue), the popup stays open. The photographer can try again or click Cancel to go back to the form.
+
+7. **Status updates immediately after save** — After a successful save, the photographer's status in the dashboard changes to "Pending" right away, without needing to refresh the page.
+
+8. **Save button disappears after status change** — Once the status is Pending, the Save button is no longer visible. It only reappears if the photographer is approved again.
+
+9. **Only approved photographers see this popup** — Photographers with Pending or Denied status are not affected. Their Save button behaviour remains unchanged.
+
+10. **Works on all four save actions** — The popup appears consistently when saving: Profile details, Main location, Sub-location, Portfolio, and Tools.
+
+11. **Available in all 17 languages** — The popup title, message, and button labels are fully translated in all languages the app supports.
+
+---
+
+## Overview
+
+When an approved photographer (status = 3) clicks a Save button on any of their profile-related pages, a confirmation modal appears before the API call is made. The modal warns that saving will temporarily downgrade their status to pending while the team reviews the changes. The backend handles the status change automatically — the frontend reads the updated status from the API response and syncs it to Redux.
+
+---
+
+## Scope
+
+This feature touches four pages:
+
+| Page | File | Save endpoint |
+|---|---|---|
+| Photographer Profile | `src/pages/Photographer/PhotographerProfile.jsx` | `PATCH /photographers/profile/save` |
+| Photographer Location (main) | `src/pages/Photographer/PhotographerLocation.jsx` | `PATCH /photographers/profile/save-location` |
+| Photographer Location (sub) | `src/pages/Photographer/PhotographerLocation.jsx` | `POST /photographers/profile/save-sub-location` |
+| Photographer Portfolio | `src/pages/Photographer/PhotographerPortfolio.jsx` | `POST /photographers/portfolio/save` |
+| Photographer Tools | `src/pages/Photographer/PhotographerTools.jsx` | `POST /photographers/tools/add` |
+
+The modal is shown **only when the photographer's status is 3 (approved)**. Save buttons already conditionally render for `status === 3` — no additional gating needed.
+
+---
+
+## New Component
+
+**File:** `src/pages/Photographer/Components/ConfirmProfileUpdateModal.jsx`
+
+A pure presentational component wrapping the existing `CustomModal` from `src/components/molecules/Modal.jsx`. It has no internal state and no API knowledge.
+
+### Props
+
+| Prop | Type | Description |
+|---|---|---|
+| `isOpen` | `boolean` | Controls modal visibility |
+| `onClose` | `fn` | Called on Cancel button click, X button, or backdrop dismiss |
+| `onConfirm` | `fn` | Called when "Save Updates" primary button is clicked |
+| `loading` | `boolean` | Disables both buttons and shows spinner on primary button during API call |
+
+### Modal Configuration
+
+- `size="md"`
+- `isDismissable={!loading}` — backdrop click calls `onClose` (cancels) when not saving; locked while the API call is in-flight to prevent accidental mid-save dismissal
+- `hideCloseButton={false}` — X button calls `onClose`
+
+### Content
+
+- **Title:** `t('t_photographer.t_confirm_update_modal.t_title')`
+- **Body:** `t('t_photographer.t_confirm_update_modal.t_description')`
+- **Footer:**
+  - Secondary button: `t('t_photographer.t_confirm_update_modal.t_cancel')` → calls `onClose`, disabled when `loading=true`
+  - Primary button: `t('t_photographer.t_confirm_update_modal.t_save_updates')` → calls `onConfirm`, shows loading spinner when `loading=true`
+
+---
+
+## Page Integration Pattern
+
+Each affected page receives the same integration. Applied identically to all four pages (and both save actions in `PhotographerLocation`).
+
+### State
+
+```js
+const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+```
+
+### Save Button Change
+
+The existing save button's `onClick` is changed to open the modal instead of directly calling the API:
+
+```js
+// Before
+onClick={handleSave}
+
+// After
+onClick={() => setIsConfirmModalOpen(true)}
+```
+
+### Confirm Handler
+
+Wraps the existing save logic. Adds Redux dispatch from the API response and modal close on success:
+
+```js
+const handleConfirmSave = () => {
+  saveFunction({
+    data: patchData,
+    onCompleted: (res) => {
+      if (res.statusCode === 200) {
+        toast({ data: res });
+        if (res.data?.status !== undefined) {
+          dispatch({
+            type: 'SET_PHOTOGRAPHER',
+            photographer: { ...photographer, status: res.data.status },
+          });
+        }
+        setIsConfirmModalOpen(false);
+      } else {
+        toast({ type: 'error', data: res.data.details ?? res.data.messages });
+      }
+    },
+    onError: (err) => {
+      toast({ data: err });
+    },
+  });
+};
+```
+
+### Modal JSX
+
+Added at the bottom of each page's JSX return:
+
+```jsx
+<ConfirmProfileUpdateModal
+  isOpen={isConfirmModalOpen}
+  onClose={() => setIsConfirmModalOpen(false)}
+  onConfirm={handleConfirmSave}
+  loading={isLoadingSave}
+/>
+```
+
+### Loading State Variable Per Page
+
+| Page | Loading variable |
+|---|---|
+| PhotographerProfile | `isLoadingUpdateProfile` |
+| PhotographerLocation (main location) | `isLoadingUpdateLocation` |
+| PhotographerLocation (sub-location) | `isLoadingUpdateSubLocation` |
+| PhotographerPortfolio | `isLoadingSavePortfolio` |
+| PhotographerTools | `isLoadingSaveTools` |
+
+> `PhotographerLocation` has two independent save actions (main + sub-location). Each gets its own `isConfirmModalOpen` state (`isConfirmMainLocationModalOpen`, `isConfirmSubLocationModalOpen`) and its own `handleConfirmSave` handler. The same `ConfirmProfileUpdateModal` component is rendered twice in the page's return, once per action.
+
+---
+
+## i18n Translation Keys
+
+Added under the existing `t_photographer` namespace in all 17 locale files:
+
+```json
+{
+  "t_photographer": {
+    "t_confirm_update_modal": {
+      "t_title": "Profile Update Confirmation",
+      "t_description": "Modifying an approved profile will temporarily change your status to pending while our team reviews the new details. Please confirm to proceed with saving these updates.",
+      "t_cancel": "Cancel",
+      "t_save_updates": "Save Updates"
+    }
+  }
+}
+```
+
+English is the source string. The other 16 language files receive translated equivalents following the existing locale file structure.
+
+---
+
+## Data Flow
+
+```
+User clicks "Save" (only visible when status === 3)
+  └─▶ setIsConfirmModalOpen(true)
+        └─▶ Modal opens — no API call yet
+
+User clicks "Cancel" / X / backdrop
+  └─▶ setIsConfirmModalOpen(false)
+        └─▶ Modal closes, form state preserved, nothing sent to API
+
+User clicks "Save Updates"
+  └─▶ handleConfirmSave() — loading=true, both buttons disabled
+        └─▶ API call (PATCH or POST to existing endpoint)
+              ├─▶ onCompleted (statusCode === 200)
+              │     ├─▶ toast({ data: res })             — success toast
+              │     ├─▶ dispatch SET_PHOTOGRAPHER         — status set from res.data.status (now 1 = pending)
+              │     └─▶ setIsConfirmModalOpen(false)     — modal closes
+              │           └─▶ Save button hides           — status no longer 3
+              │
+              ├─▶ onCompleted (statusCode !== 200)
+              │     ├─▶ toast({ type: 'error', ... })    — error toast
+              │     └─▶ modal stays open, loading=false  — user can retry or cancel
+              │
+              └─▶ onError
+                    ├─▶ toast({ data: err })
+                    └─▶ modal stays open, loading=false  — user can retry or cancel
+```
+
+**Key invariant:** On any failure path the modal stays open so the user can retry or cancel — consistent with how `DeleteModal` handles errors in the existing codebase.
+
+---
+
+## Key Constraints
+
+- No new state management abstraction. Each page manages its own `isConfirmModalOpen` state locally.
+- `ConfirmProfileUpdateModal` is purely presentational — zero API logic inside it.
+- Redux update reads `res.data.status` from the API response (Option 1 — API-driven). If `res.data.status` is absent, the dispatch is skipped to avoid corrupting state.
+- The backend automatically sets status to pending for approved photographers on save. The frontend does not send a status field explicitly.
+- Pattern mirrors `DeleteModal` exactly — same props shape, same usage convention.
+
+---
+
+## Files to Create / Modify
+
+| Action | File |
+|---|---|
+| Create | `src/pages/Photographer/Components/ConfirmProfileUpdateModal.jsx` |
+| Modify | `src/pages/Photographer/PhotographerProfile.jsx` |
+| Modify | `src/pages/Photographer/PhotographerLocation.jsx` |
+| Modify | `src/pages/Photographer/PhotographerPortfolio.jsx` |
+| Modify | `src/pages/Photographer/PhotographerTools.jsx` |
+| Modify | All 17 locale files under `src/locales/` (add `t_confirm_update_modal` keys) |
