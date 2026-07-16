@@ -1,0 +1,116 @@
+# Photographer Main Location Not Saving — Bug Fix
+
+**Date:** 2026-06-02
+**Branch:** master
+**Status:** Approved
+
+## Overview
+
+For newly submitted photographer directory users, the main location at `/photographer/location` appears to save successfully (success toast fires) but the location is missing when returning to the page. Two frontend bugs compound to cause this: a null-safety crash in the location load function, and a missing post-save re-verify step that would detect silent backend failures.
+
+## Affected File
+
+`src/pages/Photographer/PhotographerLocation.jsx`
+
+## Root Cause
+
+### Bug 1 — Null-safety crash in `executeGetLocation` (line ~159)
+
+```js
+// Current — crashes if res.data.location is null/undefined
+const { latitude, longitude } = res.data.location;
+```
+
+For a brand-new user with no location record, `GET /photographers/profile/location` may return `{ data: { location: null } }` or `{ data: {} }`. Destructuring `null` throws a `TypeError` inside the `try` block. The `finally` still calls `clearFirstLoad()` so the page renders, but none of the location state (`location`, `hasMainLocation`, etc.) is updated from the response. The crash is silent — no error toast, no indication to the user.
+
+On re-visit after a supposed successful save, if the backend did not actually persist (see Bug 2), the API still returns null and the same crash repeats — the saved data never appears.
+
+### Bug 2 — No post-save re-verify
+
+After `PATCH /photographers/profile/save-location` returns HTTP 200, `handleSaveLocation` sets `hasMainLocation(true)` and shows a success toast. It never re-fetches from the backend to confirm the data was actually stored. For new/submitted users, the backend may silently return 200 without persisting the record (a status-based restriction). The frontend shows success, but the data is gone on the next page load.
+
+## Fix
+
+### Fix 1 — Null-safe `executeGetLocation`
+
+Replace the unguarded destructure with a null check. Treat a missing `location` field the same as a zero-location response (no location set):
+
+**Before:**
+```js
+const { latitude, longitude } = res.data.location;
+const isZeroLocation = latitude === 0 && longitude === 0;
+if (isZeroLocation) {
+  setInputLatLng('');
+  setLocation(null);
+  setHasMainLocation(false);
+  setSubLocations([]);
+  setSubLocationLatLngInputs([]);
+  return;
+}
+```
+
+**After:**
+```js
+const loc = res.data?.location;
+if (!loc || (loc.latitude === 0 && loc.longitude === 0)) {
+  setInputLatLng('');
+  setLocation(null);
+  setHasMainLocation(false);
+  setSubLocations([]);
+  setSubLocationLatLngInputs([]);
+  return;
+}
+const { latitude, longitude } = loc;
+```
+
+### Fix 2 — Post-save re-verify via `executeGetLocation`
+
+After the success toast, immediately call `executeGetLocation()` again. If the backend did not persist the data, the re-fetch returns null or zero coordinates, which triggers the null/zero branch in `executeGetLocation` — automatically setting `hasMainLocation(false)` and clearing location state. The user sees the form reset to empty, signalling the save did not stick.
+
+**Before:**
+```js
+onCompleted: (res) => {
+  if (res.statusCode === 200) {
+    setHasMainLocation(true);
+    toast({ data: res });
+  } else {
+    toast({
+      type: 'error',
+      data: res.data.details ?? res.data.messages,
+    });
+  }
+},
+```
+
+**After:**
+```js
+onCompleted: (res) => {
+  if (res.statusCode === 200) {
+    toast({ data: res });
+    executeGetLocation();
+  } else {
+    toast({
+      type: 'error',
+      data: res.data.details ?? res.data.messages,
+    });
+  }
+},
+```
+
+Note: `setHasMainLocation(true)` is removed from the success branch. `executeGetLocation` already calls `setHasMainLocation(true)` in its success path (line ~183), so this is set correctly only when the re-fetch confirms persistence. If the backend silently failed, the re-fetch sets it to `false` instead.
+
+## What Does NOT Change
+
+- No new hooks, components, or routes
+- Sub-location save logic is untouched
+- The floppy-disk save button and its placement are untouched
+- `onSelectLocation` and `onSetLocationByLatLng` are untouched
+- The `handleSaveLocation` dependency array (`[saveLocation, location, toast, t]`) gains `executeGetLocation` — update accordingly
+
+## Dependency Array Update
+
+`handleSaveLocation` now calls `executeGetLocation`, so add it to the `useCallback` dependency array:
+
+```js
+}, [saveLocation, location, toast, t, executeGetLocation]);
+```
