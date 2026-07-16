@@ -1,0 +1,42 @@
+{
+  "title": "GoThru 3D Floormap - UI Design",
+  "repository": "GoThruMedia/gothru-3d-floormap",
+  "generated_at": "2026-07-16T11:13:00Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-251",
+      "display_title": "Issue #251: Flip floor list to ground-at-bottom & rebuild the floor row",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/step-3-redesign</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-f7079b93-9fc8-4e72-8b4b-e28f12c71727.png\"><img width=\"1919\" height=\"950\" alt=\"Image\" src=\"images/image-f7079b93-9fc8-4e72-8b4b-e28f12c71727.png\" style=\"max-width: 100%; height: auto; max-height: 950px;; aspect-ratio: 1919 / 950; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 251,
+        "author": "harun027",
+        "updated_at": "2026-07-16T10:52:25Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-252",
+      "display_title": "Issue #252: Edit Floor modal: move all editing out of the side panel",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/step-3-redesign</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-744052c5-7c9e-4555-8649-f5a558aa0ebf.png\"><img width=\"1918\" height=\"939\" alt=\"Image\" src=\"images/image-744052c5-7c9e-4555-8649-f5a558aa0ebf.png\" style=\"max-width: 100%; height: auto; max-height: 939px;; aspect-ratio: 1918 / 939; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-b2eb0f48-2ac4-4c3f-941e-23144b8353c5.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-b2eb0f48-2ac4-4c3f-941e-23144b8353c5.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-cca9672b-ffd0-4c1f-b52a-9426164ecd38.png\"><img width=\"1919\" height=\"940\" alt=\"Image\" src=\"images/image-cca9672b-ffd0-4c1f-b52a-9426164ecd38.png\" style=\"max-width: 100%; height: auto; max-height: 940px;; aspect-ratio: 1919 / 940; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 252,
+        "author": "harun027",
+        "updated_at": "2026-07-16T10:54:18Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-253",
+      "display_title": "Issue #253: Preview Floor modal & consolidate the two duplicate previews",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/step-3-redesign</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-d4ec84a5-b727-4dea-8cfd-da35c7dec948.png\"><img width=\"1917\" height=\"950\" alt=\"Image\" src=\"images/image-d4ec84a5-b727-4dea-8cfd-da35c7dec948.png\" style=\"max-width: 100%; height: auto; max-height: 950px;; aspect-ratio: 1917 / 950; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 253,
+        "author": "harun027",
+        "updated_at": "2026-07-16T10:55:08Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru 3D Floormap",
+    "date": "2026-07-16"
+  },
+  "docs": []
+}
