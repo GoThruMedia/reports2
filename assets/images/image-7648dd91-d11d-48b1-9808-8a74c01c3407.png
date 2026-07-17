@@ -1,0 +1,195 @@
+# Feature Design: Add `has_main_overlay` to GET /v1/tours/list Response
+
+**Date:** 2026-06-02
+**Domain:** Tours / List
+**Route:** `GET /v1/tours/list`
+**Status:** Approved for implementation
+
+---
+
+## 1. Problem Statement
+
+The `GET /v1/tours/list` response currently exposes `overlay_active` (hosted overlay is published) and `goverlay_active` (Google overlay is active), but gives no signal about whether the tour's main `overlay.json` file physically exists on disk.
+
+Frontend needs this flag to know whether a tour has been configured in the overlay editor — independently of whether the overlay is published or active.
+
+**New field:** `has_main_overlay` (boolean) added to every tour item in the `list_tours` array.
+
+---
+
+## 2. What `has_main_overlay` Means
+
+`has_main_overlay: true` means the file at the path below physically exists on the server's filesystem:
+
+```
+/data/moderation/{user_id}/{1_cid}/overlay/{tour_id}/overlay.json
+```
+
+Where:
+- `{user_id}` — the authenticated user's ID
+- `{1_cid}` — the raw CID stored in `0_moderation.1_cid` (the disk folder name, not the display CID which may be renamed)
+- `{tour_id}` — the `tour_id` from `hosted_tours.tours` for this moderation
+
+`has_main_overlay: false` means the file is absent or the tour has no associated overlay record (`tour_id` is 0 or `1_cid` is empty).
+
+This path pattern is consistent with `CheckOverlayJson::hasOverlayJsonByModeration()` in
+`app/Http/Controllers/Tours/Actions/CheckOverlayJson.php:107`.
+
+---
+
+## 3. Data Flow
+
+The data required for the check is **already available** in the existing enrichment step — no new queries are needed.
+
+```
+GET /v1/tours/list
+    ↓
+ListToursController::handle()
+    ↓
+ListToursAction::execute()
+    ↓ getModerationsPage() → already selects `1_cid` per tour row
+    ↓
+ListToursAction::enrichTour($userId, $tour)
+    ↓ getTourOverlayInfo($userId, $moderationId) → already returns `tour_id`
+    ↓
+[NEW] is_file("/data/moderation/{$userId}/{$cid}/overlay/{$tourId}/overlay.json")
+    ↓
+$result['has_main_overlay'] = bool
+    ↓
+Response: each tour item includes `has_main_overlay`
+```
+
+---
+
+## 4. Change Required
+
+**One file, three lines of logic, one new response key.**
+
+**File:** `app/Actions/Tours/ListToursAction.php` — `enrichTour()` method
+
+After the existing `$overlayInfo` and `$foverlayActive`/`$goverlayActive` derivations (around line 204), add:
+
+```php
+$cid            = $tour['1_cid'] ?? '';
+$tourId         = (int) ($overlayInfo['tour_id'] ?? 0);
+$hasMainOverlay = $tourId > 0 && $cid !== ''
+    && is_file("/data/moderation/{$userId}/{$cid}/overlay/{$tourId}/overlay.json");
+```
+
+Then add to the `$result` array (alongside `overlay_active` and `goverlay_active`):
+
+```php
+'has_main_overlay' => $hasMainOverlay,
+```
+
+**No other files need to change.** `ListToursController`, `ListToursDto`, `ToursRepository`, and all other classes are untouched.
+
+---
+
+## 5. Why No New Queries Are Needed
+
+| Data needed | Source | Already fetched? |
+|-------------|--------|-----------------|
+| `user_id` | `enrichTour($userId, ...)` parameter | ✓ |
+| `1_cid` | `$tour['1_cid']` — selected by `getModerationsPage()` | ✓ |
+| `tour_id` | `$overlayInfo['tour_id']` — returned by `getTourOverlayInfo()` | ✓ |
+
+---
+
+## 6. Response Shape Change
+
+Each tour item in `list_tours` gains one new field:
+
+```json
+{
+  "business_name":        "Arca Boutique Hotel",
+  "cid":                  "2626221539385545619",
+  "moderation_id":        42,
+  "overlay_active":       false,
+  "goverlay_active":      false,
+  "has_main_overlay":     true,
+  "template":             "",
+  ...
+}
+```
+
+`has_main_overlay` is always present (never absent or null) — it is `true` or `false`.
+
+---
+
+## 7. Performance
+
+The enrichment loop already does per-tour work (DB queries for panorama count, thumb, publish status, overlay info, tags). One `is_file()` call per tour is added to this existing loop. The list is paginated, so the number of filesystem calls per request is bounded by the page `limit` parameter (default in `ListToursDto`).
+
+If production profiling shows this to be a bottleneck, the clear upgrade path is to add a `has_overlay_json tinyint(1)` column to `hosted_tours.tours` and read it inside `getTourOverlayInfo()` — no Action-level changes needed at that point.
+
+---
+
+## 8. Acceptance Criteria
+
+### AC-1 — File exists → `has_main_overlay: true`
+
+**Given** a tour whose overlay.json exists at `/data/moderation/{userId}/{1_cid}/overlay/{tourId}/overlay.json`
+**When** `GET /v1/tours/list` is called
+**Then** that tour item in the response contains `"has_main_overlay": true`
+
+---
+
+### AC-2 — File absent → `has_main_overlay: false`
+
+**Given** a tour that has never been saved in the overlay editor (no overlay.json file on disk)
+**When** `GET /v1/tours/list` is called
+**Then** that tour item contains `"has_main_overlay": false`
+
+---
+
+### AC-3 — No overlay record → `has_main_overlay: false`
+
+**Given** a tour that has no row in `hosted_tours.tours` (`getTourOverlayInfo()` returns null or `tour_id` is 0)
+**When** `GET /v1/tours/list` is called
+**Then** that tour item contains `"has_main_overlay": false` (no filesystem check is attempted)
+
+---
+
+### AC-4 — `has_main_overlay` is independent of `overlay_active`
+
+**Given** a tour that has an overlay.json on disk but `foverlay_active` is not `'1'` (overlay configured but not published)
+**When** `GET /v1/tours/list` is called
+**Then** the response contains `"overlay_active": false` AND `"has_main_overlay": true` simultaneously
+
+**And given** a tour where `foverlay_active` is `'1'` (published) but the overlay.json file has been deleted from disk
+**Then** the response contains `"overlay_active": true` AND `"has_main_overlay": false` simultaneously
+
+---
+
+### AC-5 — Field is always present
+
+**Given** any tour in the list (with or without overlay info)
+**When** `GET /v1/tours/list` is called
+**Then** every tour item includes `has_main_overlay` as a boolean — never absent, never null
+
+---
+
+### AC-6 — Encrypted response also includes the field
+
+**Given** a request with `enc: true` header
+**When** `GET /v1/tours/list` returns an encrypted envelope
+**Then** the decrypted `list_tours` array still contains `has_main_overlay` in each tour item (the field is set at the Action level, before encryption)
+
+---
+
+## 9. Out of Scope
+
+- **DB column cache:** Adding `has_overlay_json` to `hosted_tours.tours` is a future performance optimisation, not part of this change.
+- **`GET /tours/list` (legacy, non-v1):** That endpoint uses the legacy `ToursController` and is not affected by this change.
+- **Sub-tour overlay.json files:** This flag reflects the main tour only. Checking all sub-tours within a moderation is a separate concern (`CheckOverlayJson` handles that use-case).
+
+---
+
+## 10. Considered Alternatives
+
+**Approach B — Dedicated `OverlayRepository::hasMainOverlayJson()` method**
+A clean ADR repository method wrapping the `is_file()` call. Deferred — the call is a one-liner and injecting a new repository for it is over-engineering at this stage.
+
+**Approach C — DB column cache on `hosted_tours.tours`**
+Zero extra I/O at list time, but requires a migration and keeping all overlay write paths in sync. Noted as the future upgrade path if performance requires it.
