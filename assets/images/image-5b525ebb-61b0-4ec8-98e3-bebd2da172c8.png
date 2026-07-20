@@ -1,0 +1,84 @@
+# Pano Info — Copy Share Link & Add as Portfolio Buttons
+
+**Date:** 2026-06-02
+**Branch:** master
+**Status:** Approved
+
+## Overview
+
+Add two action buttons to the Google Info card footer in the panorama info page (`/my-tours/:mid/edit/:pid`). The buttons give photographers a fast path to copy a pano's Google Maps share link and save it directly to their Google Street View portfolio — without navigating away from the pano info page.
+
+## Affected File
+
+`src/pages/Tour/Detail/Edit/Info.jsx`
+
+## Placement
+
+Both buttons are added to the `CardFooter` of the `panoramaInfoGoogle` card, alongside the existing **Update** button. This footer already uses `gap-2` flex layout and is wrapped in the `!tour?.archived` guard — no structural changes needed.
+
+Button order (left to right):
+
+1. **Update** (existing)
+2. **Copy Share Link** (new)
+3. **Add as Portfolio** (new, conditional)
+
+## Button 1 — Copy Share Link
+
+| Property | Value |
+|---|---|
+| Label | "Copy Share Link" |
+| Icon | `fa-solid fa-copy` |
+| Visibility | Shown when `panoramaInfoGoogle.share_link` is truthy |
+| Action | `navigator.clipboard.writeText(panoramaInfoGoogle.share_link)` |
+| Success feedback | `toast.success(t('t_panorama_tools.t_image_info.t_detail_table.t_copied_share_link'))` |
+| Loading state | None (clipboard write is instant) |
+| Style | `className="dark:bg-zinc-500"` — matches existing Update button |
+
+## Button 2 — Add as Portfolio
+
+| Property | Value |
+|---|---|
+| Label | "Add as Portfolio" |
+| Icon | `fa-solid fa-plus` |
+| Visibility | Shown when `state.profile.photographer !== null` AND `panoramaInfoGoogle.share_link` is truthy |
+| Action | `POST /photographers/portfolio/save` |
+| Request body | `{ title: panoramaInfo.panorama_name, value: panoramaInfoGoogle.share_link, type: 'google' }` |
+| Loading state | Button spinner + disabled while request is in flight |
+| Success feedback | `toastHook({ data: res })` |
+| Error feedback | `toastHook({ data: err })` |
+| Style | `color="primary"` to visually distinguish as an additive action |
+| Post-save | No page refresh or local state update needed |
+
+## Photographer Visibility Logic
+
+```js
+const photographer = useSelector((state) => state.profile.photographer);
+```
+
+`photographer` is `null` in Redux when the user has not applied to the photographer directory. Any non-null value (status 1, 2, or 3) means they have applied or been approved — the button is shown.
+
+## API Hook5
+
+```js
+const [addAsPortfolio, { loading: loadingAddAsPortfolio }] = usePost({
+  url: '/photographers/portfolio/save',
+});
+```
+
+Same pattern as `clearCache`, `updatePanorama`, and other `usePost` instances already in Info.jsx.
+
+## Localization Keys
+
+| Key | Value (EN) |
+|---|---|
+| `t_panorama_tools.t_image_info.t_detail_table.t_copied_share_link` | "Share link copied!" |
+| `t_panorama_tools.t_image_info.t_detail_table.t_button_add_portfolio` | "Add as Portfolio" |
+
+These keys must be added to all active translation files.
+
+## What Does NOT Change
+
+- The existing small inline copy icon next to the share_link table row stays as-is
+- No new components — changes are self-contained in Info.jsx
+- No routing or Redux state changes
+- No changes outside the `panoramaInfoGoogle` card
