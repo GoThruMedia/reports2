@@ -1,0 +1,52 @@
+{
+  "title": "GoThru 3D Floormap - UI Design",
+  "repository": "GoThruMedia/gothru-3d-floormap",
+  "generated_at": "2026-07-22T03:56:52Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-330",
+      "display_title": "Issue #330: Design: Share modal - 'Embed to Virtual Tour' section, incl. copyable link, copied/manual-copy states, and edge states (no panorama markers, unpublished/disabled) - alongside Share Link & Embed Map",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/implement-embed-to-gothru-virtual-tour</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-c3dea4f7-41b5-4f51-82f8-fbd2c04ead4c.png\"><img width=\"1919\" height=\"947\" alt=\"Image\" src=\"images/image-c3dea4f7-41b5-4f51-82f8-fbd2c04ead4c.png\" style=\"max-width: 100%; height: auto; max-height: 947px;; aspect-ratio: 1919 / 947; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 330,
+        "author": "harun027",
+        "updated_at": "2026-07-22T03:29:33Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-303",
+      "display_title": "Issue #303: Design: Editor sidebar - Floor section rename Level to Floor + copy + no-floors Add Floor state",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/editor-sidebar-and-navbar</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-3710bb00-bb3d-46a0-b65b-b0edf9d2430e.png\"><img width=\"1919\" height=\"942\" alt=\"Image\" src=\"images/image-3710bb00-bb3d-46a0-b65b-b0edf9d2430e.png\" style=\"max-width: 100%; height: auto; max-height: 942px;; aspect-ratio: 1919 / 942; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-8b87af68-181d-4f72-bff2-64c3f602e6f5.png\"><img width=\"1919\" height=\"946\" alt=\"Image\" src=\"images/image-8b87af68-181d-4f72-bff2-64c3f602e6f5.png\" style=\"max-width: 100%; height: auto; max-height: 946px;; aspect-ratio: 1919 / 946; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-489ec2d5-c299-4748-9e41-42bed7bd1ba9.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-489ec2d5-c299-4748-9e41-42bed7bd1ba9.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 303,
+        "author": "harun027",
+        "updated_at": "2026-07-22T03:30:13Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-304",
+      "display_title": "Issue #304: Design: Editor - Empty project placeholder (Add Floor & Import Floor guidance)",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/editor-sidebar-and-navbar</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-fa763eac-7563-4962-b9ae-b040afc46728.png\"><img width=\"1919\" height=\"942\" alt=\"Image\" src=\"images/image-fa763eac-7563-4962-b9ae-b040afc46728.png\" style=\"max-width: 100%; height: auto; max-height: 942px;; aspect-ratio: 1919 / 942; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 304,
+        "author": "harun027",
+        "updated_at": "2026-07-22T03:34:10Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-307",
+      "display_title": "Issue #307: Design: Editor navbar - left/right split + rename File to Project menu (Dashboard / New Project / Help)",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/editor-sidebar-and-navbar</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-ee2c2934-803f-455f-88b9-01c940921ad4.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-ee2c2934-803f-455f-88b9-01c940921ad4.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 307,
+        "author": "harun027",
+        "updated_at": "2026-07-22T03:31:43Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru 3D Floormap",
+    "date": "2026-07-22"
+  },
+  "docs": []
+}
