@@ -1,46 +1,106 @@
 {
   "title": "GoThru 3D Floormap - UI Design",
   "repository": "GoThruMedia/gothru-3d-floormap",
-  "generated_at": "2026-07-22T03:56:52Z",
+  "generated_at": "2026-07-22T07:11:24Z",
   "issues": [
     {
       "anchor_id": "issue-gothrumedia-gothru-3d-floormap-330",
       "display_title": "Issue #330: Design: Share modal - 'Embed to Virtual Tour' section, incl. copyable link, copied/manual-copy states, and edge states (no panorama markers, unpublished/disabled) - alongside Share Link & Embed Map",
-      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/implement-embed-to-gothru-virtual-tour</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-c3dea4f7-41b5-4f51-82f8-fbd2c04ead4c.png\"><img width=\"1919\" height=\"947\" alt=\"Image\" src=\"images/image-c3dea4f7-41b5-4f51-82f8-fbd2c04ead4c.png\" style=\"max-width: 100%; height: auto; max-height: 947px;; aspect-ratio: 1919 / 947; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/implement-embed-to-gothru-virtual-tour</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-c86c8f5a-2035-4faa-ab9c-d53fabedaad0.png\"><img width=\"1919\" height=\"947\" alt=\"Image\" src=\"images/image-c86c8f5a-2035-4faa-ab9c-d53fabedaad0.png\" style=\"max-width: 100%; height: auto; max-height: 947px;; aspect-ratio: 1919 / 947; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
       "metadata": {
         "number": 330,
         "author": "harun027",
-        "updated_at": "2026-07-22T03:29:33Z"
+        "updated_at": "2026-07-22T04:05:26Z"
       }
     },
     {
       "anchor_id": "issue-gothrumedia-gothru-3d-floormap-303",
       "display_title": "Issue #303: Design: Editor sidebar - Floor section rename Level to Floor + copy + no-floors Add Floor state",
-      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/editor-sidebar-and-navbar</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-3710bb00-bb3d-46a0-b65b-b0edf9d2430e.png\"><img width=\"1919\" height=\"942\" alt=\"Image\" src=\"images/image-3710bb00-bb3d-46a0-b65b-b0edf9d2430e.png\" style=\"max-width: 100%; height: auto; max-height: 942px;; aspect-ratio: 1919 / 942; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-8b87af68-181d-4f72-bff2-64c3f602e6f5.png\"><img width=\"1919\" height=\"946\" alt=\"Image\" src=\"images/image-8b87af68-181d-4f72-bff2-64c3f602e6f5.png\" style=\"max-width: 100%; height: auto; max-height: 946px;; aspect-ratio: 1919 / 946; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-489ec2d5-c299-4748-9e41-42bed7bd1ba9.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-489ec2d5-c299-4748-9e41-42bed7bd1ba9.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/editor-sidebar-and-navbar</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-83b0ea82-266d-4e36-98fd-63e7dbfd5a25.png\"><img width=\"1919\" height=\"942\" alt=\"Image\" src=\"images/image-83b0ea82-266d-4e36-98fd-63e7dbfd5a25.png\" style=\"max-width: 100%; height: auto; max-height: 942px;; aspect-ratio: 1919 / 942; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-b9bd4546-d30c-4849-8c78-329c3b78c7ee.png\"><img width=\"1919\" height=\"946\" alt=\"Image\" src=\"images/image-b9bd4546-d30c-4849-8c78-329c3b78c7ee.png\" style=\"max-width: 100%; height: auto; max-height: 946px;; aspect-ratio: 1919 / 946; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-3957538a-d3b7-4961-8706-209892de2828.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-3957538a-d3b7-4961-8706-209892de2828.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
       "metadata": {
         "number": 303,
         "author": "harun027",
-        "updated_at": "2026-07-22T03:30:13Z"
+        "updated_at": "2026-07-22T04:05:23Z"
       }
     },
     {
       "anchor_id": "issue-gothrumedia-gothru-3d-floormap-304",
       "display_title": "Issue #304: Design: Editor - Empty project placeholder (Add Floor & Import Floor guidance)",
-      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/editor-sidebar-and-navbar</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-fa763eac-7563-4962-b9ae-b040afc46728.png\"><img width=\"1919\" height=\"942\" alt=\"Image\" src=\"images/image-fa763eac-7563-4962-b9ae-b040afc46728.png\" style=\"max-width: 100%; height: auto; max-height: 942px;; aspect-ratio: 1919 / 942; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/editor-sidebar-and-navbar</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-d52b363e-9798-475f-875d-442d7abe0ceb.png\"><img width=\"1919\" height=\"942\" alt=\"Image\" src=\"images/image-d52b363e-9798-475f-875d-442d7abe0ceb.png\" style=\"max-width: 100%; height: auto; max-height: 942px;; aspect-ratio: 1919 / 942; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
       "metadata": {
         "number": 304,
         "author": "harun027",
-        "updated_at": "2026-07-22T03:34:10Z"
+        "updated_at": "2026-07-22T04:05:13Z"
       }
     },
     {
       "anchor_id": "issue-gothrumedia-gothru-3d-floormap-307",
       "display_title": "Issue #307: Design: Editor navbar - left/right split + rename File to Project menu (Dashboard / New Project / Help)",
-      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/editor-sidebar-and-navbar</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-ee2c2934-803f-455f-88b9-01c940921ad4.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-ee2c2934-803f-455f-88b9-01c940921ad4.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/editor-sidebar-and-navbar</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-4f68d464-d104-42f5-81ec-d9086d89a965.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-4f68d464-d104-42f5-81ec-d9086d89a965.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
       "metadata": {
         "number": 307,
         "author": "harun027",
-        "updated_at": "2026-07-22T03:31:43Z"
+        "updated_at": "2026-07-22T04:05:02Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-305",
+      "display_title": "Issue #305: Design: Editor sidebar - Object section dropdown filter (All default, per-type counters, newest-first)",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/editor-sidebar-and-navbar</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-f112bd3d-bea8-4479-a0d9-69639efed01b.png\"><img width=\"1918\" height=\"945\" alt=\"Image\" src=\"images/image-f112bd3d-bea8-4479-a0d9-69639efed01b.png\" style=\"max-width: 100%; height: auto; max-height: 945px;; aspect-ratio: 1918 / 945; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 305,
+        "author": "harun027",
+        "updated_at": "2026-07-22T05:03:31Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-306",
+      "display_title": "Issue #306: Design: Editor sidebar - Object row (icon, name, linked-info & door/safety-annotation type subtitles)",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/editor-sidebar-and-navbar</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-5491980e-fb6d-459d-a370-792ccd63d677.png\"><img width=\"1919\" height=\"942\" alt=\"Image\" src=\"images/image-5491980e-fb6d-459d-a370-792ccd63d677.png\" style=\"max-width: 100%; height: auto; max-height: 942px;; aspect-ratio: 1919 / 942; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-b0b48836-d064-42d2-8a5d-d0a4a8dafb04.png\"><img width=\"1919\" height=\"941\" alt=\"Image\" src=\"images/image-b0b48836-d064-42d2-8a5d-d0a4a8dafb04.png\" style=\"max-width: 100%; height: auto; max-height: 941px;; aspect-ratio: 1919 / 941; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-e4b69072-3184-4d7d-af00-744f56703700.png\"><img width=\"1600\" height=\"792\" alt=\"Image\" src=\"images/image-e4b69072-3184-4d7d-af00-744f56703700.png\" style=\"max-width: 100%; height: auto; max-height: 792px;; aspect-ratio: 1600 / 792; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-7e58aeb3-05b1-42b0-9bba-74471e5c8ff0.png\"><img width=\"1600\" height=\"786\" alt=\"Image\" src=\"images/image-7e58aeb3-05b1-42b0-9bba-74471e5c8ff0.png\" style=\"max-width: 100%; height: auto; max-height: 786px;; aspect-ratio: 1600 / 786; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-d3ef34f9-982e-4747-8792-f96c7a645bdf.png\"><img width=\"1919\" height=\"946\" alt=\"Image\" src=\"images/image-d3ef34f9-982e-4747-8792-f96c7a645bdf.png\" style=\"max-width: 100%; height: auto; max-height: 946px;; aspect-ratio: 1919 / 946; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-d415ec76-d58b-4f8c-ae12-737df568f109.png\"><img width=\"1919\" height=\"943\" alt=\"Image\" src=\"images/image-d415ec76-d58b-4f8c-ae12-737df568f109.png\" style=\"max-width: 100%; height: auto; max-height: 943px;; aspect-ratio: 1919 / 943; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-61e6832c-cb36-4ecf-8fc7-0344ee02f05b.png\"><img width=\"1919\" height=\"942\" alt=\"Image\" src=\"images/image-61e6832c-cb36-4ecf-8fc7-0344ee02f05b.png\" style=\"max-width: 100%; height: auto; max-height: 942px;; aspect-ratio: 1919 / 942; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-5eb45ff8-968b-4c25-a118-6fd1a7d8e476.png\"><img width=\"1919\" height=\"940\" alt=\"Image\" src=\"images/image-5eb45ff8-968b-4c25-a118-6fd1a7d8e476.png\" style=\"max-width: 100%; height: auto; max-height: 940px;; aspect-ratio: 1919 / 940; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-17f37a0a-aabb-4ff2-bc30-17bf401e1273.png\"><img width=\"1919\" height=\"945\" alt=\"Image\" src=\"images/image-17f37a0a-aabb-4ff2-bc30-17bf401e1273.png\" style=\"max-width: 100%; height: auto; max-height: 945px;; aspect-ratio: 1919 / 945; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-f1595d36-19d4-45fe-8ee6-72107190381a.png\"><img width=\"1919\" height=\"947\" alt=\"Image\" src=\"images/image-f1595d36-19d4-45fe-8ee6-72107190381a.png\" style=\"max-width: 100%; height: auto; max-height: 947px;; aspect-ratio: 1919 / 947; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-988aa1a8-f9ca-494b-b0e9-b5af388a371e.png\"><img width=\"1914\" height=\"942\" alt=\"Image\" src=\"images/image-988aa1a8-f9ca-494b-b0e9-b5af388a371e.png\" style=\"max-width: 100%; height: auto; max-height: 942px;; aspect-ratio: 1914 / 942; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-189a1b0e-9f3d-46d4-801f-72451431ba42.png\"><img width=\"1919\" height=\"951\" alt=\"Image\" src=\"images/image-189a1b0e-9f3d-46d4-801f-72451431ba42.png\" style=\"max-width: 100%; height: auto; max-height: 951px;; aspect-ratio: 1919 / 951; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 306,
+        "author": "harun027",
+        "updated_at": "2026-07-22T07:01:53Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-325",
+      "display_title": "Issue #325: Design: Step 4 - Generation states & before/after layout shift (pending/in-progress/success/all-fail, validation & floor message copy)",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/update-step-4-generate</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-5195a95a-8c60-4674-99db-5081220fd5f9.png\"><img width=\"1919\" height=\"940\" alt=\"Image\" src=\"images/image-5195a95a-8c60-4674-99db-5081220fd5f9.png\" style=\"max-width: 100%; height: auto; max-height: 940px;; aspect-ratio: 1919 / 940; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-a0f40974-03fd-4f20-a9b0-7865ec40b426.png\"><img width=\"1919\" height=\"942\" alt=\"Image\" src=\"images/image-a0f40974-03fd-4f20-a9b0-7865ec40b426.png\" style=\"max-width: 100%; height: auto; max-height: 942px;; aspect-ratio: 1919 / 942; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 325,
+        "author": "harun027",
+        "updated_at": "2026-07-22T04:07:40Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-323",
+      "display_title": "Issue #323: Design: Step 4 - Generate Process Summary section (total/success/failed counts, Open Editor & Retry Failed Floors states)",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/update-step-4-generate</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-9fca5ef7-857f-410f-a611-5fb6c45e1903.png\"><img width=\"1919\" height=\"951\" alt=\"Image\" src=\"images/image-9fca5ef7-857f-410f-a611-5fb6c45e1903.png\" style=\"max-width: 100%; height: auto; max-height: 951px;; aspect-ratio: 1919 / 951; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-b85728c3-2d75-4b55-8bde-d2475cc08a36.png\"><img width=\"1919\" height=\"949\" alt=\"Image\" src=\"images/image-b85728c3-2d75-4b55-8bde-d2475cc08a36.png\" style=\"max-width: 100%; height: auto; max-height: 949px;; aspect-ratio: 1919 / 949; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-247092d1-c510-4943-ad04-3fc760fba9a1.png\"><img width=\"1919\" height=\"946\" alt=\"Image\" src=\"images/image-247092d1-c510-4943-ad04-3fc760fba9a1.png\" style=\"max-width: 100%; height: auto; max-height: 946px;; aspect-ratio: 1919 / 946; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-8b8743b1-87d3-48f3-906e-9657e5e8e886.png\"><img width=\"1919\" height=\"939\" alt=\"Image\" src=\"images/image-8b8743b1-87d3-48f3-906e-9657e5e8e886.png\" style=\"max-width: 100%; height: auto; max-height: 939px;; aspect-ratio: 1919 / 939; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 323,
+        "author": "harun027",
+        "updated_at": "2026-07-22T03:13:53Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-322",
+      "display_title": "Issue #322: Design: Step 4 - Configuration section (wall source dropdown, wall threshold slider, primary Generate Project + secondary Continue to Editor; remove Open in Editor & 3D Preview)",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/update-step-4-generate</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-90f17ea8-f305-4455-9fe2-416d0fba3026.png\"><img width=\"1918\" height=\"947\" alt=\"Image\" src=\"images/image-90f17ea8-f305-4455-9fe2-416d0fba3026.png\" style=\"max-width: 100%; height: auto; max-height: 947px;; aspect-ratio: 1918 / 947; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-ecd67f32-8e20-43c2-9fd6-070a07c023f1.png\"><img width=\"1919\" height=\"943\" alt=\"Image\" src=\"images/image-ecd67f32-8e20-43c2-9fd6-070a07c023f1.png\" style=\"max-width: 100%; height: auto; max-height: 943px;; aspect-ratio: 1919 / 943; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-2e23e276-cd4f-4997-8540-cee093e06d7f.png\"><img width=\"1919\" height=\"948\" alt=\"Image\" src=\"images/image-2e23e276-cd4f-4997-8540-cee093e06d7f.png\" style=\"max-width: 100%; height: auto; max-height: 948px;; aspect-ratio: 1919 / 948; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-d88ae22e-3ded-4092-8942-e9670c52ade5.png\"><img width=\"1919\" height=\"947\" alt=\"Image\" src=\"images/image-d88ae22e-3ded-4092-8942-e9670c52ade5.png\" style=\"max-width: 100%; height: auto; max-height: 947px;; aspect-ratio: 1919 / 947; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 322,
+        "author": "harun027",
+        "updated_at": "2026-07-22T03:45:31Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-321",
+      "display_title": "Issue #321: Design: Step 4 - Requirement Configuration Checklist section (merge submission checklist + config summary, location & floor-image validation messages)",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/update-step-4-generate</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-3267b6e4-ed13-4180-9e93-99a475c425dd.png\"><img width=\"1919\" height=\"943\" alt=\"Image\" src=\"images/image-3267b6e4-ed13-4180-9e93-99a475c425dd.png\" style=\"max-width: 100%; height: auto; max-height: 943px;; aspect-ratio: 1919 / 943; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-1184e1bb-df13-416f-8217-610f9dbafaa5.png\"><img width=\"1919\" height=\"947\" alt=\"Image\" src=\"images/image-1184e1bb-df13-416f-8217-610f9dbafaa5.png\" style=\"max-width: 100%; height: auto; max-height: 947px;; aspect-ratio: 1919 / 947; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 321,
+        "author": "harun027",
+        "updated_at": "2026-07-22T02:53:02Z"
       }
     }
   ],
