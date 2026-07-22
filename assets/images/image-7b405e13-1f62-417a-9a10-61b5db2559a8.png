@@ -1,0 +1,214 @@
+# Availability Open/Close Indicator & Portfolio Name Overlay Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Replace hardcoded time ranges with Open/Closed status dots in the availability section, and always show the portfolio item name overlay on 360 portfolio cards regardless of thumbnail availability.
+
+**Architecture:** Two independent, display-only edits in two separate component files. No API, store, or type changes required. Each task is self-contained and can be committed independently.
+
+**Tech Stack:** Next.js 14, React, TypeScript, Tailwind CSS
+
+## Global Constraints
+
+- Do not modify any API layer, Zustand stores, or type definitions
+- Do not change the photographer card component (`src/components/photographer-card.tsx`)
+- Tailwind classes only — no inline styles
+- The existing `row.c` boolean (true = closed) is the sole source of truth for open/closed state
+
+---
+
+### Task 1: Service Hours — Replace Time Text with Open/Closed Dot Indicator
+
+**Files:**
+- Modify: `src/components/photographer-profile.tsx:89–102` (hours data) and `src/components/photographer-profile.tsx:276–278` (hours render)
+
+**Interfaces:**
+- Consumes: `hours` array with shape `{ d: string; h: string; c: boolean }[]` — `c` is `true` when closed
+- Produces: same array shape, `h` value is now `"Open"` or `"Closed"` (no time strings)
+
+---
+
+- [ ] **Step 1: Update the hours data — dynamic branch**
+
+In `src/components/photographer-profile.tsx`, find line 93:
+
+```ts
+h: availableDays.has(d) ? "09:00 – 18:00" : "Closed",
+```
+
+Change to:
+
+```ts
+h: availableDays.has(d) ? "Open" : "Closed",
+```
+
+- [ ] **Step 2: Update the hours data — static fallback branch**
+
+In the same file, lines 97–102 currently read:
+
+```ts
+{ d: "Sunday",    h: "Closed",       c: true  },
+{ d: "Monday",    h: "09:00 – 18:00", c: false },
+{ d: "Tuesday",   h: "09:00 – 18:00", c: false },
+{ d: "Wednesday", h: "09:00 – 18:00", c: false },
+{ d: "Thursday",  h: "09:00 – 18:00", c: false },
+{ d: "Friday",    h: "09:00 – 17:00", c: false },
+```
+
+Replace with:
+
+```ts
+{ d: "Sunday",    h: "Closed", c: true  },
+{ d: "Monday",    h: "Open",   c: false },
+{ d: "Tuesday",   h: "Open",   c: false },
+{ d: "Wednesday", h: "Open",   c: false },
+{ d: "Thursday",  h: "Open",   c: false },
+{ d: "Friday",    h: "Open",   c: false },
+```
+
+- [ ] **Step 3: Update the render — add colored dot before status text**
+
+In the same file, lines 276–278 currently read:
+
+```tsx
+<span className={`font-mono text-xs ${row.c ? "text-muted-foreground/60" : ""}`}>
+  {row.h}
+</span>
+```
+
+Replace with:
+
+```tsx
+<span className="flex items-center gap-1.5">
+  <span
+    className={`inline-block size-1.5 rounded-full ${
+      row.c ? "bg-muted-foreground/40" : "bg-green-500"
+    }`}
+  />
+  <span className={`font-mono text-xs ${row.c ? "text-muted-foreground/60" : ""}`}>
+    {row.h}
+  </span>
+</span>
+```
+
+- [ ] **Step 4: Verify visually**
+
+Run the dev server:
+
+```bash
+npm run dev
+```
+
+Navigate to any photographer detail page (e.g. `/photographer/<slug>`). In the "Availability / Service hours" section verify:
+- Each open day shows a small green dot followed by `"Open"`
+- Closed days show a muted gray dot followed by `"Closed"` in muted color
+- No time strings (`"09:00"`, `"18:00"`, `"17:00"`) appear anywhere in the hours list
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add src/components/photographer-profile.tsx
+git commit -m "feat: replace service hours time text with open/closed dot indicator"
+```
+
+---
+
+### Task 2: Portfolio Thumbnail — Always Show Name Overlay
+
+**Files:**
+- Modify: `src/components/pages/photographer/photographerPortfolio.tsx:65` (add `relative`) and after line `80` (insert name overlay)
+
+**Interfaces:**
+- Consumes: `item.businessName`, `item.title` — both optional strings, already null-coalesced in the existing thumbnail branch
+- Produces: name overlay rendered in both thumbnail-present and thumbnail-absent states
+
+---
+
+- [ ] **Step 1: Add `relative` positioning to the placeholder wrapper**
+
+In `src/components/pages/photographer/photographerPortfolio.tsx`, line 65 currently reads:
+
+```tsx
+<div className="flex h-[128px] w-full flex-col items-center justify-center gap-1.5 rounded-md border border-dashed bg-muted/40">
+```
+
+Change to:
+
+```tsx
+<div className="relative flex h-[128px] w-full flex-col items-center justify-center gap-1.5 rounded-md border border-dashed bg-muted/40">
+```
+
+- [ ] **Step 2: Insert name overlay after the "No preview" span**
+
+After line 80 (the `"No preview"` span) and before the closing `</div>` of the placeholder, insert:
+
+```tsx
+{(item.businessName ?? item.title) && (
+  <div className="absolute inset-x-0 bottom-0 rounded-b-md bg-linear-to-t from-black via-black/70 to-transparent p-2">
+    <span className="block w-full truncate text-sm text-white">
+      {item.businessName ?? item.title}
+    </span>
+  </div>
+)}
+```
+
+After this change, the full no-thumbnail branch should look like:
+
+```tsx
+<div className="relative flex h-[128px] w-full flex-col items-center justify-center gap-1.5 rounded-md border border-dashed bg-muted/40">
+  <svg
+    viewBox="0 0 48 48"
+    width="40"
+    height="40"
+    fill="none"
+    aria-hidden="true"
+    className="text-muted-foreground/40"
+  >
+    <circle cx="24" cy="24" r="21" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2" />
+    <rect x="11" y="17" width="26" height="18" rx="3" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M20 17v-3h8v3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="24" cy="26" r="5" stroke="currentColor" strokeWidth="1.5" />
+    <circle cx="24" cy="26" r="1.5" fill="currentColor" opacity="0.5" />
+  </svg>
+  <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground/40">No preview</span>
+  {(item.businessName ?? item.title) && (
+    <div className="absolute inset-x-0 bottom-0 rounded-b-md bg-linear-to-t from-black via-black/70 to-transparent p-2">
+      <span className="block w-full truncate text-sm text-white">
+        {item.businessName ?? item.title}
+      </span>
+    </div>
+  )}
+</div>
+```
+
+- [ ] **Step 3: Verify visually**
+
+With the dev server still running, navigate to a photographer detail page that has 360 portfolio items. Switch between portfolio tabs (GoThru, Google, Panorra, Matterport). Verify:
+- Cards **with** a valid thumbnail: name overlay at bottom unchanged ✓
+- Cards **without** a thumbnail (dashed border + camera icon + "No preview"): name now appears at the bottom in the gradient overlay
+- If an item has neither `businessName` nor `title`, no overlay appears (no empty gradient bar)
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add src/components/pages/photographer/photographerPortfolio.tsx
+git commit -m "feat: always show portfolio item name overlay regardless of thumbnail availability"
+```
+
+---
+
+## Acceptance Criteria
+
+### Feature 1 — Service Hours Open/Closed Indicator
+
+- **AC1:** The "Availability / Service hours" section never displays any time string (`09:00`, `18:00`, `17:00`, or any `HH:MM` format).
+- **AC2:** Every available day renders a green dot (`bg-green-500`) followed by the text `"Open"` in normal foreground color.
+- **AC3:** Every unavailable day renders a muted gray dot (`bg-muted-foreground/40`) followed by the text `"Closed"` in muted color (`text-muted-foreground/60`).
+- **AC4:** Both code paths produce the correct output — photographers who have availability data from the API, and those who fall back to the static default list.
+
+### Feature 2 — Portfolio Thumbnail Name Overlay
+
+- **AC1:** Portfolio items with a valid thumbnail continue to show the gradient name overlay at the bottom, unchanged.
+- **AC2:** Portfolio items with no thumbnail (dashed border + camera icon + "No preview") also show the gradient name overlay at the bottom of the card.
+- **AC3:** If an item has neither `businessName` nor `title`, no empty gradient bar is rendered.
+- **AC4:** The behavior is consistent across all four portfolio types: GoThru, Google Street View, Panorra, and Matterport.
