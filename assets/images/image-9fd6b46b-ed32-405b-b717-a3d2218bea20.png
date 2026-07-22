@@ -1,0 +1,55 @@
+# Fix: Failed to Retrieve Review Detail by ID
+
+## Context
+
+There is a feature that allows users to view the detail of a specific review left for a photographer. This includes the reviewer's name, rating, comment, timestamp, and any reply from the photographer.
+
+This feature **was working before**. After a recent code update, the client (frontend/app) stopped being able to read the review detail data correctly.
+
+The update changed how the server sends back the review data — it now wraps the data inside an extra layer called `review`. The client was not expecting this change and therefore fails to read the data.
+
+**In simple terms:**
+
+> Before the update, the server returned the review data directly.
+> After the update, the server returns it wrapped inside a `review` key.
+> The client still expects the old format, so it can no longer read the data.
+
+Additionally, the format of the date and time fields was also changed in the same update, which may also affect how the client displays timestamps.
+
+---
+
+## Goal
+
+Restore the ability for the client to successfully retrieve and display review detail data by ID.
+
+The fix should ensure the client receives the review data in the format it expects — either by:
+- Updating the client to handle the new response format, **or**
+- Reverting the server response to the previous format
+
+---
+
+## Acceptance Criteria
+
+- [ ] When a user opens a review detail page, the review data loads successfully without errors
+- [ ] The reviewer's name, rating, comment, and date are all displayed correctly
+- [ ] If the photographer replied to the review, the reply is also shown correctly
+- [ ] The fix does not break the review list page or any other related page
+- [ ] The behavior is consistent whether the photographer is identified by their numeric ID or their profile slug
+
+---
+
+## What Changed (Summary)
+
+| What | Before | After |
+|------|--------|-------|
+| Response structure | Review data returned directly | Review data wrapped inside `{ "review": { ... } }` |
+| Date/time format | Standard format (e.g. `2026-06-09T04:00:00Z`) | Explicit UTC format with milliseconds (e.g. `2026-06-09T04:00:00.000Z`) |
+| Comment field | Only included when using a slug identifier | Always included regardless of identifier type |
+
+---
+
+## Impact
+
+- **Affected:** Review detail page (get review by ID)
+- **Not affected:** Review list page, sending a review, replying to a review, review by code
+- **Severity:** High — users cannot view review details at all
