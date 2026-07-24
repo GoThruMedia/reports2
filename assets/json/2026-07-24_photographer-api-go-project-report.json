@@ -1,0 +1,22 @@
+{
+  "title": "Photographer API Go Project Report",
+  "repository": "GoThruMedia/gothru-maps-backend-go",
+  "generated_at": "2026-07-24T08:45:45Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-maps-backend-go-50",
+      "display_title": "Issue #50: feat: public Street View thumbnail for google-type photographer portfolio",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-71c10f48-b54b-486f-ad40-fcb5feb6a2da.png\"><img width=\"448\" height=\"34\" alt=\"Image\" src=\"images/image-71c10f48-b54b-486f-ad40-fcb5feb6a2da.png\" style=\"max-width: 100%; height: auto; max-height: 34px;; aspect-ratio: 448 / 34; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Problem</h2>\n<p dir=\"auto\">Adding a photographer portfolio item of type <code class=\"notranslate\">google</code> stores the thumbnail from the page's <code class=\"notranslate\">og:image</code>, which for 360 photospheres is a session-signed <code class=\"notranslate\">lh3.googleusercontent.com/gpms-cs-s/...</code> URL. The token expires, so stored thumbnails start returning <strong>403</strong>.</p>\n<h2 dir=\"auto\">Solution</h2>\n<p dir=\"auto\">New helper <code class=\"notranslate\">helpers.GetGoogleStreetViewThumbnail(value)</code>:</p>\n<ol dir=\"auto\">\n<li>Resolves <code class=\"notranslate\">maps.app.goo.gl</code> short links (extracted <code class=\"notranslate\">ResolveGoogleMapsShortLink</code>, reused by <code class=\"notranslate\">GenerateGoogleMapsEmbedUrl</code>).</li>\n<li>Extracts the panorama id from the <code class=\"notranslate\">!1s&lt;panoid&gt;!2e&lt;type&gt;</code> segment.</li>\n<li>User photospheres (<code class=\"notranslate\">!2e10</code>): mints a fresh public <code class=\"notranslate\">gpms-cs-s</code> URL via the <code class=\"notranslate\">photometa/v1</code> endpoint (no auth, no API key), returned as <code class=\"notranslate\">=w900-h600-k-no</code>.</li>\n<li>Official Street View (<code class=\"notranslate\">!2e0</code>): stable <code class=\"notranslate\">streetviewpixels-pa.googleapis.com/v1/thumbnail</code> URL.</li>\n</ol>\n<p dir=\"auto\">Wired into <code class=\"notranslate\">resolveThumbnailForType</code> (<code class=\"notranslate\">PortfolioTypeGoogle</code>) — used by both create and update portfolio; falls back to the old <code class=\"notranslate\">og:image</code> path for non–street-view links.</p>\n<h2 dir=\"auto\">Files</h2>\n<ul dir=\"auto\">\n<li><code class=\"notranslate\">src/helpers/googleMapsEmbed.go</code> — helper + short-link resolver</li>\n<li><code class=\"notranslate\">src/action/v1/portfolio/portfolioHelper.go</code> — wiring</li>\n<li><code class=\"notranslate\">src/helpers/googleMapsEmbed_test.go</code> — live test</li>\n</ul>\n<h2 dir=\"auto\">Testing</h2>\n<p dir=\"auto\"><code class=\"notranslate\">go test -run TestGetGoogleStreetViewThumbnail_Live ./src/helpers/</code> — 5 real short links must resolve and serve <code class=\"notranslate\">200 image/*</code> publicly (no cookies): 5/5 pass.</p>\n<h2 dir=\"auto\">Known limitation</h2>\n<p dir=\"auto\">Minted <code class=\"notranslate\">gpms-cs-s</code> URLs still expire eventually (marked with <code class=\"notranslate\">ponytail:</code> comment). If stored thumbnails 403 again: re-mint on read, or cache image bytes to our own storage at create time.</p>",
+      "metadata": {
+        "number": 50,
+        "author": "ibnurizqiaramadan",
+        "updated_at": "2026-07-24T04:15:10Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Photographer API Go",
+    "date": "2026-07-24"
+  },
+  "docs": []
+}
