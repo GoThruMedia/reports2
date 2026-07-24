@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — Gothru Navigator</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f6f7f9;
+      --text: #1a1a1a;
+      --muted: #5c5c5c;
+      --card: #fff;
+      --border: #e2e4e8;
+      --warn-bg: #fff8e6;
+      --warn-border: #e6b800;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121418;
+        --text: #eceef2;
+        --muted: #a8adb8;
+        --card: #1a1d24;
+        --border: #2a2f3a;
+        --warn-bg: #2a2415;
+        --warn-border: #b8960a;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+    }
+    .wrap { max-width: 44rem; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+    h1 { font-size: 1.75rem; line-height: 1.25; margin: 0 0 0.5rem; }
+    .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.35rem;
+      margin-bottom: 1.5rem;
+    }
+    .placeholder {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+    .placeholder strong { display: block; margin-bottom: 0.35rem; }
+    h2 { font-size: 1.2rem; margin: 0 0 0.75rem; }
+    p, ul { margin: 0 0 0.85rem; }
+    ul { padding-left: 1.25rem; }
+    li { margin-bottom: 0.35rem; }
+    a { color: #0b57d0; }
+    @media (prefers-color-scheme: dark) {
+      a { color: #8ab4f8; }
+    }
+    .foot { color: var(--muted); font-size: 0.85rem; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Privacy Policy</h1>
+    <p class="meta">Gothru Navigator &middot; Last updated: 4 May 2026</p>
+
+    <div class="placeholder" role="status">
+      <strong>Before publishing this page</strong>
+      Replace the placeholder contact email <code>privacy@example.com</code> with your real privacy / data-protection contact address. If your legal entity name differs from &ldquo;Gothru&rdquo;, update the <strong>Data controller</strong> section accordingly.
+    </div>
+
+    <div class="card">
+      <p>
+        This Privacy Policy describes how <strong>Gothru</strong> (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;) handles information when you use the <strong>Gothru Navigator</strong> mobile application (the &ldquo;App&rdquo;). By using the App, you agree to this policy. If you do not agree, please do not use the App.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>1. Data controller</h2>
+      <p>
+        The data controller for the App is <strong>Gothru</strong>. For privacy-related requests, contact us at:
+        <a href="mailto:privacy@example.com">privacy@example.com</a> <em>(replace with your live address before publication)</em>.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>2. Information we collect and generate</h2>
+      <p>Depending on how you use the App, the following may apply:</p>
+      <ul>
+        <li>
+          <strong>Email address (My Tours).</strong> If you choose to enter an email address to load your tours, that address is used as described in sections 3 and 4. A copy of the email may be stored <strong>locally on your device</strong> so you do not have to re-enter it every time (for example in app settings / saved app data on the device).
+        </li>
+        <li>
+          <strong>App and server content.</strong> When you request your tour list, our servers return information needed to show your tours in the App (for example tour metadata and related content as provided by the service). We do not describe every field here; in general it is the data required to display and operate the tour experience.
+        </li>
+        <li>
+          <strong>Panorama images and media store.</strong> The App may <strong>save panorama image files to your device&rsquo;s media / photo storage</strong> when you use features that store those images. We do not access your precise or coarse <strong>location</strong> for this purpose in the version of the App described by this policy.
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>3. How we use your information</h2>
+      <ul>
+        <li>To identify and display tours associated with the email you provide in My Tours.</li>
+        <li>To keep the My Tours experience convenient by optionally remembering the email on your device.</li>
+        <li>To provide core App features, including loading and presenting tour and panorama content from our systems.</li>
+        <li>To save panorama images to your device when you use the relevant feature.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>4. Email and our servers</h2>
+      <p>
+        When you request your tours, your email address may be <strong>sent to Gothru&rsquo;s servers over a secure connection</strong> so the service can return the correct tour data. In the configuration this policy is written for, that request is used to <strong>process your tour listing</strong> and is <strong>not described here as being retained on our servers as a permanent profile after that request</strong>. Actual retention practices must match your backend implementation and logs—please verify internally before relying on this wording.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>5. Local storage on your device</h2>
+      <p>
+        Information such as your My Tours email may be stored in local app data on your device until you clear app data, uninstall the App, or we provide an in-app control to remove it. Panorama files saved to your media library remain until you delete them using your device&rsquo;s gallery or file tools.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>6. Third-party analytics and advertising</h2>
+      <p>
+        This policy version assumes the App does <strong>not</strong> integrate third-party advertising or analytics SDKs for profiling beyond what is necessary to communicate with Gothru&rsquo;s own services to provide the App. If you add analytics, crash reporting, ads, or other SDKs later, you must update this policy and your store declarations.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>7. Security</h2>
+      <p>
+        We use industry-standard measures such as <strong>encrypted connections (HTTPS)</strong> for data sent between the App and our services, where applicable. No method of transmission or storage is 100% secure.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>8. Your rights and choices</h2>
+      <p>
+        Depending on where you live, you may have rights to access, correct, or delete personal information, or to object to certain processing. To exercise these rights or ask questions, contact us at
+        <a href="mailto:privacy@example.com">privacy@example.com</a> (replace with your live address). You can also clear local app data or uninstall the App to remove information stored on your device.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>9. Children</h2>
+      <p>
+        The App is not intended for children under the age at which parental consent is required in your region. We do not knowingly collect personal information from children for marketing. If you believe we have collected such information, contact us and we will take appropriate steps.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>10. Changes to this policy</h2>
+      <p>
+        We may update this Privacy Policy from time to time. The &ldquo;Last updated&rdquo; date at the top will change when we do. Continued use of the App after changes means you accept the updated policy, unless applicable law requires a different process.
+      </p>
+    </div>
+
+    <p class="foot">
+      This document is provided as a practical summary for your product and the Google Play listing. It is <strong>not</strong> a substitute for legal advice. Have qualified counsel review it, especially if you operate in multiple countries or change data practices.
+    </p>
+  </div>
+</body>
+</html>
