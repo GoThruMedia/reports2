@@ -1,0 +1,32 @@
+{
+  "title": "GoThru 3D Floormap - UI Design",
+  "repository": "GoThruMedia/gothru-3d-floormap",
+  "generated_at": "2026-07-28T09:02:44Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-448",
+      "display_title": "Issue #448: Add Button and Create Modal of Create New Empty Project",
+      "main_description_html": "<p dir=\"auto\">PRD</p>\n<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"4994424980\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/gothru-3d-floormap/issues/427\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/gothru-3d-floormap/issues/427/hovercard\" href=\"https://github.com/GoThruMedia/gothru-3d-floormap/issues/427\">#427</a></li>\n</ul>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/create-new-empty-project</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-6c933e86-5401-4ec2-8f2b-4636b357c9ac.png\"><img width=\"1919\" height=\"941\" alt=\"Image\" src=\"images/image-6c933e86-5401-4ec2-8f2b-4636b357c9ac.png\" style=\"max-width: 100%; height: auto; max-height: 941px;; aspect-ratio: 1919 / 941; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-bb22d501-e248-486d-9dbc-8829e9b58353.png\"><img width=\"1919\" height=\"941\" alt=\"Image\" src=\"images/image-bb22d501-e248-486d-9dbc-8829e9b58353.png\" style=\"max-width: 100%; height: auto; max-height: 941px;; aspect-ratio: 1919 / 941; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 448,
+        "author": "anurdin01",
+        "updated_at": "2026-07-28T08:52:41Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-452",
+      "display_title": "Issue #452: Implement Create Empty Project With 1 Empty Floor",
+      "main_description_html": "<p dir=\"auto\">PRD</p>\n<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"4994424980\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/gothru-3d-floormap/issues/427\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/gothru-3d-floormap/issues/427/hovercard\" href=\"https://github.com/GoThruMedia/gothru-3d-floormap/issues/427\">#427</a></li>\n</ul>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/create-new-empty-project</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-fc6dff3b-3572-421c-ae5a-ade2ea89421d.png\"><img width=\"1919\" height=\"944\" alt=\"Image\" src=\"images/image-fc6dff3b-3572-421c-ae5a-ade2ea89421d.png\" style=\"max-width: 100%; height: auto; max-height: 944px;; aspect-ratio: 1919 / 944; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-6ffff65f-4abe-4f42-8827-bfdf941d65be.png\"><img width=\"1919\" height=\"940\" alt=\"Image\" src=\"images/image-6ffff65f-4abe-4f42-8827-bfdf941d65be.png\" style=\"max-width: 100%; height: auto; max-height: 940px;; aspect-ratio: 1919 / 940; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 452,
+        "author": "anurdin01",
+        "updated_at": "2026-07-28T08:52:23Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru 3D Floormap",
+    "date": "2026-07-28"
+  },
+  "docs": []
+}
