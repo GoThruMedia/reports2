@@ -1,0 +1,602 @@
+{
+  "version": "1.0.0",
+  "product": "Panorra",
+  "topics": [
+    {
+      "id": "getting-started",
+      "title": "Getting Started",
+      "description": "Learn the basics of Panorra and how to begin exploring immersive content.",
+      "icon": "rocket",
+      "faqs": [
+        {
+          "id": "what-is-panorra",
+          "question": "What is Panorra?",
+          "answer": "Panorra is a platform for creating, sharing, and discovering immersive panorama and 360 content. You can publish posts, explore places, follow creators, comment, bookmark content, and browse visual experiences by category or location.",
+          "keywords": [
+            "Panorra",
+            "platform",
+            "360 content",
+            "panorama"
+          ]
+        },
+        {
+          "id": "how-do-i-create-an-account",
+          "question": "How do I create a Panorra account?",
+          "answer": "Open the registration page, enter the required account details, accept the applicable terms, and submit the form. You may need to verify your email before all account features become available.",
+          "keywords": [
+            "register",
+            "sign up",
+            "account"
+          ]
+        },
+        {
+          "id": "why-verify-email",
+          "question": "Why should I verify my email?",
+          "answer": "Email verification helps protect your account, confirms that you control the email address, and may unlock publishing, recovery, notification, or community features.",
+          "keywords": [
+            "email verification",
+            "account security"
+          ]
+        },
+        {
+          "id": "how-do-i-sign-in",
+          "question": "How do I sign in?",
+          "answer": "Use the email address or username linked to your account and enter your password on the sign-in page. If you cannot sign in, use the password recovery option or contact support.",
+          "keywords": [
+            "login",
+            "sign in",
+            "password"
+          ]
+        },
+        {
+          "id": "what-can-i-do-on-panorra",
+          "question": "What can I do on Panorra?",
+          "answer": "You can publish immersive posts, explore panorama and 360 content, follow creators, like and comment on posts, save bookmarks, organize saved content, and discover places by category or location.",
+          "keywords": [
+            "features",
+            "explore",
+            "publish"
+          ]
+        },
+        {
+          "id": "supported-devices",
+          "question": "Which devices can I use with Panorra?",
+          "answer": "Panorra is designed for modern web and mobile experiences. Feature availability and immersive playback quality may vary by device, browser, operating system, and hardware capability.",
+          "keywords": [
+            "device",
+            "browser",
+            "mobile"
+          ]
+        },
+        {
+          "id": "how-do-i-find-help",
+          "question": "How do I find help in the Help Center?",
+          "answer": "Use the Help Center search field or select a topic card. The FAQ list will filter automatically based on the selected topic.",
+          "keywords": [
+            "help center",
+            "search",
+            "topic"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uploading-content",
+      "title": "Uploading Content",
+      "description": "Create, publish, edit, and manage panorama and 360 posts.",
+      "icon": "cloud-upload",
+      "faqs": [
+        {
+          "id": "types-of-posts",
+          "question": "What types of posts can I create?",
+          "answer": "You can create panorama posts, 360 video posts, and other supported immersive formats. A post may include a description, category, location, thumbnail, preview image, and immersive media file.",
+          "keywords": [
+            "post type",
+            "panorama",
+            "360 video"
+          ]
+        },
+        {
+          "id": "publish-a-post",
+          "question": "How do I publish a post?",
+          "answer": "Create a post, upload the required media, add its details, review the information, and select Publish. The post may appear as published, unpublished, pending, or inactive depending on its status and review state.",
+          "keywords": [
+            "publish",
+            "upload",
+            "post"
+          ]
+        },
+        {
+          "id": "what-is-panorama-post",
+          "question": "What is a panorama post?",
+          "answer": "A panorama post contains immersive panoramic media that viewers can explore interactively. It may include a thumbnail, preview image, full panorama file, and a web-optimized version.",
+          "keywords": [
+            "panorama post",
+            "immersive image"
+          ]
+        },
+        {
+          "id": "what-is-360-video-post",
+          "question": "What is a 360 video post?",
+          "answer": "A 360 video post contains immersive video that allows viewers to look around the scene while it plays. Playback controls may vary by device and supported format.",
+          "keywords": [
+            "360 video",
+            "immersive video"
+          ]
+        },
+        {
+          "id": "required-post-fields",
+          "question": "What information should I add to a post?",
+          "answer": "Add a clear title or description, the correct category, an accurate location when relevant, a thumbnail, a preview, and complete panorama or 360 media. Complete metadata improves discovery and presentation.",
+          "keywords": [
+            "metadata",
+            "description",
+            "thumbnail"
+          ]
+        },
+        {
+          "id": "change-post-category",
+          "question": "Can I change a post category later?",
+          "answer": "Yes, if editing is available for that post. Select a category that accurately reflects the content because categories affect browsing, recommendations, and analytics.",
+          "keywords": [
+            "edit category",
+            "post category"
+          ]
+        },
+        {
+          "id": "create-post-without-location",
+          "question": "Can I create a post without a location?",
+          "answer": "Yes. However, adding a structured location is recommended because it improves search, nearby discovery, and map-based browsing.",
+          "keywords": [
+            "location",
+            "post"
+          ]
+        },
+        {
+          "id": "little-planet",
+          "question": "What does “little planet” mean?",
+          "answer": "Little planet is a visual effect that transforms a panorama into a spherical, planet-like composition. Availability may depend on the post format and editing tools.",
+          "keywords": [
+            "little planet",
+            "effect",
+            "panorama"
+          ]
+        },
+        {
+          "id": "animation-filters",
+          "question": "What are animation filters?",
+          "answer": "Animation filters are motion or visual settings applied to immersive content. They can change how a panorama moves, transitions, or appears during playback.",
+          "keywords": [
+            "animation",
+            "filters",
+            "effects"
+          ]
+        },
+        {
+          "id": "edit-delete-hide-post",
+          "question": "Can I edit, hide, unpublish, or delete a post?",
+          "answer": "Available controls may let you edit, hide, unpublish, deactivate, or delete a post. Hidden, unpublished, or inactive posts normally do not appear in public discovery.",
+          "keywords": [
+            "edit post",
+            "delete post",
+            "hide post"
+          ]
+        },
+        {
+          "id": "improve-post-performance",
+          "question": "How can I improve my post performance?",
+          "answer": "Use a clear description, select the correct category, add accurate location data, upload high-quality immersive media, use a strong thumbnail, and respond to relevant comments.",
+          "keywords": [
+            "performance",
+            "engagement",
+            "discovery"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "account-profile",
+      "title": "Account & Profile",
+      "description": "Manage your identity, preferences, profile details, and account status.",
+      "icon": "user",
+      "faqs": [
+        {
+          "id": "update-profile",
+          "question": "How do I update my profile?",
+          "answer": "Open your account settings and edit available fields such as username, full name, avatar, country, birthday, gender, and about-me information. Save your changes before leaving the page.",
+          "keywords": [
+            "profile",
+            "edit profile",
+            "settings"
+          ]
+        },
+        {
+          "id": "username-vs-full-name",
+          "question": "What is the difference between username and full name?",
+          "answer": "Your username is your unique public handle. Your full name is the display name shown in profile or creator information. Different pages may show one or both.",
+          "keywords": [
+            "username",
+            "full name",
+            "display name"
+          ]
+        },
+        {
+          "id": "profile-information-use",
+          "question": "Why is my profile information used?",
+          "answer": "Profile information can identify you as a creator, personalize your experience, support discovery, and improve account or audience insights. Only provide information you are comfortable sharing.",
+          "keywords": [
+            "profile data",
+            "personalization"
+          ]
+        },
+        {
+          "id": "language-theme-settings",
+          "question": "Can I change my language or theme settings?",
+          "answer": "Yes, where supported. Preferences may include language, theme, color style, listing style, thumbnail size, and timezone.",
+          "keywords": [
+            "language",
+            "theme",
+            "timezone"
+          ]
+        },
+        {
+          "id": "change-password",
+          "question": "How do I change my password?",
+          "answer": "Open the security section of your account settings, enter your current password, then create and confirm a new password. Use a strong password that you do not reuse elsewhere.",
+          "keywords": [
+            "password",
+            "security"
+          ]
+        },
+        {
+          "id": "forgot-password",
+          "question": "What should I do if I forgot my password?",
+          "answer": "Select the password recovery option on the sign-in page and follow the instructions sent to your registered email address. Check your spam folder if the message does not arrive.",
+          "keywords": [
+            "forgot password",
+            "reset password"
+          ]
+        },
+        {
+          "id": "inactive-account",
+          "question": "Why is my account inactive?",
+          "answer": "An account may become inactive because of account settings, incomplete setup, moderation, security review, or administrative action. Check for account notices or contact support for clarification.",
+          "keywords": [
+            "inactive account",
+            "account status"
+          ]
+        },
+        {
+          "id": "delete-account",
+          "question": "How do I delete my account?",
+          "answer": "Open your account or privacy settings and use the account deletion option if available. Review the consequences carefully because deletion may remove access to posts, comments, bookmarks, and profile data.",
+          "keywords": [
+            "delete account",
+            "close account"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "privacy-safety",
+      "title": "Privacy & Safety",
+      "description": "Understand privacy controls, account protection, reporting, and youth safety.",
+      "icon": "shield",
+      "faqs": [
+        {
+          "id": "location-use",
+          "question": "How does Panorra use my location?",
+          "answer": "Location can help organize posts, improve search, show nearby content, and support map-based discovery. Profile location and post location are separate and may be managed independently.",
+          "keywords": [
+            "location privacy",
+            "nearby content"
+          ]
+        },
+        {
+          "id": "control-post-visibility",
+          "question": "Who can see my uploaded content?",
+          "answer": "Visibility depends on the post status, account settings, and available privacy controls. Public and published posts may appear in feeds, search, categories, recommendations, and map views.",
+          "keywords": [
+            "visibility",
+            "privacy",
+            "public post"
+          ]
+        },
+        {
+          "id": "report-post",
+          "question": "How do I report a problem with a post?",
+          "answer": "Use the report or support option available on the post page. Include the post link, a clear issue description, and screenshots when possible.",
+          "keywords": [
+            "report",
+            "post",
+            "moderation"
+          ]
+        },
+        {
+          "id": "report-user-comment",
+          "question": "How do I report a user or comment?",
+          "answer": "Use the reporting control next to the profile, post, or comment. Select the most accurate reason and provide enough context for the moderation team to review the issue.",
+          "keywords": [
+            "report user",
+            "report comment",
+            "abuse"
+          ]
+        },
+        {
+          "id": "block-user",
+          "question": "Can I block another user?",
+          "answer": "If blocking is available, open the user’s profile or account menu and select Block. Blocking may limit that user’s ability to interact with you or view certain activity.",
+          "keywords": [
+            "block",
+            "user safety"
+          ]
+        },
+        {
+          "id": "personal-information-protection",
+          "question": "How can I protect my personal information?",
+          "answer": "Avoid sharing sensitive details in your profile, posts, comments, or location fields. Use a strong password, verify your email, review privacy settings, and report suspicious activity.",
+          "keywords": [
+            "personal data",
+            "privacy",
+            "security"
+          ]
+        },
+        {
+          "id": "youth-safety",
+          "question": "What safety guidance is available for younger users?",
+          "answer": "Panorra’s Safety Youth resources should explain age-appropriate privacy practices, safe sharing, location awareness, reporting tools, and how parents or guardians can support younger users.",
+          "keywords": [
+            "youth safety",
+            "young users",
+            "parents"
+          ]
+        },
+        {
+          "id": "remove-location-data",
+          "question": "Can I remove location information from a post?",
+          "answer": "If post editing is available, remove or update the location before saving. Removing location information may reduce map and nearby discovery for that post.",
+          "keywords": [
+            "remove location",
+            "privacy"
+          ]
+        },
+        {
+          "id": "privacy-policy",
+          "question": "Where can I read Panorra’s privacy policy?",
+          "answer": "Open Helpful Resources in the Help Center and select Privacy Policy to review how Panorra collects, uses, stores, and protects information.",
+          "keywords": [
+            "privacy policy",
+            "data"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "explore-connect",
+      "title": "Explore & Connect",
+      "description": "Discover content, follow creators, interact with posts, and save favorites.",
+      "icon": "globe",
+      "faqs": [
+        {
+          "id": "categories-work",
+          "question": "How do categories work?",
+          "answer": "Categories organize posts by topic, such as Leisure, Real Estate, or Business. Choosing the correct category improves browsing, search, recommendations, and analytics.",
+          "keywords": [
+            "categories",
+            "discovery"
+          ]
+        },
+        {
+          "id": "location-data-work",
+          "question": "How does location data work?",
+          "answer": "Posts can include structured location data such as place name, address, latitude, and longitude. This information supports map views, nearby results, and place-based discovery.",
+          "keywords": [
+            "location data",
+            "map",
+            "latitude"
+          ]
+        },
+        {
+          "id": "find-posts-near-me",
+          "question": "How can I find posts near me?",
+          "answer": "Use location-based discovery, search, or map features where available. Posts with accurate latitude and longitude are more likely to appear in nearby results.",
+          "keywords": [
+            "near me",
+            "nearby",
+            "map"
+          ]
+        },
+        {
+          "id": "comments-work",
+          "question": "How do comments work?",
+          "answer": "Users can comment on posts and may be able to reply to other comments. Comments help creators receive feedback and support discussion around content.",
+          "keywords": [
+            "comments",
+            "replies"
+          ]
+        },
+        {
+          "id": "edit-comment",
+          "question": "Can I edit a comment?",
+          "answer": "If comment editing is supported, open the comment menu and select Edit. Updated comments may be marked as edited.",
+          "keywords": [
+            "edit comment"
+          ]
+        },
+        {
+          "id": "bookmarks",
+          "question": "What are bookmarks?",
+          "answer": "Bookmarks let you save posts for later. Depending on available features, you may also organize saved posts into folders or collections.",
+          "keywords": [
+            "bookmarks",
+            "saved posts",
+            "folders"
+          ]
+        },
+        {
+          "id": "followers",
+          "question": "How do followers work?",
+          "answer": "Following a creator helps you keep up with their posts and activity. Other users can follow you when they want to see more of your content.",
+          "keywords": [
+            "followers",
+            "following",
+            "creator"
+          ]
+        },
+        {
+          "id": "subscribe-followers",
+          "question": "What does subscribe mean for followers?",
+          "answer": "A subscribed follower actively receives or prioritizes updates from a creator. Subscription status may influence notifications or follower-based recommendations.",
+          "keywords": [
+            "subscribe",
+            "notifications",
+            "followers"
+          ]
+        },
+        {
+          "id": "likes",
+          "question": "How do likes work?",
+          "answer": "Likes let users show appreciation for posts or comments. They may contribute to engagement metrics and help Panorra identify content that users find valuable.",
+          "keywords": [
+            "likes",
+            "engagement"
+          ]
+        },
+        {
+          "id": "popular-content",
+          "question": "How is popular content determined?",
+          "answer": "Popularity may consider likes, comments, bookmarks, followers, recent activity, content quality, and internal relevance or scoring signals.",
+          "keywords": [
+            "popular",
+            "ranking",
+            "engagement"
+          ]
+        },
+        {
+          "id": "recommendations",
+          "question": "How are recommendations generated?",
+          "answer": "Recommendations may use category, location, post type, creator activity, engagement, follows, bookmarks, freshness, and internal content scoring.",
+          "keywords": [
+            "recommendations",
+            "personalization"
+          ]
+        },
+        {
+          "id": "discovery-data",
+          "question": "What post data improves discovery the most?",
+          "answer": "The most useful fields are category, post type, location, description, thumbnail, preview, and complete panorama or 360 media.",
+          "keywords": [
+            "discovery",
+            "metadata",
+            "search"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "troubleshooting",
+      "title": "Troubleshooting",
+      "description": "Resolve common publishing, media, account, and visibility issues.",
+      "icon": "settings",
+      "faqs": [
+        {
+          "id": "post-not-visible",
+          "question": "Why is my post not visible?",
+          "answer": "The post may be unpublished, pending review, inactive, hidden, deleted, or missing required media. Check that it is active, published, complete, and allowed under the applicable content rules.",
+          "keywords": [
+            "post not visible",
+            "hidden post",
+            "publish status"
+          ]
+        },
+        {
+          "id": "post-pending",
+          "question": "What does pending mean?",
+          "answer": "Pending means the post is waiting for processing, review, media conversion, moderation, or another required step before it becomes fully available.",
+          "keywords": [
+            "pending",
+            "processing",
+            "review"
+          ]
+        },
+        {
+          "id": "post-inactive",
+          "question": "What does inactive mean?",
+          "answer": "Inactive means a post or account is not currently available for normal public activity or discovery. Review its settings or contact support if you did not expect this status.",
+          "keywords": [
+            "inactive",
+            "status"
+          ]
+        },
+        {
+          "id": "missing-location",
+          "question": "Why is my post location missing?",
+          "answer": "No location may have been selected, the location data may not have saved correctly, or the post may have been created without structured place information. Edit the post and add the location again.",
+          "keywords": [
+            "missing location",
+            "location error"
+          ]
+        },
+        {
+          "id": "missing-images-previews",
+          "question": "Why does my post have missing images or previews?",
+          "answer": "The thumbnail, preview, or panorama file may not have uploaded correctly, may still be processing, may use an unsupported format, or may be incomplete after an import.",
+          "keywords": [
+            "missing image",
+            "preview",
+            "upload error"
+          ]
+        },
+        {
+          "id": "upload-failed",
+          "question": "Why did my upload fail?",
+          "answer": "Uploads can fail because of an unstable connection, unsupported file type, file size limit, expired session, or browser issue. Retry on a stable connection and confirm that the file meets the supported requirements.",
+          "keywords": [
+            "upload failed",
+            "file type",
+            "file size"
+          ]
+        },
+        {
+          "id": "360-content-not-loading",
+          "question": "Why is my panorama or 360 video not loading?",
+          "answer": "The media may still be processing, the browser may not support the required playback features, the file may be damaged, or the connection may be too slow. Refresh the page, try another supported browser, and verify the source file.",
+          "keywords": [
+            "not loading",
+            "360 video",
+            "panorama"
+          ]
+        },
+        {
+          "id": "changes-not-saved",
+          "question": "Why were my changes not saved?",
+          "answer": "Your session may have expired, a required field may be missing, or a network error may have interrupted the request. Reload the page, sign in again if needed, and retry the update.",
+          "keywords": [
+            "save error",
+            "session expired"
+          ]
+        },
+        {
+          "id": "cannot-comment-follow-like",
+          "question": "Why can’t I comment, follow, like, or bookmark?",
+          "answer": "The feature may require sign-in, email verification, an active account, or permission to interact with the selected content. The content owner may also have limited interactions.",
+          "keywords": [
+            "cannot comment",
+            "cannot follow",
+            "permissions"
+          ]
+        },
+        {
+          "id": "contact-support",
+          "question": "How do I contact support?",
+          "answer": "Use the Help Center contact form or available support channel. Include your account email, username, affected post link, device or browser details, screenshots, and a concise description of the issue.",
+          "keywords": [
+            "support",
+            "contact",
+            "help"
+          ]
+        }
+      ]
+    }
+  ]
+}
