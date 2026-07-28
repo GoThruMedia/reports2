@@ -1,0 +1,32 @@
+{
+  "title": "GoThru Dashboard FE Project Report",
+  "repository": "GoThruMedia/gothru-dashboard",
+  "generated_at": "2026-07-28T07:31:18Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4173",
+      "display_title": "Issue #4173: Delete from Street View button has incorrect rounded corners",
+      "main_description_html": "<h3 dir=\"auto\">Description</h3>\n<p dir=\"auto\">On the Tour Detail page, the <strong>Delete from Street View</strong> button appears fully rounded even though it is grouped with the <strong>Open Street View Contribution Page</strong> button.</p>\n<p dir=\"auto\">The two buttons should look like one connected button group. The shared corners between them should not be rounded.</p>\n<h3 dir=\"auto\">Expected Result</h3>\n<ul dir=\"auto\">\n<li>The <strong>Delete from Street View</strong> button is rounded only on its outer right corners.</li>\n<li>Its left side connects seamlessly with the <strong>Open Street View Contribution Page</strong> button.</li>\n<li>Existing button actions and states continue to work as before.</li>\n</ul>",
+      "metadata": {
+        "number": 4173,
+        "author": "alfarez21",
+        "updated_at": "2026-07-28T07:27:30Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4175",
+      "display_title": "Issue #4175: Refresh panorama PlaceID after successful update",
+      "main_description_html": "<h2 dir=\"auto\">Problem</h2>\n<p dir=\"auto\">After changing a panorama PlaceID from the panorama detail page, the GoThru detail table continues showing the previous value until the page is reloaded.</p>\n<h2 dir=\"auto\">Expected behavior</h2>\n<ul dir=\"auto\">\n<li>A successful PlaceID update immediately appears in the GoThru detail table.</li>\n<li>The existing success toast remains and the modal closes.</li>\n<li>Panorama details are refetched after the local update so the UI reconciles with the persisted server value.</li>\n<li>A failed update leaves the existing table value unchanged and keeps the modal open.</li>\n<li>Reopening the modal shows the current PlaceID.</li>\n</ul>\n<h2 dir=\"auto\">Scope</h2>\n<p dir=\"auto\">Keep existing subscription access, input validation, Google PlaceID controls, error handling, and unrelated panorama actions unchanged.</p>",
+      "metadata": {
+        "number": 4175,
+        "author": "alfarez21",
+        "updated_at": "2026-07-28T07:27:55Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Dashboard FE",
+    "date": "2026-07-28"
+  },
+  "docs": []
+}
