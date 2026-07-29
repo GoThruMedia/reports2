@@ -1,0 +1,209 @@
+# Product Requirements Document — Google Drive Sync
+
+**Date:** 2026-07-27
+**Product:** PhotoViewer (photo & video gallery app)
+**Status:** Approved for planning
+
+---
+
+## 1. Overview
+
+PhotoViewer can already send photos and videos to a single Google Drive account. This
+feature turns that one-way, one-account backup into a proper Drive integration: the user
+can connect **more than one** Google account (personal and work), choose which one they're
+backing up to, see **how much room is left** in each, browse **what's already safely on
+Drive**, and **pull items back down** onto the phone when they're missing locally.
+
+The goal is that a user can answer three questions in a couple of taps: *is my library
+backed up, where did it go, and can I get it back?*
+
+## 2. The problem
+
+- The app supports exactly one Google account. Users who keep personal and work Drives
+  separate have to sign out and back in to change destination, which loses context.
+- Backup is one-way. Once a photo is deleted from the phone or the user moves to a new
+  device, the app offers no way to bring it back — even though the file is sitting in the
+  user's own Drive.
+- Nothing in the app shows how much Drive storage is left. A backup can run for several
+  minutes and then fail because the account was full, with the wasted time and data
+  already spent.
+- Users can't see what's actually on Drive from inside the app, so "am I backed up?" is a
+  question they have to leave the app to answer.
+
+## 3. Who it's for
+
+Existing gallery users who already keep their photos on Google Drive — particularly those
+with a separate work account, those moving to a new phone, and those who clear photos off
+their device to save space and later want them back.
+
+## 4. What it does
+
+- **Connect and disconnect multiple Google accounts**, kept in a list the user can manage.
+- **Choose which connected account** is currently in use.
+- **Back up** selected photos and videos to that account's backup folder.
+- **See what's on Drive** for that account, and **download items back** to the device.
+- **Show storage information** for each connected account — total, used, free, and how
+  much of it this app's backups take.
+
+## 5. What "sync" means here — an important limit
+
+The app uses Google's **per-file permission** (`drive.file`), which means it can only ever
+see the files **it created itself**. It cannot read the rest of the user's Drive.
+
+Two consequences the whole design follows from:
+
+- **Everything in this version works with the app's own backup folder.** "See what's on
+  Drive" means the backup folder, not the user's whole Drive.
+- **Importing photos from a folder the user made themselves** — one they filled from a
+  laptop, say — is **not possible in this version**. It requires a broader Google
+  permission that only unlocks after passing a third-party security assessment (an annual
+  cost with several weeks of lead time). That capability is planned as **Phase 2** and is
+  described in section 11.
+
+This limit is deliberate: it keeps the feature shippable now, and it means the app can
+never touch anything the user didn't hand it.
+
+## 6. How it works for the user
+
+### 6.1 The accounts list
+
+A **Google Drive** entry in the gallery menu opens a screen listing every connected
+account. Each row shows the account's picture and email, its **storage** (used of total,
+and how much of that is this app's backup folder), how many items have been backed up to
+it, and whether it's the one currently in use.
+
+From here the user can **Add account**, **switch** to another connected account, or
+**disconnect** one.
+
+### 6.2 One account in use at a time
+
+Accounts stay in the list once connected, but only **one is in use at any moment**.
+Switching is a single tap. Most of the time the change is instant; occasionally Google
+shows a brief sign-in prompt, so the interface should not promise that switching is always
+silent.
+
+If an account can no longer be used — the password changed, or access was withdrawn from
+the user's Google account settings — it **stays in the list** showing a **Reconnect**
+prompt, with its backup history intact. Removing it silently would look like data loss
+even though nothing was lost.
+
+### 6.3 The backup folder
+
+Each account gets one folder created by the app. On connecting an account, the app looks
+for an existing folder named **GoThru** — the name used by earlier versions — and adopts it
+if found, so existing backups stay visible and nothing moves. If there isn't one, it
+creates a folder named **PhotoViewer**.
+
+There is no folder picker in this version, for the reason given in section 5: the app can
+only see folders it made itself.
+
+### 6.4 Storage information
+
+Storage figures are refreshed when an account is connected and whenever the accounts
+screen is opened.
+
+They also do real work: **before a backup starts, the app compares the size of what's
+selected against the free space in the account** and warns the user up front if it won't
+fit — instead of failing partway through a multi-gigabyte upload.
+
+### 6.5 Backing up
+
+The backup view names the account it's sending to. The user selects everything or picks
+individual items, and watches live progress. **Stop** finishes the uploads already in
+flight and can be resumed later. Anything already in that account's folder is skipped
+automatically, so re-running a backup only sends what's new.
+
+**"Backed up" is per account.** A photo saved to the personal Drive shows as *not* backed
+up while the work account is in use. This is correct behaviour, but it will read as a bug
+unless the interface is explicit — so badges, counts and empty states must always name the
+account they refer to.
+
+### 6.6 Seeing what's on Drive, and getting it back
+
+An **On Drive** view lists the current account's backup folder, grouped by date, newest
+first, with a thumbnail, name and size for each item.
+
+Every item is marked **On this device** or **Not on this device**. Items already on the
+phone are not selectable by default, so the ordinary path can't create duplicates.
+
+The user selects items that are missing and taps **Download**. They're saved into the
+device's gallery — with progress and a **Stop** button, as with backup — and then appear in
+the app's library.
+
+### 6.7 Disconnecting
+
+Disconnecting an account withdraws the app's access and removes the account from the list.
+
+- **Files on Drive are never touched.** They belong to the user.
+- **The record of what was backed up there is kept**, so reconnecting the same account
+  restores the full picture immediately rather than re-reading everything.
+
+## 7. Safety principles
+
+- **The app can only see what it put there.** By design it has no access to the rest of the
+  user's Drive.
+- **Nothing is deleted, anywhere, by this feature.** Deletions do not travel between the
+  phone and Drive in either direction.
+- **Downloads can't quietly duplicate a library.** Items already on the device are marked
+  and excluded from selection by default.
+- **No silent surprises about which account is in use.** Every screen that shows backup
+  state names the account it belongs to.
+- **Fail before spending the user's data, not during.** The free-space check runs before a
+  backup starts.
+
+## 8. Success metrics
+
+**Adoption** — share of users who connect at least one account, and the **distribution of
+accounts per user**. The second number is the honest test of whether multi-account earned
+its complexity; if almost everyone connects exactly one, that's a finding.
+
+**Backup** — sessions started versus completed, total volume uploaded, and average session
+size.
+
+**Restore** — share of users who ever download something back, and how much.
+
+**Health** — re-authorization failure rate, reconnect rate, disconnect rate, and how often
+the "won't fit in free space" warning fires.
+
+## 9. Out of scope for this version
+
+- Browsing or importing folders the user created themselves (see Phase 2, section 11).
+- Automatic or background backup — backup is started by the user, every time.
+- Deletion travelling between the device and Drive, in either direction.
+- Shared drives and Team Drives.
+- Backing up to several accounts at once, or moving files between connected accounts.
+- Renaming, editing or organising Drive files from inside the app.
+- **Google Photos.** Users conflate the two, so this is worth stating plainly: this feature
+  works with Google Drive only and does not read or write a user's Google Photos library.
+  That is a separate service with its own permissions.
+
+## 10. Assumptions & notes
+
+- Uploads use each user's own Drive storage quota. The developer is never billed for it.
+- Backups are matched to their original photo by a tag the app writes on each uploaded
+  file, so "already backed up?" is an exact lookup rather than a guess from name or size.
+- The same tag decides **On this device**: an item counts as present only when the phone
+  still holds the original it was uploaded from. A file that reaches Drive by some other
+  route, or one whose local original is gone, shows as **Not on this device** and can be
+  downloaded. The app does not compare file names or contents to guess at matches.
+- Existing users who already backed up to the old **GoThru** folder keep those backups and
+  see them in the On Drive view; nothing is renamed or moved.
+- On phones that grant access only to selected photos, backup covers what the app can see,
+  as elsewhere in the app.
+- Switching accounts may occasionally require a Google sign-in prompt. This is a platform
+  behaviour, not something the app can guarantee away.
+
+## 11. Phase 2 — importing from the user's own Drive folders
+
+The most-requested version of "sync a Drive folder" is choosing any folder in Drive and
+bringing its photos and videos into the gallery. This needs a broader Google permission
+than the app uses today, which in turn requires:
+
+- Google OAuth verification, plus a **third-party security assessment** — a recurring
+  annual cost with several weeks of lead time.
+- The feature cannot be released until that assessment passes.
+
+It is therefore deliberately separated from this version, so multi-account backup, restore
+and storage information can ship without waiting on an external review. If Phase 2 is
+approved, the assessment should be started early, since its lead time — not the
+development work — is the long pole.
