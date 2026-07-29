@@ -1,0 +1,22 @@
+{
+  "title": "MapThru API Go Project Report",
+  "repository": "GoThruMedia/Gothru-3d-Floormap-API-GO",
+  "generated_at": "2026-07-29T06:22:59Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-api-go-119",
+      "display_title": "Issue #119: PATCH /v1/projects/:id silently downgrades published status",
+      "main_description_html": "<p dir=\"auto\"><code class=\"notranslate\">PATCH /v1/projects/:id</code> (<code class=\"notranslate\">src/action/v1/project/update.go</code>) passes a <code class=\"notranslate\">status</code> field straight through to the DB. The FE editor sends <code class=\"notranslate\">status: \"edited\"</code> on every save, so a <code class=\"notranslate\">published</code> project is silently downgraded — the dashboard then shows it as \"Draft\". Publish state has its own endpoints (<code class=\"notranslate\">/publish</code>, <code class=\"notranslate\">/unpublish</code>); the generic PATCH should not be able to leave it.</p>\n<p dir=\"auto\"><strong>Fix</strong></p>\n<ul dir=\"auto\">\n<li>In <code class=\"notranslate\">Update</code>, ignore the <code class=\"notranslate\">status</code> key when the project's current status is <code class=\"notranslate\">published</code> — publish state only changes via the dedicated publish/unpublish endpoints.</li>\n</ul>\n<p dir=\"auto\"><strong>Acceptance criteria</strong></p>\n<ul dir=\"auto\">\n<li>PATCH with <code class=\"notranslate\">status: \"edited\"</code> on a published project leaves status <code class=\"notranslate\">published</code> (other fields still applied).</li>\n<li>PATCH status changes on non-published projects behave as before.</li>\n<li><code class=\"notranslate\">/publish</code> and <code class=\"notranslate\">/unpublish</code> unaffected.</li>\n<li>Unit test covers the published-downgrade case.</li>\n</ul>\n<hr>\n<p dir=\"auto\"><strong>Assignee:</strong> Ibnu Rizqia Ramadan — Developer<br>\n<strong>Parent feedback:</strong> <a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"4995982392\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/gothru-3d-floormap/issues/439\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/gothru-3d-floormap/issues/439/hovercard\" href=\"https://github.com/GoThruMedia/gothru-3d-floormap/issues/439\">GoThruMedia/gothru-3d-floormap#439</a></p>\n<hr>\n<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><code class=\"notranslate\">Update</code> (<code class=\"notranslate\">src/action/v1/project/update.go</code>) now ignores the <code class=\"notranslate\">status</code> key when the project's current status is <code class=\"notranslate\">published</code> — the generic PATCH can no longer downgrade a published project. Publish state only changes via <code class=\"notranslate\">/publish</code> and <code class=\"notranslate\">/unpublish</code>. Status changes on non-published projects are unchanged, and all other PATCH fields still apply.</p>\n<p dir=\"auto\">Added <code class=\"notranslate\">update_test.go</code>: published project + PATCH <code class=\"notranslate\">{status:\"edited\", name:...}</code> keeps <code class=\"notranslate\">published</code> while the name updates; draft project still moves to <code class=\"notranslate\">edited</code>.</p>\n<p dir=\"auto\">FE counterpart: gothru-3d-floormap#446 stops sending the downgrade.</p>\n<p dir=\"auto\">Files: <code class=\"notranslate\">src/action/v1/project/update.go</code>, <code class=\"notranslate\">src/action/v1/project/update_test.go</code><br>\nBranch: <code class=\"notranslate\">feature/119-guard-published-status</code><br>\nCommit: <code class=\"notranslate\">7bb89d9</code></p>",
+      "metadata": {
+        "number": 119,
+        "author": "ibnurizqiaramadan",
+        "updated_at": "2026-07-29T06:21:30Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "MapThru API Go",
+    "date": "2026-07-28"
+  },
+  "docs": []
+}
