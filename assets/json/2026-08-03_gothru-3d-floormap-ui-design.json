@@ -1,0 +1,22 @@
+{
+  "title": "GoThru 3D Floormap - UI Design",
+  "repository": "GoThruMedia/gothru-3d-floormap",
+  "generated_at": "2026-08-03T10:09:58Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-526",
+      "display_title": "Issue #526: MapThru Beta Version and Pricing-Free Launch Readiness",
+      "main_description_html": "<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/modal-improvements</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-39d072d9-94ca-4750-a41b-5e8ee1afa258.png\"><img width=\"653\" height=\"2000\" alt=\"Image\" src=\"images/image-39d072d9-94ca-4750-a41b-5e8ee1afa258.png\" style=\"max-width: 100%; height: auto; max-height: 2000px;; aspect-ratio: 653 / 2000; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-80e4d2f3-2b15-47a7-9d7d-61e194daa6a9.png\"><img width=\"1920\" height=\"994\" alt=\"Image\" src=\"images/image-80e4d2f3-2b15-47a7-9d7d-61e194daa6a9.png\" style=\"max-width: 100%; height: auto; max-height: 994px;; aspect-ratio: 1920 / 994; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-9e71f088-5db1-4e7a-88ff-471a1217af58.png\"><img width=\"1920\" height=\"1424\" alt=\"Image\" src=\"images/image-9e71f088-5db1-4e7a-88ff-471a1217af58.png\" style=\"max-width: 100%; height: auto; max-height: 1424px;; aspect-ratio: 1920 / 1424; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-d4557088-acf2-406d-9213-4390c2cae31c.png\"><img width=\"1919\" height=\"939\" alt=\"Image\" src=\"images/image-d4557088-acf2-406d-9213-4390c2cae31c.png\" style=\"max-width: 100%; height: auto; max-height: 939px;; aspect-ratio: 1919 / 939; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-5f91d84a-a1fe-4fc8-a038-23c9d01f1a8f.png\"><img width=\"1919\" height=\"945\" alt=\"Image\" src=\"images/image-5f91d84a-a1fe-4fc8-a038-23c9d01f1a8f.png\" style=\"max-width: 100%; height: auto; max-height: 945px;; aspect-ratio: 1919 / 945; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-800b9ec8-77a9-46c2-9c4d-43e5090d784b.png\"><img width=\"1919\" height=\"942\" alt=\"Image\" src=\"images/image-800b9ec8-77a9-46c2-9c4d-43e5090d784b.png\" style=\"max-width: 100%; height: auto; max-height: 942px;; aspect-ratio: 1919 / 942; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-9ecdcfb5-6830-48b7-8270-6a21e7b02ce6.png\"><img width=\"1918\" height=\"942\" alt=\"Image\" src=\"images/image-9ecdcfb5-6830-48b7-8270-6a21e7b02ce6.png\" style=\"max-width: 100%; height: auto; max-height: 942px;; aspect-ratio: 1918 / 942; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 526,
+        "author": "harun027",
+        "updated_at": "2026-08-03T09:59:09Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru 3D Floormap",
+    "date": "2026-08-01"
+  },
+  "docs": []
+}
