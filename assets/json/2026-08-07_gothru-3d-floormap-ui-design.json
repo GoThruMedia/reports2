@@ -1,0 +1,22 @@
+{
+  "title": "gothru-3d-floormap - UI Design",
+  "repository": "GoThruMedia/gothru-3d-floormap",
+  "generated_at": "2026-08-07T03:42:21Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-578",
+      "display_title": "Issue #578: Design: Support Feedback Page",
+      "main_description_html": "<p dir=\"auto\"><code class=\"notranslate\">Branch: design/support-feedback-dashboard-ui</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-cdbf7405-934f-4e21-a118-1acf85870328.png\"><img width=\"1600\" height=\"717\" alt=\"Image\" src=\"images/image-cdbf7405-934f-4e21-a118-1acf85870328.png\" style=\"max-width: 100%; height: auto; max-height: 717px;; aspect-ratio: 1600 / 717; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-daa51d00-73df-4ca8-ad2a-0f857397fd70.png\"><img width=\"1600\" height=\"720\" alt=\"Image\" src=\"images/image-daa51d00-73df-4ca8-ad2a-0f857397fd70.png\" style=\"max-width: 100%; height: auto; max-height: 720px;; aspect-ratio: 1600 / 720; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-2c4b95cc-427a-48b0-bf4f-df28d0707917.png\"><img width=\"1600\" height=\"724\" alt=\"Image\" src=\"images/image-2c4b95cc-427a-48b0-bf4f-df28d0707917.png\" style=\"max-width: 100%; height: auto; max-height: 724px;; aspect-ratio: 1600 / 724; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-eb4e6a68-1845-4fa3-b8fa-ab5e446d2488.png\"><img width=\"1600\" height=\"724\" alt=\"Image\" src=\"images/image-eb4e6a68-1845-4fa3-b8fa-ab5e446d2488.png\" style=\"max-width: 100%; height: auto; max-height: 724px;; aspect-ratio: 1600 / 724; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-106730e8-cc29-44ce-8747-611f32d9af14.png\"><img width=\"1600\" height=\"724\" alt=\"Image\" src=\"images/image-106730e8-cc29-44ce-8747-611f32d9af14.png\" style=\"max-width: 100%; height: auto; max-height: 724px;; aspect-ratio: 1600 / 724; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 578,
+        "author": "gothrudev1",
+        "updated_at": "2026-08-07T03:26:00Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "gothru-3d-floormap",
+    "date": "2026-08-07"
+  },
+  "docs": []
+}
