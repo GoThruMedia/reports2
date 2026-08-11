@@ -1,0 +1,22 @@
+{
+  "title": "Street Editor Project Report",
+  "repository": "GoThruMedia/streeteditor-flutter",
+  "generated_at": "2026-08-11T08:07:55Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-streeteditor-flutter-117",
+      "display_title": "Issue #117: Handle Issue Google Sign-In Failing on Mobile App (\"Couldn't sign in with Google\")",
+      "main_description_html": "<h2 dir=\"auto\">Feedback</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-1b39e344-fd90-4a7f-8ebc-2700fc0bb850.png\"><img width=\"255\" height=\"415\" alt=\"Image\" src=\"images/image-1b39e344-fd90-4a7f-8ebc-2700fc0bb850.png\" style=\"max-width: 100%; height: auto; max-height: 415px;; aspect-ratio: 255 / 415; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description</h2>\n<p dir=\"auto\">A user reported an inability to log into the GoThru 360 Virtual Tour Maker mobile app using the Google Single Sign-On (SSO) option.</p>\n<p dir=\"auto\">When the user taps the \"Google account\" button, the authentication flow fails and displays a red toast error message: \"Couldn't sign in with Google. Please try again, or use your email and password instead.\" This issue blocks users who rely exclusively on Google OAuth from accessing their accounts.</p>\n<h2 dir=\"auto\">Steps to Reproduce</h2>\n<ol dir=\"auto\">\n<li>Launch the GoThru 360 Virtual Tour Maker mobile app.</li>\n<li>On the login screen, tap the Google account button.</li>\n<li>Select a Google account (if prompted by the OS).</li>\n<li>Actual Result: The login process aborts, and the red error toast appears at the top of the screen.</li>\n<li>Expected Result: The app successfully authenticates the Google token and logs the user into their dashboard.</li>\n</ol>\n<h2 dir=\"auto\">Acceptance Criteria</h2>\n<ol dir=\"auto\">\n<li>Users can successfully authenticate and log into the mobile app using their Google accounts.</li>\n<li>The Google OAuth flow completes seamlessly without throwing the error toast.</li>\n<li>If a legitimate failure occurs (e.g., no network connection), the app provides a specific and accurate error message rather than a generic failure.</li>\n</ol>\n<hr>\n<p dir=\"auto\">DEVELOPER REPORT<br>\nGoogle Sign-In Failure — Root Cause &amp; Fix</p>\n<p dir=\"auto\">The Google login error was caused by a SHA-1 certificate fingerprint mismatch on the OAuth client configured in Google Cloud Console. The app's signing keystore fingerprint was not registered against the Android OAuth client ID, so Google's SDK rejected the sign-in attempt with a DEVELOPER_ERROR (PlatformException code 10).</p>\n<p dir=\"auto\">Fix: the correct SHA-1 fingerprint has been registered on the OAuth client in Google Cloud Console, matching the keystore used to sign the app. Google Sign-In now completes successfully.</p>\n<p dir=\"auto\">Status: Fixed ✅</p>\n<p dir=\"auto\">DEMO VIDEO</p>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-08-11.at.14.45.48.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-c8bdfdc8-0ff2-43cc-ab19-6213600eeb63.mp4\" data-canonical-src=\"videos/video-c8bdfdc8-0ff2-43cc-ab19-6213600eeb63.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 117,
+        "author": "anurdin01",
+        "updated_at": "2026-08-11T07:51:24Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Street Editor",
+    "date": "2026-08-11"
+  },
+  "docs": []
+}
