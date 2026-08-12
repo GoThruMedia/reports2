@@ -1,7 +1,7 @@
 {
   "title": "GoThru Dashboard API Project Report",
   "repository": "GoThruMedia/GoThru-API-New",
-  "generated_at": "2026-08-12T10:27:47Z",
+  "generated_at": "2026-08-12T10:29:16Z",
   "issues": [
     {
       "anchor_id": "issue-gothrumedia-gothru-api-new-1772",
@@ -31,6 +31,16 @@
         "number": 1775,
         "author": "alfarez21",
         "updated_at": "2026-08-12T09:45:05Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-api-new-1777",
+      "display_title": "Issue #1777: Setup 'Notify New Invoice' email template in Plunk dashboard",
+      "main_description_html": "<h2 dir=\"auto\">Summary</h2>\n<p dir=\"auto\">Create the \"Notify New Invoice\" email template in the Plunk dashboard per the <a href=\"https://docs.google.com/document/d/1b7sNtcJn2lX-_24vtGWBlAzAKBviqLEVL5yPnQe3Onk/edit?pli=1&amp;tab=t.v6s94ornkroe#heading=h.f7mmprp6eyfe\" rel=\"nofollow\">GoThru Email Payment Template doc</a>, then register its UID in code.</p>\n<h2 dir=\"auto\">Current state</h2>\n<p dir=\"auto\"><code class=\"notranslate\">app/Constants/EmailTemplateUID.php</code> has no entry for a \"notify new invoice\" template — only Subscription, Downgrade, Upgrade, Space Addon, Buy Token, Unlock Moderation, Unlock Overlay, Photographer templates exist.</p>\n<h2 dir=\"auto\">Target state</h2>\n<p dir=\"auto\">Doc content, section \"Notify New Invoice\":</p>\n<ul dir=\"auto\">\n<li>Subject: \"Your Invoice is Now Available!\"</li>\n<li>Body: greets customer by name, informs invoice is ready, link to invoice file labeled \"View Invoice\"</li>\n<li>Variable: <code class=\"notranslate\">{customer_name}</code></li>\n<li>Footer: standard GoThru contact info (phone, YouTube, Facebook)</li>\n<li>Trigger: sent when a new invoice is generated</li>\n</ul>\n<p dir=\"auto\">Template exists live in Plunk with the above subject/body/variable, and <code class=\"notranslate\">EmailTemplateUID.php</code> has a <code class=\"notranslate\">NOTIFY_NEW_INVOICE</code> constant with its UID, added to <code class=\"notranslate\">getAllUIDs()</code>, <code class=\"notranslate\">getUIDByName()</code>, <code class=\"notranslate\">getNameByUID()</code>.</p>\n<h2 dir=\"auto\">Scope</h2>\n<ul dir=\"auto\">\n<li>Plunk dashboard: create the \"Notify New Invoice\" template.</li>\n<li><code class=\"notranslate\">app/Constants/EmailTemplateUID.php</code>: add <code class=\"notranslate\">NOTIFY_NEW_INVOICE</code> constant + mapping entries.</li>\n</ul>\n<h2 dir=\"auto\">Out of scope</h2>\n<ul dir=\"auto\">\n<li>Wiring the new UID into an actual <code class=\"notranslate\">EmailClass-&gt;send()</code> call site (no code path currently generates/sends this on invoice creation — separate task).</li>\n<li>All other templates from the doc.</li>\n</ul>\n<h2 dir=\"auto\">Risk / test plan</h2>\n<ul dir=\"auto\">\n<li>Send test email from Plunk dashboard, confirm <code class=\"notranslate\">{customer_name}</code> renders and the invoice link is correct.</li>\n<li>Confirm <code class=\"notranslate\">EmailTemplateUID::isValidUID()</code> returns <code class=\"notranslate\">true</code> for the new constant.</li>\n</ul>",
+      "metadata": {
+        "number": 1777,
+        "author": "alfarez21",
+        "updated_at": "2026-08-12T10:28:44Z"
       }
     }
   ],
