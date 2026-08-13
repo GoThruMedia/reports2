@@ -1,0 +1,22 @@
+{
+  "title": "Panorra API Go Get Project Report",
+  "repository": "GoThruMedia/panorra-api-go",
+  "generated_at": "2026-08-13T09:07:09Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-panorra-api-go-501",
+      "display_title": "Issue #501: Add Bookmark Status to Search Post",
+      "main_description_html": "<h2 dir=\"auto\">RESULT 13/08/26</h2>\n<h2 dir=\"auto\">✅ Implementation: Add Bookmark Status to Search Post</h2>\n<h2 dir=\"auto\">Changes</h2>\n<ul dir=\"auto\">\n<li>Added <code class=\"notranslate\">bookmark</code> and <code class=\"notranslate\">folder</code> fields to <code class=\"notranslate\">Models.SearchPost</code>.</li>\n<li>Loaded the authenticated user's bookmark map once with <code class=\"notranslate\">Redis.ListBookmarksUser</code>.</li>\n<li>Matched each search result against the bookmark map by post slug.</li>\n<li>Returned the bookmarked folder slug through <code class=\"notranslate\">folder</code>.</li>\n<li>Added <code class=\"notranslate\">bookmark</code> and <code class=\"notranslate\">folder</code> to supported <code class=\"notranslate\">include</code> fields.</li>\n<li>Added a focused test for bookmarked and unbookmarked result mapping.</li>\n</ul>\n<h2 dir=\"auto\">Modified Areas</h2>\n<ul dir=\"auto\">\n<li><code class=\"notranslate\">src/Action/V1/Search/SearchPost.go</code></li>\n<li><code class=\"notranslate\">src/Action/V1/Search/SearchPost_test.go</code></li>\n<li><code class=\"notranslate\">src/Models/PostsModel.go</code></li>\n</ul>\n<h2 dir=\"auto\">Verification</h2>\n<div class=\"highlight highlight-source-powershell notranslate position-relative overflow-auto\" dir=\"auto\" data-snippet-clipboard-copy-content=\"go test ./src/Action/V1/Search ./src/Models -count=1\ngit diff --check\"><pre class=\"notranslate\">go test .<span class=\"pl-k\">/</span>src<span class=\"pl-k\">/</span>Action<span class=\"pl-k\">/</span>V1<span class=\"pl-k\">/</span>Search .<span class=\"pl-k\">/</span>src<span class=\"pl-k\">/</span>Models <span class=\"pl-k\">-</span>count<span class=\"pl-k\">=</span><span class=\"pl-c1\">1</span>\ngit diff <span class=\"pl-k\">--</span>check</pre></div>\n<p dir=\"auto\">Results:</p>\n<ul dir=\"auto\">\n<li>Search and model package tests passed.</li>\n<li>Diff whitespace validation passed.</li>\n</ul>\n<hr>\n<h2 dir=\"auto\">Scope</h2>\n<ul dir=\"auto\">\n<li>Add bookmark status to <code class=\"notranslate\">GET /search/post</code> results.</li>\n<li>Follow Post Detail response semantics.</li>\n<li>Return bookmark folder slug when the post is bookmarked.</li>\n<li>Support bookmark fields through the <code class=\"notranslate\">include</code> query parameter.</li>\n</ul>\n<h2 dir=\"auto\">Response Fields</h2>\n<ul dir=\"auto\">\n<li><code class=\"notranslate\">bookmark</code>: <code class=\"notranslate\">true</code> when the authenticated user bookmarked the post; otherwise <code class=\"notranslate\">false</code>.</li>\n<li><code class=\"notranslate\">folder</code>: bookmark folder slug when bookmarked; otherwise <code class=\"notranslate\">null</code>.</li>\n</ul>\n<h2 dir=\"auto\">Acceptance Criteria</h2>\n<ul dir=\"auto\">\n<li>Search results include <code class=\"notranslate\">bookmark</code> and <code class=\"notranslate\">folder</code> by default.</li>\n<li><code class=\"notranslate\">include=bookmark,folder</code> returns both fields.</li>\n<li>Bookmark data is loaded once and matched to each result by post slug.</li>\n<li>Viewer results return <code class=\"notranslate\">bookmark: false</code> and <code class=\"notranslate\">folder: null</code>.</li>\n<li>Automated tests cover bookmarked and unbookmarked posts.</li>\n</ul>",
+      "metadata": {
+        "number": 501,
+        "author": "anurdin01",
+        "updated_at": "2026-08-13T08:45:52Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Panorra API Go Get",
+    "date": "2026-08-13"
+  },
+  "docs": []
+}
