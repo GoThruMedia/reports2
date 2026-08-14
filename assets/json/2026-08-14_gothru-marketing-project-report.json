@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Marketing Project Report",
+  "repository": "GoThruMedia/gothru-marketing-next-js",
+  "generated_at": "2026-08-14T09:40:18Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-marketing-next-js-169",
+      "display_title": "Issue #169: Integrate Countly analytics SDK",
+      "main_description_html": "<h2 dir=\"auto\">App ID</h2>\n<p dir=\"auto\">6a7d32d85ea30b78c093c3d4</p>\n<h2 dir=\"auto\">App Key</h2>\n<p dir=\"auto\">ac13f7e205decb6ea611b2cdbb1a1a6f6a9ac502</p>",
+      "metadata": {
+        "number": 169,
+        "author": "anurdin01",
+        "updated_at": "2026-08-14T06:51:34Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Marketing",
+    "date": "2026-08-14"
+  },
+  "docs": []
+}
