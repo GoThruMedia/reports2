@@ -1,0 +1,212 @@
+{
+  "title": "Panorra Mobile Project Report",
+  "repository": "GoThruMedia/panorra",
+  "generated_at": "2026-08-19T08:25:16Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2941",
+      "display_title": "Issue #2941: [Post Detail] Implement mention comment",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-08-19.at.11.52.39.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-77c9b2ff-6421-4826-8db7-71fd9dfdeda2.mp4\" data-canonical-src=\"videos/video-77c9b2ff-6421-4826-8db7-71fd9dfdeda2.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 2941,
+        "author": "gothrudev1",
+        "updated_at": "2026-08-19T06:50:51Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2926",
+      "display_title": "Issue #2926: [Post Detail] Add Clear Display Toggle",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-08-19.at.12.00.43.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-21fe627b-e985-4782-a327-1d6356a4a62d.mp4\" data-canonical-src=\"videos/video-21fe627b-e985-4782-a327-1d6356a4a62d.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 2926,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T06:51:21Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2892",
+      "display_title": "Issue #2892: Implement Post Detail New Layout",
+      "main_description_html": "<p dir=\"auto\">Based on result from task UI: <a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"4923175226\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/panorra/issues/2834\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/panorra/issues/2834/hovercard\" href=\"https://github.com/GoThruMedia/panorra/issues/2834\">#2834</a></p>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-08-19.at.13.08.21.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-a507a150-a309-434a-b8d5-2c574b6b38f1.mp4\" data-canonical-src=\"videos/video-a507a150-a309-434a-b8d5-2c574b6b38f1.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 2892,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T06:51:47Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2924",
+      "display_title": "Issue #2924: [Home] Integrate API: Support Home Places Near You with category filtering",
+      "main_description_html": "<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5058388957\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/panorra-api-go/issues/486\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/panorra-api-go/issues/486/hovercard\" href=\"https://github.com/GoThruMedia/panorra-api-go/issues/486\">GoThruMedia/panorra-api-go#486</a></li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-95824906-f8de-4404-b17b-0a23c4d27470.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-95824906-f8de-4404-b17b-0a23c4d27470.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2924,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T06:52:07Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2929",
+      "display_title": "Issue #2929: [Home] Integrate New Categories",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-82dbdf7b-8af7-4286-90c9-b31decbf92db.png\"><img width=\"595\" height=\"186\" alt=\"Image\" src=\"images/image-82dbdf7b-8af7-4286-90c9-b31decbf92db.png\" style=\"max-width: 100%; height: auto; max-height: 186px;; aspect-ratio: 595 / 186; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Food</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Nature</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Stay</li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-a0e02248-bb18-48f6-b88c-ba5fa55ca506.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-a0e02248-bb18-48f6-b88c-ba5fa55ca506.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2929,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T06:52:30Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2930",
+      "display_title": "Issue #2930: [Explore] Integrate New Categories",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-a5eaf9f9-751c-4490-b6c7-bae6bd91fc2a.png\"><img width=\"595\" height=\"186\" alt=\"Image\" src=\"images/image-a5eaf9f9-751c-4490-b6c7-bae6bd91fc2a.png\" style=\"max-width: 100%; height: auto; max-height: 186px;; aspect-ratio: 595 / 186; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Food</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Travel</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Stay</li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-b39dfa40-a993-4a63-8f31-264b2271249f.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-b39dfa40-a993-4a63-8f31-264b2271249f.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2930,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T06:52:54Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2934",
+      "display_title": "Issue #2934: [Mention] Create Render Text Mention Component",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-74f28ef3-d277-4ede-97a5-47c5227317e4.png\"><img width=\"400\" alt=\"Image\" src=\"images/image-74f28ef3-d277-4ede-97a5-47c5227317e4.png\" style=\"max-width: 100%;\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-215c6ff9-d975-47e3-868b-7ba61df045fb.png\"><img width=\"400\" alt=\"Image\" src=\"images/image-215c6ff9-d975-47e3-868b-7ba61df045fb.png\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2934,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T06:53:27Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2943",
+      "display_title": "Issue #2943: [Blocked Posts] Implement render mention in post descriptions",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-ac91a995-4a84-4903-9ce2-577664c8215a.png\"><img width=\"400\" alt=\"Image\" src=\"images/image-ac91a995-4a84-4903-9ce2-577664c8215a.png\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2943,
+        "author": "gothrudev1",
+        "updated_at": "2026-08-19T06:54:18Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2932",
+      "display_title": "Issue #2932: [Edit Post] Integrate New Categories",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-67e9385d-a155-4715-a218-8f84977f0ede.png\"><img width=\"595\" height=\"186\" alt=\"Image\" src=\"images/image-67e9385d-a155-4715-a218-8f84977f0ede.png\" style=\"max-width: 100%; height: auto; max-height: 186px;; aspect-ratio: 595 / 186; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Food</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Travel</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Stay</li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-3e88c427-1888-482c-a3f4-7781479e3aed.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-3e88c427-1888-482c-a3f4-7781479e3aed.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2932,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T06:54:38Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2931",
+      "display_title": "Issue #2931: [Add Post] Integrate New Categories",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-4b614cda-bb00-42f8-ac45-70eb28487305.png\"><img width=\"595\" height=\"186\" alt=\"Image\" src=\"images/image-4b614cda-bb00-42f8-ac45-70eb28487305.png\" style=\"max-width: 100%; height: auto; max-height: 186px;; aspect-ratio: 595 / 186; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Food</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Travel</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Stay</li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-2751befc-a3d8-47ae-ba2a-52be0409dd0b.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-2751befc-a3d8-47ae-ba2a-52be0409dd0b.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2931,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T06:55:11Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2933",
+      "display_title": "Issue #2933: [Draft Post] Integrate New Categories",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-235abc64-7fb9-4336-87de-f6b58dcbfcdd.png\"><img width=\"595\" height=\"186\" alt=\"Image\" src=\"images/image-235abc64-7fb9-4336-87de-f6b58dcbfcdd.png\" style=\"max-width: 100%; height: auto; max-height: 186px;; aspect-ratio: 595 / 186; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Food</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Travel</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Stay</li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-cf73b817-fcbf-48c1-b525-2b9b682a1945.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-cf73b817-fcbf-48c1-b525-2b9b682a1945.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2933,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T06:55:33Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2940",
+      "display_title": "Issue #2940: [Publish Bookmark] Integrate New Categories",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-f92ed64f-57b6-4153-a8ec-8679bd6a4264.png\"><img width=\"400\" alt=\"Image\" src=\"images/image-f92ed64f-57b6-4153-a8ec-8679bd6a4264.png\" style=\"max-width: 100%;\"></a>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-c2c21ada-df03-474e-bfa5-329b5071515e.png\"><img width=\"400\" alt=\"Image\" src=\"images/image-c2c21ada-df03-474e-bfa5-329b5071515e.png\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2940,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T06:56:09Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2942",
+      "display_title": "Issue #2942: [Post Detail] Implement render mention in Description Post",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-df36a303-c661-46cd-9e7e-e2c279f642a7.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-df36a303-c661-46cd-9e7e-e2c279f642a7.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2942,
+        "author": "gothrudev1",
+        "updated_at": "2026-08-19T06:56:42Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2925",
+      "display_title": "Issue #2925: Integrate Add Profile Fields to User Detail API",
+      "main_description_html": "<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5088544948\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/panorra-api-go/issues/496\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/panorra-api-go/issues/496/hovercard\" href=\"https://github.com/GoThruMedia/panorra-api-go/issues/496\">GoThruMedia/panorra-api-go#496</a></li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-12dc75d8-d5d1-4679-82a9-888251d48e44.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-12dc75d8-d5d1-4679-82a9-888251d48e44.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2925,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T07:43:04Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2927",
+      "display_title": "Issue #2927: Integrate Add Country and City to User Detail",
+      "main_description_html": "<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5116769775\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/panorra-api-go/issues/497\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/panorra-api-go/issues/497/hovercard\" href=\"https://github.com/GoThruMedia/panorra-api-go/issues/497\">GoThruMedia/panorra-api-go#497</a></li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-30f32231-a002-4d06-b10b-e933fad35050.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-30f32231-a002-4d06-b10b-e933fad35050.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2927,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T07:43:22Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2939",
+      "display_title": "Issue #2939: [Notif] Fix Navigation Push Notif",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-08-19.at.15.18.39.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-2211962e-0d5f-444f-9eda-7d668f95f571.mp4\" data-canonical-src=\"videos/video-2211962e-0d5f-444f-9eda-7d668f95f571.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 2939,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T08:22:57Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2920",
+      "display_title": "Issue #2920: Integrate API Share",
+      "main_description_html": "<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5079228765\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/panorra-api-new/issues/429\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/panorra-api-new/issues/429/hovercard\" href=\"https://github.com/GoThruMedia/panorra-api-new/issues/429\">GoThruMedia/panorra-api-new#429</a></li>\n</ul>",
+      "metadata": {
+        "number": 2920,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T07:49:14Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2937",
+      "display_title": "Issue #2937: [Statistik] Install Countly",
+      "main_description_html": "",
+      "metadata": {
+        "number": 2937,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T07:49:35Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2922",
+      "display_title": "Issue #2922: [Post Detail] Integrate API Detail Post V2",
+      "main_description_html": "<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5086635120\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/panorra-api-go/issues/494\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/panorra-api-go/issues/494/hovercard\" href=\"https://github.com/GoThruMedia/panorra-api-go/issues/494\">GoThruMedia/panorra-api-go#494</a></li>\n</ul>",
+      "metadata": {
+        "number": 2922,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T07:49:49Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2936",
+      "display_title": "Issue #2936: [Notif] Fix Push Notification Response",
+      "main_description_html": "",
+      "metadata": {
+        "number": 2936,
+        "author": "anurdin01",
+        "updated_at": "2026-08-19T07:50:11Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Panorra Mobile",
+    "date": "2026-08-19"
+  },
+  "docs": []
+}
