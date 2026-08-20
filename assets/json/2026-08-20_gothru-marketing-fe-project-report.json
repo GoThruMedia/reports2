@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Marketing FE Project Report",
+  "repository": "GoThruMedia/gothru-marketing-next-js",
+  "generated_at": "2026-08-20T10:04:34Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-marketing-next-js-174",
+      "display_title": "Issue #174: Fix Text Color Contrast in Pricing Modal Content",
+      "main_description_html": "<p dir=\"auto\">##Demo by developer</p>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">screen-capture.31.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-8727d606-3906-44cf-be2f-067c19c91e2d.webm\" data-canonical-src=\"videos/video-8727d606-3906-44cf-be2f-067c19c91e2d.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n\n<h2 dir=\"auto\">Description</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-529de626-e125-468c-92ee-5532e27ed711.png\"><img width=\"2000\" height=\"1135\" alt=\"Image\" src=\"images/image-529de626-e125-468c-92ee-5532e27ed711.png\" style=\"max-width: 100%; height: auto; max-height: 1135px;; aspect-ratio: 2000 / 1135; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-cc4f1dbc-9271-4883-a07a-d3f828385af0.png\"><img width=\"1193\" height=\"847\" alt=\"Image\" src=\"images/image-cc4f1dbc-9271-4883-a07a-d3f828385af0.png\" style=\"max-width: 100%; height: auto; max-height: 847px;; aspect-ratio: 1193 / 847; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description</h2>\n<p dir=\"auto\">Text elements inside the pricing wizard modal (step counter \"1/4\", question title, option labels, and the \"Back\" button) are invisible due to matching font and background colors. Text is only readable when highlighted manually.</p>\n<h2 dir=\"auto\">Acceptance Criteria:</h2>\n<ol dir=\"auto\">\n<li>Update CSS color rules so all text elements (heading, option lists, step indicator, and navigation buttons) are clearly visible against the white modal background.</li>\n<li>Ensure color contrast meets standard accessibility guidelines (WCAG).</li>\n</ol>",
+      "metadata": {
+        "number": 174,
+        "author": "anurdin01",
+        "updated_at": "2026-08-20T09:51:51Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Marketing FE",
+    "date": "2026-08-20"
+  },
+  "docs": []
+}
