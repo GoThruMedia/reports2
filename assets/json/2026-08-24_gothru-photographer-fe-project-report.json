@@ -1,0 +1,52 @@
+{
+  "title": "GoThru Photographer FE Project Report",
+  "repository": "GoThruMedia/gothru-photographer-v2",
+  "generated_at": "2026-08-24T10:15:31Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photographer-v2-18",
+      "display_title": "Issue #18: Change Title from \"Find the right 360° photographer in any corner of the world.\"",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-7f15c295-17c6-41b7-8c8f-7fd58116b8e1.png\"><img width=\"1005\" height=\"371\" alt=\"Image\" src=\"images/image-7f15c295-17c6-41b7-8c8f-7fd58116b8e1.png\" style=\"max-width: 100%; height: auto; max-height: 371px;; aspect-ratio: 1005 / 371; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Change into  \"Find trusted 360 photographers in any corner of the world.\"</li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-9af382d8-4162-456d-adca-301c136cb4a1.png\"><img width=\"1862\" height=\"961\" alt=\"Image\" src=\"images/image-9af382d8-4162-456d-adca-301c136cb4a1.png\" style=\"max-width: 100%; height: auto; max-height: 961px;; aspect-ratio: 1862 / 961; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 18,
+        "author": "anurdin01",
+        "updated_at": "2026-08-24T07:45:58Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photographer-v2-19",
+      "display_title": "Issue #19: Change Sub Title A curated index of individual 360° photographers ...",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-961faed5-0ba5-47a9-8df8-78dbc68578ed.png\"><img width=\"520\" height=\"76\" alt=\"Image\" src=\"images/image-961faed5-0ba5-47a9-8df8-78dbc68578ed.png\" style=\"max-width: 100%; height: auto; max-height: 76px;; aspect-ratio: 520 / 76; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Change into  \"A curated index of Google Trusted photographers — virtual tour specialists, aerial &amp; drone operators, and street-level capture photographers. Browse the map or search by location.\"</li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-b956c7f3-f924-44b7-bf0a-8ea2d5a01427.png\"><img width=\"1862\" height=\"961\" alt=\"Image\" src=\"images/image-b956c7f3-f924-44b7-bf0a-8ea2d5a01427.png\" style=\"max-width: 100%; height: auto; max-height: 961px;; aspect-ratio: 1862 / 961; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 19,
+        "author": "anurdin01",
+        "updated_at": "2026-08-24T07:47:07Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photographer-v2-20",
+      "display_title": "Issue #20: Change Tagline \"Directory · 2026 · 180 verified photographers\"",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-99e83373-e9ee-4df0-8451-4b4bfd99948c.png\"><img width=\"461\" height=\"63\" alt=\"Image\" src=\"images/image-99e83373-e9ee-4df0-8451-4b4bfd99948c.png\" style=\"max-width: 100%; height: auto; max-height: 63px;; aspect-ratio: 461 / 63; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Change into \"Directory · 2026 · 180 trusted  photographers\"</li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-8cd22f18-24fc-4d0f-b857-c7c273f92d6a.png\"><img width=\"1862\" height=\"961\" alt=\"Image\" src=\"images/image-8cd22f18-24fc-4d0f-b857-c7c273f92d6a.png\" style=\"max-width: 100%; height: auto; max-height: 961px;; aspect-ratio: 1862 / 961; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 20,
+        "author": "anurdin01",
+        "updated_at": "2026-08-24T07:49:45Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photographer-v2-21",
+      "display_title": "Issue #21: Update route and internal links to /find-google-trusted-photographers",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-c92e780c-840c-4491-ac27-54f050ca6eb5.png\"><img width=\"710\" height=\"79\" alt=\"Image\" src=\"images/image-c92e780c-840c-4491-ac27-54f050ca6eb5.png\" style=\"max-width: 100%; height: auto; max-height: 79px;; aspect-ratio: 710 / 79; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description</h2>\n<p dir=\"auto\">Update the frontend route path for the photographer search page from /find-photographers to /find-google-trusted-photographers and update all internal site references.</p>\n<h2 dir=\"auto\">Acceptance Criteria:</h2>\n<ol dir=\"auto\">\n<li>Update application route definition to load the search page at /find-google-trusted-photographers.</li>\n<li>Update all internal navigation links (header, footer, buttons, canonical links, and sitemaps) to use the new URL structure.</li>\n</ol>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">pr-23-route-update.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-dce6a533-cb8d-4e3f-a8ed-90ba3e2b3841.webm\" data-canonical-src=\"videos/video-dce6a533-cb8d-4e3f-a8ed-90ba3e2b3841.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 21,
+        "author": "anurdin01",
+        "updated_at": "2026-08-24T08:54:20Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Photographer FE",
+    "date": "2026-08-24"
+  },
+  "docs": []
+}
