@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Dashboard FE Project Report",
+  "repository": "GoThruMedia/gothru-dashboard",
+  "generated_at": "2026-08-24T10:26:52Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4188",
+      "display_title": "Issue #4188: feat(auth): redirect stitching agency-login to upload/browse tab",
+      "main_description_html": "<h2 dir=\"auto\">Background</h2>\n<p dir=\"auto\">Login-as-agency from the Support &gt; Stitching page redirects back to the app root with <code class=\"notranslate\">?token=...&amp;moderation_id=...</code>. Once the auth bootstrap finishes, the user was always sent to <code class=\"notranslate\">/my-tours/:id</code> — there was no way to distinguish the redirect origin (Stitching, SearchTour, or StuckPublishing).</p>\n<h2 dir=\"auto\">Changes</h2>\n<ul dir=\"auto\">\n<li><code class=\"notranslate\">src/pages/Support/Stitching.jsx</code>: add <code class=\"notranslate\">from=stitching</code> query param to the redirect URL after agency-login.</li>\n<li><code class=\"notranslate\">src/hooks/useAuth.jsx</code>: read the <code class=\"notranslate\">from</code> param in <code class=\"notranslate\">getUserDetail</code> — if <code class=\"notranslate\">from === 'stitching'</code>, navigate to <code class=\"notranslate\">/my-tours/:id/upload?page=browse</code> (straight to the Browse tab on the Upload page), otherwise keep the default <code class=\"notranslate\">/my-tours/:id</code>.</li>\n</ul>\n<h2 dir=\"auto\">Result</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">Screencast.From.2026-08-22.14-47-58.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-9bf9ae50-3911-46c0-a554-ac44631958d8.webm\" data-canonical-src=\"videos/video-9bf9ae50-3911-46c0-a554-ac44631958d8.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 4188,
+        "author": "alfarez21",
+        "updated_at": "2026-08-22T07:49:16Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Dashboard FE",
+    "date": "2026-08-24"
+  },
+  "docs": []
+}
