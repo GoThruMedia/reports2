@@ -1,0 +1,32 @@
+{
+  "title": "GoThru Dashboard FE Project Report",
+  "repository": "GoThruMedia/gothru-dashboard",
+  "generated_at": "2026-08-26T08:11:51Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4190",
+      "display_title": "Issue #4190: Fix Conditional Color Logic for Sidebar Subscription Crown Icon",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-23ad662c-1e16-4bc0-a59b-36f9345f0e10.png\"><img width=\"346\" height=\"111\" alt=\"Image\" src=\"images/image-23ad662c-1e16-4bc0-a59b-36f9345f0e10.png\" style=\"max-width: 100%; height: auto; max-height: 111px;; aspect-ratio: 346 / 111; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description</h2>\n<p dir=\"auto\">The frontend layout logic incorrectly assigns the \"Agency\" subscription theme/color to the crown icon when evaluating users on a \"Pro Yearly\" plan.</p>\n<h2 dir=\"auto\">Acceptance Criteria:</h2>\n<ol dir=\"auto\">\n<li>Update the sidebar component's color resolver logic so that Pro Yearly maps to the Pro color scheme instead of Agency.</li>\n<li>Verify that subscription state checks properly evaluate Pro Yearly non-agency accounts to prevent displaying agency-specific UI indicators.</li>\n</ol>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">2026-08-26.14-56-28.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-bd380af4-2e76-4c4d-a6f6-646ac59b23cd.mp4\" data-canonical-src=\"videos/video-bd380af4-2e76-4c4d-a6f6-646ac59b23cd.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 4190,
+        "author": "anurdin01",
+        "updated_at": "2026-08-26T07:57:35Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4191",
+      "display_title": "Issue #4191: Fix Place Autocomplete Selection Logic to Preserve Business Entity Data",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-c8a07515-7916-4efc-a959-068c851298fc.png\"><img width=\"838\" height=\"802\" alt=\"Image\" src=\"images/image-c8a07515-7916-4efc-a959-068c851298fc.png\" style=\"max-width: 100%; height: auto; max-height: 802px;; aspect-ratio: 838 / 802; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description</h2>\n<p dir=\"auto\">When a user selects a result from the Google Places autocomplete list, the Search Address field should immediately display the selected place or business name. This avoids the brief flash of the formatted address and keeps the selected value recognizable and consistent with the autocomplete result. Users can still search using either an address or a place/business name.</p>\n<h2 dir=\"auto\">Acceptance Criteria</h2>\n<ol dir=\"auto\">\n<li>Users can search by entering either an address or a place/business name.</li>\n<li>Selecting an item from the Google Places autocomplete list immediately populates the Search Address field with the selected place or business name, without briefly displaying the formatted address.</li>\n<li>The selected place/business name is prioritized when both a name and formatted address are available.</li>\n<li>If the selected result does not provide a place/business name, the formatted address is displayed as a fallback.</li>\n<li>The selected place data and coordinates passed to the existing selection flow remain unchanged.</li>\n</ol>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">2026-08-26.15-02-46.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-74ac9584-aaf6-4c6a-b98e-db422182fbb5.mp4\" data-canonical-src=\"videos/video-74ac9584-aaf6-4c6a-b98e-db422182fbb5.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 4191,
+        "author": "anurdin01",
+        "updated_at": "2026-08-26T08:03:30Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Dashboard FE",
+    "date": "2026-08-26"
+  },
+  "docs": []
+}
