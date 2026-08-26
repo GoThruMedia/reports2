@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Photo Studio Project Report",
+  "repository": "GoThruMedia/gothru-photo-studio-tauri",
+  "generated_at": "2026-08-26T08:50:57Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photo-studio-tauri-202",
+      "display_title": "Issue #202: Release GoThru Photo Studio App 1.1.10 Version",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-14da8cfa-3383-4eb6-bfe7-dd56dc2767e6.png\"><img width=\"721\" height=\"263\" alt=\"Image\" src=\"images/image-14da8cfa-3383-4eb6-bfe7-dd56dc2767e6.png\" style=\"max-width: 100%; height: auto; max-height: 263px;; aspect-ratio: 721 / 263; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<p dir=\"auto\">GoThru Photo Studio — Version 1.1.10 Release Notes</p>\n<p dir=\"auto\">We are excited to announce the release of GoThru Photo Studio 1.1.0! This milestone update introduces a massive under-the-hood architecture upgrade alongside brand-new editing tools to streamline your workflow.</p>\n<p dir=\"auto\">🚀 Major Performance Enhancements</p>\n<ul dir=\"auto\">\n<li>Migrated Framework from Electron to Tauri: Re-engineered the core desktop engine using Tauri. This shift dramatically reduces memory consumption, speeds up launch times, shrinks installer size, and provides a faster, overall smoother user experience.</li>\n</ul>\n<p dir=\"auto\">✨ New Features</p>\n<ul dir=\"auto\">\n<li>Scale Up Image: Increase image resolution without sacrificing clarity. Sharpen details and upscale your visual assets effortlessly.</li>\n</ul>\n<p dir=\"auto\">🧪 Beta Features</p>\n<ul dir=\"auto\">\n<li>Object Remover (Beta): Clean up shots by easily erasing unwanted elements, clutter, or artifacts from your photos.</li>\n<li>Stitch 360 Panorama (Beta): Seamlessly align and stitch raw captures into full 360° equirectangular panoramas right within the app.</li>\n</ul>\n<p dir=\"auto\">🐛 Bug Fixes &amp; System Optimizations</p>\n<ul dir=\"auto\">\n<li>Resolved minor UI rendering glitches during batch processing.</li>\n<li>Fixed application stability issues during high-resolution asset exports.</li>\n<li>General performance tweaks and overall stability enhancements.</li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<ul dir=\"auto\">\n<li><a href=\"https://github.com/GoThruMedia/gothru-photo-studio/releases/tag/1.1.10\">https://github.com/GoThruMedia/gothru-photo-studio/releases/tag/1.1.10</a></li>\n</ul>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-67c0f72f-b1d7-4948-b453-c7601524369d.png\"><img width=\"1107\" height=\"603\" alt=\"Image\" src=\"images/image-67c0f72f-b1d7-4948-b453-c7601524369d.png\" style=\"max-width: 100%; height: auto; max-height: 603px;; aspect-ratio: 1107 / 603; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">photo.studio.update.version.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-a8a90d6a-58c2-4ac2-b651-633c2e26055d.mp4\" data-canonical-src=\"videos/video-a8a90d6a-58c2-4ac2-b651-633c2e26055d.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 202,
+        "author": "anurdin01",
+        "updated_at": "2026-08-26T08:49:16Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Photo Studio",
+    "date": "2026-08-26"
+  },
+  "docs": []
+}
