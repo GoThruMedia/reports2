@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Photo Viewer Project Report",
+  "repository": "GoThruMedia/GoThruPhotoViewer",
+  "generated_at": "2026-08-31T07:49:23Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothruphotoviewer-14",
+      "display_title": "Issue #14: [Statistik] Install Countly",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-b4c6d5e2-a098-4a2a-a4ba-79e7352c5d29.png\"><img width=\"906\" height=\"508\" alt=\"Image\" src=\"images/image-b4c6d5e2-a098-4a2a-a4ba-79e7352c5d29.png\" style=\"max-width: 100%; height: auto; max-height: 508px;; aspect-ratio: 906 / 508; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-8871b082-2258-403d-a992-5067a373e139.png\"><img width=\"908\" height=\"145\" alt=\"Image\" src=\"images/image-8871b082-2258-403d-a992-5067a373e139.png\" style=\"max-width: 100%; height: auto; max-height: 145px;; aspect-ratio: 908 / 145; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-18975a65-ccc1-48c2-96b6-8eb1de2d3473.png\"><img width=\"915\" height=\"425\" alt=\"Image\" src=\"images/image-18975a65-ccc1-48c2-96b6-8eb1de2d3473.png\" style=\"max-width: 100%; height: auto; max-height: 425px;; aspect-ratio: 915 / 425; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-956b6791-092d-4159-a9e0-af20f94e04e4.png\"><img width=\"897\" height=\"569\" alt=\"Image\" src=\"images/image-956b6791-092d-4159-a9e0-af20f94e04e4.png\" style=\"max-width: 100%; height: auto; max-height: 569px;; aspect-ratio: 897 / 569; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 14,
+        "author": "anurdin01",
+        "updated_at": "2026-08-31T02:16:44Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Photo Viewer",
+    "date": "2026-08-31"
+  },
+  "docs": []
+}
