@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Dashboard FE Project Report",
+  "repository": "GoThruMedia/gothru-dashboard",
+  "generated_at": "2026-09-01T10:03:12Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4227",
+      "display_title": "Issue #4227: Implement Tour List Sorting State and API Query Bindings",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-686d05e6-b898-464c-a60d-079ba90b40cf.png\"><img width=\"1620\" height=\"982\" alt=\"Image\" src=\"images/image-686d05e6-b898-464c-a60d-079ba90b40cf.png\" style=\"max-width: 100%; height: auto; max-height: 982px;; aspect-ratio: 1620 / 982; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description:</h2>\n<p dir=\"auto\">Add sorting to the \"My Tours\" list and bind the selected option to the page URL and tour-list API request.</p>\n<h2 dir=\"auto\">Acceptance Criteria:</h2>\n<ol dir=\"auto\">\n<li>Show a Sort control beside Filter with these values: <code class=\"notranslate\">size</code>, <code class=\"notranslate\">date_created</code>, <code class=\"notranslate\">date_modified</code>, and <code class=\"notranslate\">alphabetically</code>.</li>\n<li>Keep the active sort in page state and the <code class=\"notranslate\">sort_by</code> URL query parameter. No sort is selected by default, selecting the active option again clears it, and empty or unsupported values are removed from the URL.</li>\n<li>Send <code class=\"notranslate\">sort_by</code> only when active in <code class=\"notranslate\">GET /v1/tours/list</code>. Do not send a <code class=\"notranslate\">sort_order</code> parameter.</li>\n<li>Reset pagination to page 1 when sort changes while preserving active search, tour type, and hashtag filters.</li>\n<li>Preserve the active sort across pagination, page-size changes, reloads, and action-triggered refetches. Keep bulk-action filter parameters unchanged.</li>\n<li>On mobile, render Search on a full row with Filter and Sort side-by-side below it. At <code class=\"notranslate\">md</code> and larger, render Search, Filter, and Sort on one row.</li>\n<li>Add Sort labels and option translations to all supported locales.</li>\n</ol>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">Screen.Recording.2026-09-01.155610.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-44d4ad51-c35b-4799-a428-7ab18c37b7b4.mp4\" data-canonical-src=\"videos/video-44d4ad51-c35b-4799-a428-7ab18c37b7b4.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 4227,
+        "author": "anurdin01",
+        "updated_at": "2026-09-01T08:58:26Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Dashboard FE",
+    "date": "2026-09-01"
+  },
+  "docs": []
+}
