@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Photographer FE Project Report",
+  "repository": "GoThruMedia/gothru-photographer-v2",
+  "generated_at": "2026-09-02T08:22:43Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photographer-v2-32",
+      "display_title": "Issue #32: Fix Country Filter Query Parameter Handling and View Initialization",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-3edf6f2c-dc0b-43cd-9a5c-c2a112260b79.png\"><img width=\"388\" height=\"74\" alt=\"Image\" src=\"images/image-3edf6f2c-dc0b-43cd-9a5c-c2a112260b79.png\" style=\"max-width: 100%; height: auto; max-height: 74px;; aspect-ratio: 388 / 74; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description:</h2>\n<p dir=\"auto\">The frontend fails to parse or correctly initialize page data when accessing directory pages via country query strings (e.g., /?country=Canada).</p>\n<h2 dir=\"auto\">Acceptance Criteria:</h2>\n<ol dir=\"auto\">\n<li>Update route query parameter parser to correctly detect country parameters on initial page load.</li>\n<li>Trigger appropriate photographer directory API calls passing the parsed country filter.</li>\n<li>Ensure browser history and URL navigation update cleanly when switching between country filters.</li>\n</ol>",
+      "metadata": {
+        "number": 32,
+        "author": "anurdin01",
+        "updated_at": "2026-09-02T08:21:20Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Photographer FE",
+    "date": "2026-09-02"
+  },
+  "docs": []
+}
