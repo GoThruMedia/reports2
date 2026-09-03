@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Dashboard API Project Report",
+  "repository": "GoThruMedia/GoThru-API-New",
+  "generated_at": "2026-09-03T08:26:49Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-api-new-1819",
+      "display_title": "Issue #1819: [Audit] PayPal REST API subscriptions & invoices inconsistencies",
+      "main_description_html": "<p dir=\"auto\"><strong>Goal:</strong> Ensure exact parity between PayPal REST API and local DB (<code class=\"notranslate\">cc_purchase</code>, user status). Detect billing anomalies and backfill missing historical records.</p>\n<h3 dir=\"auto\">Audit Summary (Executed 2026-09-03)</h3>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> <strong>New Cronjob Verification:</strong> Running properly with <strong>0 missing invoices</strong> for current billing periods (100% of August &amp; September 2026 recurring charges recorded in <code class=\"notranslate\">cc_purchase</code>).</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> <strong>Zombie Local:</strong> <strong>0 cases</strong> (No canceled/suspended PayPal profiles active in local DB).</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> <strong>Zombie PayPal:</strong> <strong>0 cases</strong> (All 32 active PayPal subscriptions are fully in sync with local DB user states).</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> <strong>Test User Isolation:</strong> Filtered 3 test/sandbox accounts (<code class=\"notranslate\">19039</code>, <code class=\"notranslate\">23926</code>, <code class=\"notranslate\">42828</code>) via <code class=\"notranslate\">HelperClass::getStripeTestUserIds()</code>.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> <strong>Missing Historical Invoices Identified:</strong> <strong>115 completed transactions</strong> across 24 users missing in <code class=\"notranslate\">cc_purchase</code> (Sep 2025 – Jul 2026) due to the legacy cronjob. Detail list saved in <code class=\"notranslate\">docs/investigations/2026-09-03-paypal-rest-subscription-audit.json</code>.</li>\n</ul>\n<h4 dir=\"auto\">Historical Gap Breakdown (Sep 2025 – Jul 2026)</h4>\n<ul dir=\"auto\">\n<li><strong>2025-09 to 2026-02:</strong> ~5 missing / month</li>\n<li><strong>2026-03:</strong> 10 missing</li>\n<li><strong>2026-04:</strong> 13 missing</li>\n<li><strong>2026-05:</strong> 18 missing</li>\n<li><strong>2026-06:</strong> 23 missing</li>\n<li><strong>2026-07:</strong> 21 missing</li>\n</ul>\n<hr>\n<h3 dir=\"auto\">Next Action Items</h3>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>One-Time Backfill:</strong> Create and execute a dry-runnable backfill command to insert the 115 missing <code class=\"notranslate\">cc_purchase</code> rows and generate invoices for historical transactions.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> <strong>Parity Verification:</strong> Re-verify DB records against PayPal REST API after backfill to ensure 100% parity across all historical periods.</li>\n</ul>",
+      "metadata": {
+        "number": 1819,
+        "author": "alfarez21",
+        "updated_at": "2026-09-03T07:57:01Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Dashboard API",
+    "date": "2026-09-03"
+  },
+  "docs": []
+}
