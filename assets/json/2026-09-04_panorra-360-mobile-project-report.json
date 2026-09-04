@@ -1,0 +1,162 @@
+{
+  "title": "Panorra 360 Mobile Project Report",
+  "repository": "GoThruMedia/panorra",
+  "generated_at": "2026-09-04T07:06:09Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2975",
+      "display_title": "Issue #2975: [Profile] Show Social Links Below the Location Profile",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-c937a37d-c8d4-4a4d-aba7-6f504f413ae0.png\"><img width=\"400\" alt=\"Image\" src=\"images/image-c937a37d-c8d4-4a4d-aba7-6f504f413ae0.png\" style=\"max-width: 100%;\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-d52bdc8a-0d74-4583-bf1d-90b3a933817f.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-d52bdc8a-0d74-4583-bf1d-90b3a933817f.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2975,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T00:57:00Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2979",
+      "display_title": "Issue #2979: Disable Automatic Onboarding Tooltip Timer on Panorama Initialisation",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-4acc32a9-f4ea-4474-9eb1-8b0cc06e4e80.png\"><img width=\"175\" height=\"304\" alt=\"Image\" src=\"images/image-4acc32a9-f4ea-4474-9eb1-8b0cc06e4e80.png\" style=\"max-width: 100%; height: auto; max-height: 304px;; aspect-ratio: 175 / 304; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description:</h2>\n<p dir=\"auto\">The central \"360° Drag to look around\" instruction prompt currently appears for 2–3 seconds every single time a panorama is loaded, cluttering the view. This overlay needs to be removed from standard panorama playback.<br>\nRefactor the viewer component lifecycle to eliminate the automatic timer that triggers the instruction overlay on every panorama navigation event.</p>\n<h2 dir=\"auto\">Acceptance Criteria:</h2>\n<ol dir=\"auto\">\n<li>Remove the automatic render overlay timer for the \"360° Drag to look around\" component when switching or opening panoramas.</li>\n<li>(Optional) If onboarding cues are retained, show them strictly on first-time app launch only using local persistent storage (AsyncStorage / localStorage).</li>\n</ol>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-09-03.at.14.20.37.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-852c8010-a3d0-4ae5-bbbc-c2a65aef49d6.mp4\" data-canonical-src=\"videos/video-852c8010-a3d0-4ae5-bbbc-c2a65aef49d6.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 2979,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T00:57:16Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2981",
+      "display_title": "Issue #2981: Refactor Explore 360° Posts List Component and Layout Structure",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-8042b797-f301-4ca5-a506-e58a47ac24eb.png\"><img width=\"275\" height=\"229\" alt=\"Image\" src=\"images/image-8042b797-f301-4ca5-a506-e58a47ac24eb.png\" style=\"max-width: 100%; height: auto; max-height: 229px;; aspect-ratio: 275 / 229; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description:</h2>\n<p dir=\"auto\">Update list rendering properties in the Explore screen to switch from a multi-column grid to a single-column list view while stripping unnecessary badge elements.</p>\n<h2 dir=\"auto\">Acceptance Criteria:</h2>\n<ol dir=\"auto\">\n<li>Reconfigure list container props (e.g., numColumns = 1 in FlatList / flex layout) for the 360° Posts tab.</li>\n<li>Remove the 360° badge sub-component from the thumbnail render item.</li>\n<li>Verify image lazy-loading, caching, and scroll performance with full-width preview cards.</li>\n</ol>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-7039b0fa-7ad0-4994-a4bd-47e022c48049.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-7039b0fa-7ad0-4994-a4bd-47e022c48049.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2981,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T00:57:37Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2986",
+      "display_title": "Issue #2986: [App] Fix App Status Color IOS",
+      "main_description_html": "",
+      "metadata": {
+        "number": 2986,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T00:57:52Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2982",
+      "display_title": "Issue #2982: [Edit Profile] Implement Drag Social Links Reordering",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-09-03.at.15.41.10.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-ff73e8a2-82d7-4f53-adf2-7670ced135f5.mp4\" data-canonical-src=\"videos/video-ff73e8a2-82d7-4f53-adf2-7670ced135f5.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 2982,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T00:58:59Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2983",
+      "display_title": "Issue #2983: [Auth] Remove Viewer auth",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-09-03.at.16.07.20.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-14a2146a-fb96-4acc-8a4e-2899873af592.mp4\" data-canonical-src=\"videos/video-14a2146a-fb96-4acc-8a4e-2899873af592.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 2983,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T00:59:36Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2990",
+      "display_title": "Issue #2990: [Profile] Implement Embed Post Badge",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-3d2f3c1f-dca5-46ce-afdf-fa519bb4f834.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-3d2f3c1f-dca5-46ce-afdf-fa519bb4f834.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2990,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T00:59:56Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2988",
+      "display_title": "Issue #2988: [Post Detail] Implement Embed Post",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-09-03.at.16.25.33.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-f1209527-6017-460f-9d25-20d95fc74e36.mp4\" data-canonical-src=\"videos/video-f1209527-6017-460f-9d25-20d95fc74e36.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 2988,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T01:00:18Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2989",
+      "display_title": "Issue #2989: [Explore] Implement Embed Post Badge",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-fbbd7d38-dc41-4c7e-b66b-b7b394f03059.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-fbbd7d38-dc41-4c7e-b66b-b7b394f03059.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2989,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T01:00:56Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2991",
+      "display_title": "Issue #2991: [List Place] Implement Embed Post Badge",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-274c15f5-7234-496f-96c6-6dbf691221e1.jpg\"><img width=\"400\" alt=\"Image\" src=\"images/image-274c15f5-7234-496f-96c6-6dbf691221e1.jpg\" style=\"max-width: 100%;\"></a>",
+      "metadata": {
+        "number": 2991,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T01:01:19Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2987",
+      "display_title": "Issue #2987: [Add Post] Implement Post Embed",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-09-03.at.17.16.04.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-f60e4361-c404-4bfc-805c-7bfeff20cd8c.mp4\" data-canonical-src=\"videos/video-f60e4361-c404-4bfc-805c-7bfeff20cd8c.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 2987,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T01:01:47Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2992",
+      "display_title": "Issue #2992: [Post Draft] Implement Embed",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-09-03.at.17.22.47.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-d828e770-71d6-4060-9d3d-8a8b19d3e669.mp4\" data-canonical-src=\"videos/video-d828e770-71d6-4060-9d3d-8a8b19d3e669.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 2992,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T01:02:05Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2993",
+      "display_title": "Issue #2993: [Post Detail] Implement Next/ Prev Post",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-09-03.at.17.50.18.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-71ebde32-20ec-4bd4-b897-c0e77dba3259.mp4\" data-canonical-src=\"videos/video-71ebde32-20ec-4bd4-b897-c0e77dba3259.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 2993,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T01:02:52Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2994",
+      "display_title": "Issue #2994: [Place Detail] Implement Share",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-09-04.at.10.59.08.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-221f3630-9c58-4910-980d-f661c93711c2.mp4\" data-canonical-src=\"videos/video-221f3630-9c58-4910-980d-f661c93711c2.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 2994,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T04:23:20Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-2995",
+      "display_title": "Issue #2995: [Explore] Fix Search Place",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-09-04.at.11.30.08.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-96f22da7-ab8a-48aa-beba-af4fa50acd65.mp4\" data-canonical-src=\"videos/video-96f22da7-ab8a-48aa-beba-af4fa50acd65.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 2995,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T06:18:38Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Panorra 360 Mobile",
+    "date": "2026-09-04"
+  },
+  "docs": []
+}
