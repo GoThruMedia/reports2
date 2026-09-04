@@ -1,0 +1,32 @@
+{
+  "title": "GoThru Photographer FE Project Report",
+  "repository": "GoThruMedia/gothru-photographer-v2",
+  "generated_at": "2026-09-04T06:15:15Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photographer-v2-41",
+      "display_title": "Issue #41: Update Dynamic Routing and H1 Structure for City Pages",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">video-41-city-landing-h1.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-178a964d-cc7d-47dc-9f37-d920d2df9ecb.mp4\" data-canonical-src=\"videos/video-178a964d-cc7d-47dc-9f37-d920d2df9ecb.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-65870d5f-c523-4f75-8d3c-f0e84d050653.png\"><img width=\"706\" height=\"58\" alt=\"Image\" src=\"images/image-65870d5f-c523-4f75-8d3c-f0e84d050653.png\" style=\"max-width: 100%; height: auto; max-height: 58px;; aspect-ratio: 706 / 58; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description:</h2>\n<p dir=\"auto\">Adjust the Next.js dynamic routing pattern for city landing pages to follow the required URL structure (/360-virtual-tour-photographer-[city]) and render the exact H1 format.</p>\n<h2 dir=\"auto\">Acceptance Criteria:</h2>\n<ol dir=\"auto\">\n<li>Support the route pattern /360-virtual-tour-photographer-[city-slug] (e.g., /360-virtual-tour-photographer-toronto).</li>\n<li>Dynamically render <h1 dir=\"auto\">360 virtual tour photographer [City Name]</h1> as the primary page heading.</li>\n<li>Fetch and display photographers located in the requested city.</li>\n<li>Return a 404 / NotFound page if a requested city has no active photographers.</li>\n</ol>",
+      "metadata": {
+        "number": 41,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T03:58:59Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photographer-v2-49",
+      "display_title": "Issue #49: Add Countly web SDK analytics: track all pages and events",
+      "main_description_html": "<h2 dir=\"auto\">Goal</h2>\n<p dir=\"auto\">Add Countly analytics (web SDK) to the frontend so every page view and every user interaction is recorded.</p>\n<h2 dir=\"auto\">Scope</h2>\n<ul dir=\"auto\">\n<li>Install <code class=\"notranslate\">countly-sdk-web</code> and initialise it once in the root layout, client side only.</li>\n<li>Server: <code class=\"notranslate\">https://data.gothru.org</code>, app key from env (<code class=\"notranslate\">NEXT_PUBLIC_COUNTLY_APP_KEY</code>) with the production key as default.</li>\n<li>Enable all automatic trackers: sessions, page views, clicks, scrolls, links, forms, JS errors.</li>\n<li>Page views on client-side navigation (App Router): track on every <code class=\"notranslate\">pathname</code> + <code class=\"notranslate\">searchParams</code> change, not only on full loads.</li>\n<li>Custom events for the main product actions (location filter, photographer card open, portfolio/contact clicks) via one small <code class=\"notranslate\">trackEvent</code> helper.</li>\n</ul>\n<h2 dir=\"auto\">Acceptance</h2>\n<ul dir=\"auto\">\n<li>Countly dashboard shows a session, a page view for each route visited (including client-side navigations), and click/scroll data.</li>\n<li>No requests to Countly during SSR; no console errors.</li>\n<li><code class=\"notranslate\">npm run build</code> and <code class=\"notranslate\">npm run lint</code> pass.</li>\n</ul>",
+      "metadata": {
+        "number": 49,
+        "author": "ibnurizqiaramadan",
+        "updated_at": "2026-09-04T04:27:31Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Photographer FE",
+    "date": "2026-09-04"
+  },
+  "docs": []
+}
