@@ -1,0 +1,182 @@
+{
+  "title": "Panorra 360 PWA Project Report",
+  "repository": "GoThruMedia/panorra-pwa",
+  "generated_at": "2026-09-04T09:09:33Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3325",
+      "display_title": "Issue #3325: [Explore] Tab 360 Post Counter Post",
+      "main_description_html": "<h2 dir=\"auto\">Demo by developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-16c72d6a-cc31-424f-8d0a-c11743865997.png\"><img width=\"1920\" height=\"1080\" alt=\"Image\" src=\"images/image-16c72d6a-cc31-424f-8d0a-c11743865997.png\" style=\"max-width: 100%; height: auto; max-height: 1080px;; aspect-ratio: 1920 / 1080; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 3325,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T06:24:16Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3326",
+      "display_title": "Issue #3326: [Explore] Tab Creator Button Follow",
+      "main_description_html": "<h2 dir=\"auto\">Demo by developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">follow-creator.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-28c15bd7-6907-424f-be54-f54e2f327e9c.webm\" data-canonical-src=\"videos/video-28c15bd7-6907-424f-be54-f54e2f327e9c.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 3326,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T06:24:32Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3327",
+      "display_title": "Issue #3327: [Detail Hashtag] Page",
+      "main_description_html": "<h2 dir=\"auto\">Demo by developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">detail-hashtag.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-55ccfc21-a2e2-46db-af7d-53c203cfee5b.webm\" data-canonical-src=\"videos/video-55ccfc21-a2e2-46db-af7d-53c203cfee5b.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 3327,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T06:24:43Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3324",
+      "display_title": "Issue #3324: [Explore] Based on Your Interests Section Tab Foryou",
+      "main_description_html": "<h2 dir=\"auto\">Demo by developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-18af1535-fdaf-4110-9e9c-22071cacb4d4.png\"><img width=\"1920\" height=\"1080\" alt=\"Image\" src=\"images/image-18af1535-fdaf-4110-9e9c-22071cacb4d4.png\" style=\"max-width: 100%; height: auto; max-height: 1080px;; aspect-ratio: 1920 / 1080; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 3324,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T06:24:54Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3340",
+      "display_title": "Issue #3340: Integrate Prev Next Fullscreen From 360 Post",
+      "main_description_html": "<p dir=\"auto\">##Demo by developer</p>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">screen-capture.46.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-46de670d-b3d5-43ab-aab5-b6063a735c86.webm\" data-canonical-src=\"videos/video-46de670d-b3d5-43ab-aab5-b6063a735c86.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 3340,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T07:56:48Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3346",
+      "display_title": "Issue #3346: Integrate Prev Next Fullscreen From Creators",
+      "main_description_html": "<p dir=\"auto\">##Demo by developer</p>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">screen-capture.46.copy.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-bca75e56-e784-4c74-97be-632906dbaaf8.webm\" data-canonical-src=\"videos/video-bca75e56-e784-4c74-97be-632906dbaaf8.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 3346,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T07:57:00Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3339",
+      "display_title": "Issue #3339: Integrate Prev Next Fullscreen From Place",
+      "main_description_html": "<p dir=\"auto\">##Demo by developer</p>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">screen-capture.46.copy.2.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-87d9b777-34e1-4645-88ba-f3dc91682f93.webm\" data-canonical-src=\"videos/video-87d9b777-34e1-4645-88ba-f3dc91682f93.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 3339,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T07:57:12Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3347",
+      "display_title": "Issue #3347: Integrate Prev Next Fullscreen From Rekomendation For You",
+      "main_description_html": "<p dir=\"auto\">##Demo by developer</p>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">screen-capture.46.copy.3.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-cc5bd6ef-d1f5-4c10-bc3f-dd7c0fc2a536.webm\" data-canonical-src=\"videos/video-cc5bd6ef-d1f5-4c10-bc3f-dd7c0fc2a536.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 3347,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T07:57:24Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3253",
+      "display_title": "Issue #3253: [Profile Setting] Integrate API Update Social Links",
+      "main_description_html": "<h2 dir=\"auto\">Demo by developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">screen-capture.46.copy.4.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-2f39b236-8bf1-4442-a05e-ef237bb4c85d.webm\" data-canonical-src=\"videos/video-2f39b236-8bf1-4442-a05e-ef237bb4c85d.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n\n<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5076987857\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/panorra-api-new/issues/424\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/panorra-api-new/issues/424/hovercard\" href=\"https://github.com/GoThruMedia/panorra-api-new/issues/424\">GoThruMedia/panorra-api-new#424</a></li>\n</ul>\n<h2 dir=\"auto\">Route</h2>\n<div class=\"highlight highlight-source-httpspec notranslate position-relative overflow-auto\" dir=\"auto\" data-snippet-clipboard-copy-content=\"PUT /v2/users/me/social\nAuthorization: &lt;JWT token&gt;\nContent-Type: application/json\"><pre class=\"notranslate\"><span class=\"pl-k\">PUT</span><span class=\"pl-c1\"> /v2/users/me/social</span>\n<span class=\"pl-s\"><span class=\"pl-v\">Authorization:</span> &lt;JWT token&gt;</span>\n<span class=\"pl-s\"><span class=\"pl-v\">Content-Type:</span> application/json</span></pre></div>\n<h2 dir=\"auto\">Payload</h2>\n<div class=\"highlight highlight-source-json notranslate position-relative overflow-auto\" dir=\"auto\" data-snippet-clipboard-copy-content=\"{\n  &quot;links&quot;: [\n    {&quot;type&quot;: &quot;instagram&quot;, &quot;url&quot;: &quot;instagram.com/raka&quot;},\n    {&quot;url&quot;: &quot;youtube.com/@raka&quot;},\n    {&quot;type&quot;: &quot;unknown&quot;, &quot;url&quot;: &quot;portfolio.example.com&quot;}\n  ]\n}\"><pre class=\"notranslate\">{\n  <span class=\"pl-ent\">\"links\"</span>: [\n    {<span class=\"pl-ent\">\"type\"</span>: <span class=\"pl-s\"><span class=\"pl-pds\">\"</span>instagram<span class=\"pl-pds\">\"</span></span>, <span class=\"pl-ent\">\"url\"</span>: <span class=\"pl-s\"><span class=\"pl-pds\">\"</span>instagram.com/raka<span class=\"pl-pds\">\"</span></span>},\n    {<span class=\"pl-ent\">\"url\"</span>: <span class=\"pl-s\"><span class=\"pl-pds\">\"</span>youtube.com/@raka<span class=\"pl-pds\">\"</span></span>},\n    {<span class=\"pl-ent\">\"type\"</span>: <span class=\"pl-s\"><span class=\"pl-pds\">\"</span>unknown<span class=\"pl-pds\">\"</span></span>, <span class=\"pl-ent\">\"url\"</span>: <span class=\"pl-s\"><span class=\"pl-pds\">\"</span>portfolio.example.com<span class=\"pl-pds\">\"</span></span>}\n  ]\n}</pre></div>\n<h2 dir=\"auto\">Behavior</h2>\n<ul dir=\"auto\">\n<li>Replaces full list inside one database transaction.</li>\n<li>Empty array deletes all links.</li>\n<li>Maximum 10; duplicate link types allowed.</li>\n<li>Array order becomes position 1-10.</li>\n<li>URLs normalize to HTTPS; maximum 2048 characters.</li>\n<li>Recognized optional <code class=\"notranslate\">type</code> is used directly.</li>\n<li>Unknown or absent <code class=\"notranslate\">type</code> triggers domain detection.</li>\n<li>Unknown domains default to <code class=\"notranslate\">website</code>.</li>\n</ul>\n<p dir=\"auto\">Supported platforms: Instagram, Facebook, X/Twitter, LinkedIn, TikTok, YouTube.<br>\nResolved value is persisted in <code class=\"notranslate\">user_social_links.type</code>; unknown domains use <code class=\"notranslate\">website</code>.</p>\n<h2 dir=\"auto\">Success</h2>\n<div class=\"highlight highlight-source-json notranslate position-relative overflow-auto\" dir=\"auto\" data-snippet-clipboard-copy-content=\"{&quot;statusCode&quot;:200,&quot;data&quot;:{&quot;valid&quot;:true,&quot;messages&quot;:&quot;Success update social links&quot;}}\"><pre class=\"notranslate\">{<span class=\"pl-ent\">\"statusCode\"</span>:<span class=\"pl-c1\">200</span>,<span class=\"pl-ent\">\"data\"</span>:{<span class=\"pl-ent\">\"valid\"</span>:<span class=\"pl-c1\">true</span>,<span class=\"pl-ent\">\"messages\"</span>:<span class=\"pl-s\"><span class=\"pl-pds\">\"</span>Success update social links<span class=\"pl-pds\">\"</span></span>}}</pre></div>\n<h2 dir=\"auto\">Errors</h2>\n<ul dir=\"auto\">\n<li><code class=\"notranslate\">400</code>: invalid JSON.</li>\n<li><code class=\"notranslate\">401</code>: invalid auth or role.</li>\n<li><code class=\"notranslate\">409</code>: user missing.</li>\n<li><code class=\"notranslate\">422</code>: more than 10 links or invalid URL.</li>\n<li><code class=\"notranslate\">500</code>: transaction failure.</li>\n</ul>\n<hr>\n<h2 dir=\"auto\">Endpoint</h2>\n<p dir=\"auto\"><code class=\"notranslate\">PUT /v2/users/me/social</code></p>",
+      "metadata": {
+        "number": 3253,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T07:57:46Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3250",
+      "display_title": "Issue #3250: [Profile Setting] Integrate Upload Cover V2",
+      "main_description_html": "<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5068066695\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/panorra-api-new/issues/421\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/panorra-api-new/issues/421/hovercard\" href=\"https://github.com/GoThruMedia/panorra-api-new/issues/421\">GoThruMedia/panorra-api-new#421</a></li>\n</ul>\n<h2 dir=\"auto\">Demo by developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">upload-cover.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-4906de73-ebf9-433c-80f8-9f1a63553d97.webm\" data-canonical-src=\"videos/video-4906de73-ebf9-433c-80f8-9f1a63553d97.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 3250,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T07:58:00Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3249",
+      "display_title": "Issue #3249: [Profile Setting] Integrate Upload Avatar V2",
+      "main_description_html": "<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5067280350\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/panorra-api-new/issues/420\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/panorra-api-new/issues/420/hovercard\" href=\"https://github.com/GoThruMedia/panorra-api-new/issues/420\">GoThruMedia/panorra-api-new#420</a></li>\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5078717614\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/panorra-api-new/issues/428\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/panorra-api-new/issues/428/hovercard\" href=\"https://github.com/GoThruMedia/panorra-api-new/issues/428\">GoThruMedia/panorra-api-new#428</a></li>\n</ul>\n<h2 dir=\"auto\">Demo by developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">upload-remove-avatar.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-f9402b0e-4b72-4405-b91b-95a0d38b124b.webm\" data-canonical-src=\"videos/video-f9402b0e-4b72-4405-b91b-95a0d38b124b.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 3249,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T07:58:13Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3245",
+      "display_title": "Issue #3245: [Profile Setting] Integrate Check Username API",
+      "main_description_html": "<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5066690268\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/panorra-api-go/issues/492\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/panorra-api-go/issues/492/hovercard\" href=\"https://github.com/GoThruMedia/panorra-api-go/issues/492\">GoThruMedia/panorra-api-go#492</a></li>\n</ul>\n<h2 dir=\"auto\">Demo by developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">check-username.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-191b2d5f-b0f1-41e7-9d09-4596491c2beb.webm\" data-canonical-src=\"videos/video-191b2d5f-b0f1-41e7-9d09-4596491c2beb.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 3245,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T07:59:19Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3268",
+      "display_title": "Issue #3268: Integrate Add Country and City to User Detail",
+      "main_description_html": "<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5116769775\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/panorra-api-go/issues/497\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/panorra-api-go/issues/497/hovercard\" href=\"https://github.com/GoThruMedia/panorra-api-go/issues/497\">GoThruMedia/panorra-api-go#497</a></li>\n</ul>\n<h2 dir=\"auto\">Demo by developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">city-country.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-ae6c434d-9547-4f18-99ce-5f7805949dc8.webm\" data-canonical-src=\"videos/video-ae6c434d-9547-4f18-99ce-5f7805949dc8.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 3268,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T08:01:17Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3252",
+      "display_title": "Issue #3252: [Profile Setting] Integrate API Edit Profile V2",
+      "main_description_html": "<h2 dir=\"auto\">Demo by developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">edit-profile.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-c4374153-b54e-4194-bc3b-a9702f1266ce.webm\" data-canonical-src=\"videos/video-c4374153-b54e-4194-bc3b-a9702f1266ce.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n\n<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5076996297\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/panorra-api-new/issues/426\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/panorra-api-new/issues/426/hovercard\" href=\"https://github.com/GoThruMedia/panorra-api-new/issues/426\">GoThruMedia/panorra-api-new#426</a></li>\n</ul>\n<h2 dir=\"auto\">City Data</h2>\n<p dir=\"auto\"><a href=\"images/image-8ae79a9e-58a6-4c51-a283-22ba443e25b8.png\">location.json</a></p>\n<h2 dir=\"auto\">Route</h2>\n<div class=\"highlight highlight-source-httpspec notranslate position-relative overflow-auto\" dir=\"auto\" data-snippet-clipboard-copy-content=\"PATCH /v2/users/me/profile\nAuthorization: &lt;JWT token&gt;\nContent-Type: application/json\"><pre class=\"notranslate\"><span class=\"pl-k\">PATCH</span><span class=\"pl-c1\"> /v2/users/me/profile</span>\n<span class=\"pl-s\"><span class=\"pl-v\">Authorization:</span> &lt;JWT token&gt;</span>\n<span class=\"pl-s\"><span class=\"pl-v\">Content-Type:</span> application/json</span></pre></div>\n<h2 dir=\"auto\">Payload</h2>\n<div class=\"highlight highlight-source-json notranslate position-relative overflow-auto\" dir=\"auto\" data-snippet-clipboard-copy-content=\"{\n  &quot;username&quot;: &quot;ipebbbbb&quot;,\n  &quot;fullname&quot;: &quot;Pebi Sandi P&quot;,\n  &quot;about&quot;: &quot;Exploring the world in 360°.&quot;,\n  &quot;country&quot;: &quot;Indonesia&quot;,\n  &quot;city&quot;: &quot;Bandung&quot;,\n  &quot;website&quot;: &quot;linktr.ee/ipebbbbb&quot;\n}\"><pre class=\"notranslate\">{\n  <span class=\"pl-ent\">\"username\"</span>: <span class=\"pl-s\"><span class=\"pl-pds\">\"</span>ipebbbbb<span class=\"pl-pds\">\"</span></span>,\n  <span class=\"pl-ent\">\"fullname\"</span>: <span class=\"pl-s\"><span class=\"pl-pds\">\"</span>Pebi Sandi P<span class=\"pl-pds\">\"</span></span>,\n  <span class=\"pl-ent\">\"about\"</span>: <span class=\"pl-s\"><span class=\"pl-pds\">\"</span>Exploring the world in 360°.<span class=\"pl-pds\">\"</span></span>,\n  <span class=\"pl-ent\">\"country\"</span>: <span class=\"pl-s\"><span class=\"pl-pds\">\"</span>Indonesia<span class=\"pl-pds\">\"</span></span>,\n  <span class=\"pl-ent\">\"city\"</span>: <span class=\"pl-s\"><span class=\"pl-pds\">\"</span>Bandung<span class=\"pl-pds\">\"</span></span>,\n  <span class=\"pl-ent\">\"website\"</span>: <span class=\"pl-s\"><span class=\"pl-pds\">\"</span>linktr.ee/ipebbbbb<span class=\"pl-pds\">\"</span></span>\n}</pre></div>\n<p dir=\"auto\">Omitted fields remain unchanged. Country and city must be populated after update. Website normalizes to HTTPS.</p>\n<h2 dir=\"auto\">Success</h2>\n<div class=\"highlight highlight-source-json notranslate position-relative overflow-auto\" dir=\"auto\" data-snippet-clipboard-copy-content=\"{&quot;statusCode&quot;:200,&quot;data&quot;:{&quot;valid&quot;:true,&quot;messages&quot;:&quot;Success update profile&quot;}}\"><pre class=\"notranslate\">{<span class=\"pl-ent\">\"statusCode\"</span>:<span class=\"pl-c1\">200</span>,<span class=\"pl-ent\">\"data\"</span>:{<span class=\"pl-ent\">\"valid\"</span>:<span class=\"pl-c1\">true</span>,<span class=\"pl-ent\">\"messages\"</span>:<span class=\"pl-s\"><span class=\"pl-pds\">\"</span>Success update profile<span class=\"pl-pds\">\"</span></span>}}</pre></div>\n<h2 dir=\"auto\">Changes</h2>\n<ul dir=\"auto\">\n<li>Added V2 action, controller, and PATCH route.</li>\n<li>Reused legacy username/fullname validation behavior.</li>\n<li>Added about, country, city, and website validation.</li>\n<li>Added Redis refresh, Elasticsearch username update, and live Maps Panorra sync.</li>\n<li>No encrypted response.</li>\n</ul>\n<h2 dir=\"auto\">Errors</h2>\n<ul dir=\"auto\">\n<li><code class=\"notranslate\">400</code>: invalid JSON.</li>\n<li><code class=\"notranslate\">401</code>: invalid auth or role.</li>\n<li><code class=\"notranslate\">409</code>: user missing or username conflict.</li>\n<li><code class=\"notranslate\">422</code>: invalid fields or missing final country/city.</li>\n<li><code class=\"notranslate\">500</code>: database or downstream sync failure.</li>\n</ul>\n<hr>\n<h2 dir=\"auto\">Endpoint</h2>\n<p dir=\"auto\"><code class=\"notranslate\">PATCH /v2/users/me/profile</code></p>",
+      "metadata": {
+        "number": 3252,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T08:36:27Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3342",
+      "display_title": "Issue #3342: fix some error in profile setting",
+      "main_description_html": "<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> edit profile - <strong>fix upload profile banner</strong>. currently the banner displayd successfull snack bar but when reload the page the banner is not displayd</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> edit profile - <strong>fix social media when submit the update profile</strong>. currently when user update the social media links the snack bar shows error message</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> profile - <strong>fix the profile banner</strong>. when user already uploaded the profile banner, display the uploaded profile banner. when user have no uploaded or the profilee banner error use current mechanism to handle the fallback of profile banner error</li>\n</ul>",
+      "metadata": {
+        "number": 3342,
+        "author": "gothrudev1",
+        "updated_at": "2026-09-04T08:37:46Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3341",
+      "display_title": "Issue #3341: Integrate Prev Next Fullscreen From Bookmarks",
+      "main_description_html": "<p dir=\"auto\">##Demo by developer</p>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">screen-capture.46.copy.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-9cf72952-e07c-495e-a8e5-1813c9be66e7.webm\" data-canonical-src=\"videos/video-9cf72952-e07c-495e-a8e5-1813c9be66e7.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 3341,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T08:51:34Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-panorra-pwa-3329",
+      "display_title": "Issue #3329: [Detail Place] Action Follow In contributor",
+      "main_description_html": "<h2 dir=\"auto\">Demo by developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">contributor-follow.webm</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-0feb4628-5d72-42bd-925c-402fd7d13c0d.webm\" data-canonical-src=\"videos/video-0feb4628-5d72-42bd-925c-402fd7d13c0d.webm\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 3329,
+        "author": "anurdin01",
+        "updated_at": "2026-09-04T08:51:59Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Panorra 360 PWA",
+    "date": "2026-09-04"
+  },
+  "docs": []
+}
