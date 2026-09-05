@@ -1,0 +1,22 @@
+{
+  "title": "Tourmkr V2 - UI Design",
+  "repository": "GoThruMedia/tourmkr-landing-page",
+  "generated_at": "2026-09-05T22:31:57Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-tourmkr-landing-page-7",
+      "display_title": "Issue #7: Update Landing Page",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">main</code><br>\n<strong>Link :</strong> <code class=\"notranslate\"> https://gothrumedia.github.io/tourmkr-landing-page/</code><br>\n<strong>Link :</strong> <code class=\"notranslate\"> https://gothrumedia.github.io/tourmkr-landing-page/index-wix-2.html</code></p>\n<h2 dir=\"auto\">Options-1</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-492be60b-b641-438b-8212-0c7d0f650dae.png\"><img width=\"256\" height=\"2000\" alt=\"Image\" src=\"images/image-492be60b-b641-438b-8212-0c7d0f650dae.png\" style=\"max-width: 100%; height: auto; max-height: 2000px;; aspect-ratio: 256 / 2000; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Options-2</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-742144e9-ef8d-40a2-9b7d-957647c5fb35.png\"><img width=\"252\" height=\"2000\" alt=\"Image\" src=\"images/image-742144e9-ef8d-40a2-9b7d-957647c5fb35.png\" style=\"max-width: 100%; height: auto; max-height: 2000px;; aspect-ratio: 252 / 2000; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 7,
+        "author": "harun027",
+        "updated_at": "2026-09-05T10:01:54Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Tourmkr V2",
+    "date": "2026-09-05"
+  },
+  "docs": []
+}
