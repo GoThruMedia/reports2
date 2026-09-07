@@ -1,0 +1,22 @@
+{
+  "title": "GoThru RAG API Project Report",
+  "repository": "GoThruMedia/gothru-rag",
+  "generated_at": "2026-09-07T09:15:02Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-rag-6",
+      "display_title": "Issue #6: List Action Files Endpoint",
+      "main_description_html": "<h2 dir=\"auto\">Problem</h2>\n<p dir=\"auto\">There is currently no way for administrators to view the list of uploaded custom action markdown files stored in the <code class=\"notranslate\">actions/</code> directory along with their metadata.</p>\n<h2 dir=\"auto\">Proposed Solution</h2>\n<p dir=\"auto\">Add a <code class=\"notranslate\">GET /actions</code> endpoint that lists all custom action files directly from the filesystem, returning their title, filename, and timestamp metadata without querying a database.</p>\n<h2 dir=\"auto\">Design</h2>\n<ul dir=\"auto\">\n<li><strong>Route:</strong> <code class=\"notranslate\">GET /actions</code> (registered on the admin router)</li>\n<li><strong>Auth:</strong> <code class=\"notranslate\">X-Admin-Key</code> header required (consistent with admin endpoints)</li>\n<li><strong>Model:</strong> <code class=\"notranslate\">ActionFileInfo</code> with fields <code class=\"notranslate\">title</code>, <code class=\"notranslate\">file_name</code>, <code class=\"notranslate\">created_at</code>, and <code class=\"notranslate\">updated_at</code></li>\n<li><strong>Behavior:</strong>\n<ul dir=\"auto\">\n<li>Reads the <code class=\"notranslate\">actions/</code> directory directly from filesystem (no DB)</li>\n<li>Extracts <code class=\"notranslate\">title</code> from the first <code class=\"notranslate\"># ...</code> markdown heading, with fallback to filename stem</li>\n<li>Uses <code class=\"notranslate\">Path.stat()</code> for UTC ISO 8601 <code class=\"notranslate\">created_at</code> and <code class=\"notranslate\">updated_at</code> timestamps</li>\n<li>Sorts by <code class=\"notranslate\">updated_at</code> descending</li>\n<li>Returns empty list <code class=\"notranslate\">[]</code> if the directory doesn't exist or is empty</li>\n</ul>\n</li>\n<li><strong>Errors:</strong> <code class=\"notranslate\">401</code> (invalid/missing key), <code class=\"notranslate\">503</code> (admin key unconfigured), <code class=\"notranslate\">500</code> (directory read error)</li>\n</ul>\n<h2 dir=\"auto\">Acceptance Criteria</h2>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> <code class=\"notranslate\">GET /actions</code> returns a list of action file objects with metadata</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Protected with <code class=\"notranslate\">X-Admin-Key</code> header authentication</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Title extracted from markdown heading with stem fallback</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Timestamps formatted as UTC ISO 8601</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Sorted by <code class=\"notranslate\">updated_at</code> descending</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Non-markdown and hidden files ignored</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Automated tests in <code class=\"notranslate\">tests/api/test_list_actions.py</code> covering all scenarios</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> All test suites pass</li>\n</ul>",
+      "metadata": {
+        "number": 6,
+        "author": "alfarez21",
+        "updated_at": "2026-09-07T09:14:02Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru RAG API",
+    "date": "2026-09-07"
+  },
+  "docs": []
+}
