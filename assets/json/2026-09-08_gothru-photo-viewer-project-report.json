@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Photo Viewer Project Report",
+  "repository": "GoThruMedia/GoThruPhotoViewer",
+  "generated_at": "2026-09-08T06:40:06Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothruphotoviewer-16",
+      "display_title": "Issue #16: [App] Update Minimum OS Version IOS",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-bbdf61cc-c9b1-45ff-8456-90439ba5275b.png\"><img width=\"1600\" height=\"171\" alt=\"Image\" src=\"images/image-bbdf61cc-c9b1-45ff-8456-90439ba5275b.png\" style=\"max-width: 100%; height: auto; max-height: 171px;; aspect-ratio: 1600 / 171; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 16,
+        "author": "anurdin01",
+        "updated_at": "2026-09-08T06:38:55Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Photo Viewer",
+    "date": "2026-09-08"
+  },
+  "docs": []
+}
