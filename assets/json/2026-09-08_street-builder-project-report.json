@@ -1,0 +1,22 @@
+{
+  "title": "Street Builder Project Report",
+  "repository": "GoThruMedia/street-builder-tauri",
+  "generated_at": "2026-09-08T09:40:44Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-street-builder-tauri-3",
+      "display_title": "Issue #3: Migrate Upload Module to up2.gothru.org Endpoint",
+      "main_description_html": "<h2 dir=\"auto\">Demo by developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-91b7612b-4f9f-41c8-a1ca-9cc9c8cac2d8.png\"><img width=\"370\" height=\"172\" alt=\"Image\" src=\"images/image-91b7612b-4f9f-41c8-a1ca-9cc9c8cac2d8.png\" style=\"max-width: 100%; height: auto; max-height: 172px;; aspect-ratio: 370 / 172; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<p dir=\"auto\">currently, we used <a href=\"https://up2.gothru.org\" rel=\"nofollow\">https://up2.gothru.org</a></p>\n<h2 dir=\"auto\">==============</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-4df002e3-d285-40c7-9be4-0cdd1dc2aafd.png\"><img width=\"382\" height=\"238\" alt=\"Image\" src=\"images/image-4df002e3-d285-40c7-9be4-0cdd1dc2aafd.png\" style=\"max-width: 100%; height: auto; max-height: 238px;; aspect-ratio: 382 / 238; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description</h2>\n<p dir=\"auto\">Update the app's upload subsystem to utilize the new up2.gothru.org API to improve performance and stability.</p>\n<h2 dir=\"auto\">Acceptance Criteria:</h2>\n<ol dir=\"auto\">\n<li>Replace legacy upload service calls with up2.gothru.org integration.</li>\n<li>Ensure upload handlers correctly pass file chunks and process response progress streams.</li>\n</ol>",
+      "metadata": {
+        "number": 3,
+        "author": "anurdin01",
+        "updated_at": "2026-09-08T09:25:08Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Street Builder",
+    "date": "2026-09-08"
+  },
+  "docs": []
+}
