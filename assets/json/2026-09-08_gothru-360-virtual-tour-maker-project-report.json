@@ -1,0 +1,22 @@
+{
+  "title": "GoThru 360 Virtual Tour Maker Project Report",
+  "repository": "GoThruMedia/streeteditor-flutter",
+  "generated_at": "2026-09-08T06:23:33Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-streeteditor-flutter-120",
+      "display_title": "Issue #120: [Statistik] Install Countly",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-1a077fed-dfd9-4179-a7e4-43ef45d37626.png\"><img width=\"901\" height=\"518\" alt=\"Image\" src=\"images/image-1a077fed-dfd9-4179-a7e4-43ef45d37626.png\" style=\"max-width: 100%; height: auto; max-height: 518px;; aspect-ratio: 901 / 518; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-153219e8-32df-4c60-9d17-08b72b27930d.png\"><img width=\"896\" height=\"280\" alt=\"Image\" src=\"images/image-153219e8-32df-4c60-9d17-08b72b27930d.png\" style=\"max-width: 100%; height: auto; max-height: 280px;; aspect-ratio: 896 / 280; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-6800a822-be26-4aab-b9b0-5e4c36b39c3a.png\"><img width=\"884\" height=\"448\" alt=\"Image\" src=\"images/image-6800a822-be26-4aab-b9b0-5e4c36b39c3a.png\" style=\"max-width: 100%; height: auto; max-height: 448px;; aspect-ratio: 884 / 448; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-1263c704-222a-48ca-b585-a26f96d9784f.png\"><img width=\"908\" height=\"458\" alt=\"Image\" src=\"images/image-1263c704-222a-48ca-b585-a26f96d9784f.png\" style=\"max-width: 100%; height: auto; max-height: 458px;; aspect-ratio: 908 / 458; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 120,
+        "author": "anurdin01",
+        "updated_at": "2026-09-08T06:21:24Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru 360 Virtual Tour Maker",
+    "date": "2026-09-08"
+  },
+  "docs": []
+}
