@@ -1,0 +1,32 @@
+{
+  "title": "Villume FE Project Report",
+  "repository": "GoThruMedia/villume-admin",
+  "generated_at": "2026-09-09T05:00:28Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-villume-admin-1855",
+      "display_title": "Issue #1855: Release: Deploy Villume Admin to Live Server",
+      "main_description_html": "<h2 dir=\"auto\">Context and goal</h2>\n<p dir=\"auto\">Deploy latest updates from <code class=\"notranslate\">development</code> branch to live server, covering Angular style system refactor, asset URL migration to <code class=\"notranslate\">assets3.villume.com</code>, Countly analytics integration (production only), and SSR runtime optimizations.</p>",
+      "metadata": {
+        "number": 1855,
+        "author": "alfarez21",
+        "updated_at": "2026-09-07T10:34:51Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-villume-gallery-422",
+      "display_title": "Issue #422: Release: Production Deployment to Live Server",
+      "main_description_html": "<h2 dir=\"auto\">Context and goal</h2>\n<p dir=\"auto\">Deploy latest updates from <code class=\"notranslate\">development</code> branch to live server, covering Angular style system refactor,<br>\nasset URL migration to <code class=\"notranslate\">assets3.villume.com</code>, Countly analytics integration (production only), and SSR<br>\nruntime optimizations.</p>",
+      "metadata": {
+        "number": 422,
+        "author": "alfarez21",
+        "updated_at": "2026-09-07T10:38:24Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Villume FE",
+    "date": "2026-09-09"
+  },
+  "docs": []
+}
