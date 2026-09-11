@@ -1,0 +1,22 @@
+{
+  "title": "gothru-photographer - UI Design",
+  "repository": "GoThruMedia/gothru-photographer-v2",
+  "generated_at": "2026-09-11T10:08:58Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photographer-v2-62",
+      "display_title": "Issue #62: Professional Services",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\">Branch : design/photographer-professional-services</p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-e0a3c4e5-af03-4b5d-bce6-836e3a77a8cf.png\"><img width=\"1680\" height=\"1629\" alt=\"Image\" src=\"images/image-e0a3c4e5-af03-4b5d-bce6-836e3a77a8cf.png\" style=\"max-width: 100%; height: auto; max-height: 1629px;; aspect-ratio: 1680 / 1629; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 62,
+        "author": "harun027",
+        "updated_at": "2026-09-11T09:08:37Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "gothru-photographer",
+    "date": "2026-09-11"
+  },
+  "docs": []
+}
