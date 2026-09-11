@@ -1,0 +1,32 @@
+{
+  "title": "Got - UI Design",
+  "repository": "GoThruMedia/gothru-dashboard",
+  "generated_at": "2026-09-11T10:14:07Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4255",
+      "display_title": "Issue #4255: Implement Schedule Button, Tier Gating, and Schedule Modal Logic",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\">Branch: design/schedule-modal-logic</p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-9f2db51b-ab80-4f3c-8ef5-5f8522ecbd7a.png\"><img width=\"1681\" height=\"985\" alt=\"Image\" src=\"images/image-9f2db51b-ab80-4f3c-8ef5-5f8522ecbd7a.png\" style=\"max-width: 100%; height: auto; max-height: 985px;; aspect-ratio: 1681 / 985; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-81aee234-587d-44e4-8339-b3576c3cc701.png\"><img width=\"1678\" height=\"977\" alt=\"Image\" src=\"images/image-81aee234-587d-44e4-8339-b3576c3cc701.png\" style=\"max-width: 100%; height: auto; max-height: 977px;; aspect-ratio: 1678 / 977; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-80d5e109-3631-456c-aea5-bb44ed439731.png\"><img width=\"1679\" height=\"977\" alt=\"Image\" src=\"images/image-80d5e109-3631-456c-aea5-bb44ed439731.png\" style=\"max-width: 100%; height: auto; max-height: 977px;; aspect-ratio: 1679 / 977; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-5c2e27fe-e822-40bb-9953-b29fdedc5360.png\"><img width=\"1677\" height=\"978\" alt=\"Image\" src=\"images/image-5c2e27fe-e822-40bb-9953-b29fdedc5360.png\" style=\"max-width: 100%; height: auto; max-height: 978px;; aspect-ratio: 1677 / 978; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 4255,
+        "author": "harun027",
+        "updated_at": "2026-09-11T09:04:06Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4258",
+      "display_title": "Issue #4258: Professional Services",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\">Branch : design/photographer-professional-services</p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-1275d1c3-9d31-4b9d-98c2-044894ed751d.png\"><img width=\"1681\" height=\"978\" alt=\"Image\" src=\"images/image-1275d1c3-9d31-4b9d-98c2-044894ed751d.png\" style=\"max-width: 100%; height: auto; max-height: 978px;; aspect-ratio: 1681 / 978; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-c6577624-91da-4ac5-9645-b8354a2c1a82.png\"><img width=\"1680\" height=\"981\" alt=\"Image\" src=\"images/image-c6577624-91da-4ac5-9645-b8354a2c1a82.png\" style=\"max-width: 100%; height: auto; max-height: 981px;; aspect-ratio: 1680 / 981; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-f26b938a-44e5-4083-94d3-c6a2ec6511d3.png\"><img width=\"1675\" height=\"971\" alt=\"Image\" src=\"images/image-f26b938a-44e5-4083-94d3-c6a2ec6511d3.png\" style=\"max-width: 100%; height: auto; max-height: 971px;; aspect-ratio: 1675 / 971; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 4258,
+        "author": "harun027",
+        "updated_at": "2026-09-11T08:50:22Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "gothru-photographer",
+    "date": "2026-09-11"
+  },
+  "docs": []
+}
