@@ -1,0 +1,32 @@
+{
+  "title": "Gothru dashboard - UI Design",
+  "repository": "GoThruMedia/gothru-dashboard",
+  "generated_at": "2026-09-14T23:41:25Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4275",
+      "display_title": "Issue #4275: Add CRM Section Menu",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\">Branch : design/add-CRM-section-menu</p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-c176a6bf-beef-4489-b1a3-1cba34c5f052.png\"><img width=\"1680\" height=\"983\" alt=\"Image\" src=\"images/image-c176a6bf-beef-4489-b1a3-1cba34c5f052.png\" style=\"max-width: 100%; height: auto; max-height: 983px;; aspect-ratio: 1680 / 983; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-e7d14337-5605-4a7e-91cb-e360357778cd.png\"><img width=\"1680\" height=\"983\" alt=\"Image\" src=\"images/image-e7d14337-5605-4a7e-91cb-e360357778cd.png\" style=\"max-width: 100%; height: auto; max-height: 983px;; aspect-ratio: 1680 / 983; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-4e5f59ac-7876-4c23-92e6-f27863854578.png\"><img width=\"1680\" height=\"983\" alt=\"Image\" src=\"images/image-4e5f59ac-7876-4c23-92e6-f27863854578.png\" style=\"max-width: 100%; height: auto; max-height: 983px;; aspect-ratio: 1680 / 983; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-0ca1ebe0-7344-4025-9a2e-176fe285db50.png\"><img width=\"1680\" height=\"983\" alt=\"Image\" src=\"images/image-0ca1ebe0-7344-4025-9a2e-176fe285db50.png\" style=\"max-width: 100%; height: auto; max-height: 983px;; aspect-ratio: 1680 / 983; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 4275,
+        "author": "harun027",
+        "updated_at": "2026-09-14T23:35:08Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4276",
+      "display_title": "Issue #4276: Update API Key Management & Archive Tour UI",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\">Branch : design/dashboard-api-key-archive-tour-revision</p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-f6337ff4-959f-460c-9866-bd250e2cc6b2.png\"><img width=\"1600\" height=\"938\" alt=\"Image\" src=\"images/image-f6337ff4-959f-460c-9866-bd250e2cc6b2.png\" style=\"max-width: 100%; height: auto; max-height: 938px;; aspect-ratio: 1600 / 938; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-56cd7426-5de7-4a2e-a8ba-f5c20ea106bd.png\"><img width=\"1600\" height=\"931\" alt=\"Image\" src=\"images/image-56cd7426-5de7-4a2e-a8ba-f5c20ea106bd.png\" style=\"max-width: 100%; height: auto; max-height: 931px;; aspect-ratio: 1600 / 931; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-e7793b2b-c241-432d-a514-3d25765e101f.png\"><img width=\"1600\" height=\"931\" alt=\"Image\" src=\"images/image-e7793b2b-c241-432d-a514-3d25765e101f.png\" style=\"max-width: 100%; height: auto; max-height: 931px;; aspect-ratio: 1600 / 931; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-3a2057bd-fc6d-40b8-a934-bd1ef79c2f67.png\"><img width=\"1600\" height=\"936\" alt=\"Image\" src=\"images/image-3a2057bd-fc6d-40b8-a934-bd1ef79c2f67.png\" style=\"max-width: 100%; height: auto; max-height: 936px;; aspect-ratio: 1600 / 936; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-3464dc31-e205-40ef-9571-a2329a7c6090.png\"><img width=\"1680\" height=\"1138\" alt=\"Image\" src=\"images/image-3464dc31-e205-40ef-9571-a2329a7c6090.png\" style=\"max-width: 100%; height: auto; max-height: 1138px;; aspect-ratio: 1680 / 1138; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-3a877459-2ea0-40bc-a653-16d906c1114e.png\"><img width=\"1678\" height=\"969\" alt=\"Image\" src=\"images/image-3a877459-2ea0-40bc-a653-16d906c1114e.png\" style=\"max-width: 100%; height: auto; max-height: 969px;; aspect-ratio: 1678 / 969; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 4276,
+        "author": "harun027",
+        "updated_at": "2026-09-14T09:35:05Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Gothru dashboard",
+    "date": "2026-09-11"
+  },
+  "docs": []
+}
