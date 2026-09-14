@@ -1,0 +1,22 @@
+{
+  "title": "Villume FE Project Report",
+  "repository": "GoThruMedia/villume-admin",
+  "generated_at": "2026-09-14T04:48:38Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-villume-admin-1863",
+      "display_title": "Issue #1863: Fallback to default avatar icon when avatar image fails to load",
+      "main_description_html": "<h3 dir=\"auto\">Description</h3>\n<p dir=\"auto\">When a user's avatar image fails to load (e.g. broken image URL, 404, or network error), the avatar displays as a broken image icon rather than falling back to the standard default user avatar SVG icon.</p>\n<h3 dir=\"auto\">Expected Behavior</h3>\n<p dir=\"auto\">If an avatar image encounters an error during loading, it should gracefully fall back to displaying the default avatar SVG icon.</p>\n<h3 dir=\"auto\">Scope / Affected Components</h3>\n<ul dir=\"auto\">\n<li>Header (<code class=\"notranslate\">src/app/layouts/header/</code>)</li>\n<li>Sidebar / Sidemenu (<code class=\"notranslate\">src/app/layouts/sidemenu/</code>)</li>\n<li>Profile Settings Avatar Upload (<code class=\"notranslate\">src/app/pages/settings/profile-setting/avatar-upload/</code>)</li>\n<li>User Update (<code class=\"notranslate\">src/app/pages/profile/user-update/</code>)</li>\n<li>Profile Information (<code class=\"notranslate\">src/app/pages/profile/information/</code>)</li>\n<li>White Label Information (<code class=\"notranslate\">src/app/components/white-label/information/</code>)</li>\n<li>Support Table (<code class=\"notranslate\">src/app/pages/support/</code>)</li>\n</ul>\n<h3 dir=\"auto\">Related PR</h3>\n<ul dir=\"auto\">\n<li><a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5444602682\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/villume-admin/issues/1862\" data-hovercard-type=\"pull_request\" data-hovercard-url=\"/GoThruMedia/villume-admin/pull/1862/hovercard\" href=\"https://github.com/GoThruMedia/villume-admin/pull/1862\">#1862</a></li>\n</ul>",
+      "metadata": {
+        "number": 1863,
+        "author": "alfarez21",
+        "updated_at": "2026-09-14T04:40:44Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Villume FE",
+    "date": "2026-09-14"
+  },
+  "docs": []
+}
