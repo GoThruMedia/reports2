@@ -1,0 +1,22 @@
+{
+  "title": "Street Editor Project Report",
+  "repository": "GoThruMedia/streeteditor-flutter",
+  "generated_at": "2026-09-14T01:28:24Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-streeteditor-flutter-121",
+      "display_title": "Issue #121: Fix Version Display",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-223e00c1-6db7-45f2-85ab-2e30e5197768.png\"><img width=\"251\" height=\"68\" alt=\"Image\" src=\"images/image-223e00c1-6db7-45f2-85ab-2e30e5197768.png\" style=\"max-width: 100%; height: auto; max-height: 68px;; aspect-ratio: 251 / 68; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 121,
+        "author": "anurdin01",
+        "updated_at": "2026-09-14T01:24:53Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Street Editor",
+    "date": "2026-09-14"
+  },
+  "docs": []
+}
