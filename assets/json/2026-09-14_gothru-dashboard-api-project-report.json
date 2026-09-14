@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Dashboard API Project Report",
+  "repository": "GoThruMedia/GoThru-API-New",
+  "generated_at": "2026-09-14T08:36:42Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-api-new-1860",
+      "display_title": "Issue #1860: feat(auth): Implement Keycloak Login API Endpoint (GT Token Exchange)",
+      "main_description_html": "<h2 dir=\"auto\">Summary</h2>\n<p dir=\"auto\">Add <code class=\"notranslate\">POST /v1/auth/keycloak-login</code> endpoint to exchange a Keycloak access token for a GoThru login session (token &amp; cookie).</p>\n<h2 dir=\"auto\">Flow</h2>\n<ol dir=\"auto\">\n<li><strong>Token Verification</strong>: Validate the Keycloak token (signature &amp; issuer).</li>\n<li><strong>Account Matching</strong>: Find the user by Keycloak ID (<code class=\"notranslate\">keycloak_sub</code>). If not linked yet, automatically link via matching email.</li>\n<li><strong>Status Check</strong>: Ensure the account is active and the email is verified.</li>\n<li><strong>Issue Session</strong>: Generate GoThru token and session cookie (matching <code class=\"notranslate\">/auth/login</code> response format).</li>\n</ol>\n<h2 dir=\"auto\">Notes</h2>\n<ul dir=\"auto\">\n<li>Applies to existing users (new user registration via Keycloak is handled separately).</li>\n<li>Configuration: <code class=\"notranslate\">KEYCLOAK_BASE_URL</code> and <code class=\"notranslate\">KEYCLOAK_REALM</code>.</li>\n</ul>\n<h2 dir=\"auto\">Acceptance Criteria</h2>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Valid token successfully logs in and returns GoThru token + cookie (200).</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Invalid token is rejected (401).</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Unregistered user is rejected (409).</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Inactive or unverified account is rejected (422).</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> All unit tests pass.</li>\n</ul>\n<h2 dir=\"auto\">Result</h2>\n<ul dir=\"auto\">\n<li><strong>PR:</strong> Merged via <a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5446325703\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/GoThru-API-New/issues/1867\" data-hovercard-type=\"pull_request\" data-hovercard-url=\"/GoThruMedia/GoThru-API-New/pull/1867/hovercard\" href=\"https://github.com/GoThruMedia/GoThru-API-New/pull/1867\">#1867</a>.</li>\n<li><strong>Verification:</strong> Successfully tested token exchange with Keycloak access token — returned HTTP 200 with valid GoThru JWT token and session cookie.</li>\n<li><strong>Tests:</strong> Unit test suite (<code class=\"notranslate\">KeycloakLoginActionTest</code>) passed with 5/5 tests and 11 assertions.</li>\n<li><strong>Performance:</strong> Optimized JWKS certificate lookup with in-memory and app cache, reducing token validation overhead from ~60s to sub-second (&lt;1s).</li>\n</ul>",
+      "metadata": {
+        "number": 1860,
+        "author": "alfarez21",
+        "updated_at": "2026-09-14T08:36:28Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Dashboard API",
+    "date": "2026-09-14"
+  },
+  "docs": []
+}
