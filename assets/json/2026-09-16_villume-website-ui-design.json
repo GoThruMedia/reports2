@@ -1,0 +1,32 @@
+{
+  "title": "Villume Website - UI Design",
+  "repository": "GoThruMedia/villume-admin",
+  "generated_at": "2026-09-16T08:51:10Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-villume-admin-1868",
+      "display_title": "Issue #1868: Create Villume Blog Management & Editor Layout",
+      "main_description_html": "<p dir=\"auto\">#RESULT</p>\n<p dir=\"auto\">branch : design/create-blog</p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-35a3fbcf-2569-4a35-80d1-d8cc938e0c54.png\"><img width=\"1386\" height=\"2000\" alt=\"Image\" src=\"images/image-35a3fbcf-2569-4a35-80d1-d8cc938e0c54.png\" style=\"max-width: 100%; height: auto; max-height: 2000px;; aspect-ratio: 1386 / 2000; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-89cd8d2d-a80c-4a6e-bef6-bb266e645464.png\"><img width=\"1467\" height=\"2000\" alt=\"Image\" src=\"images/image-89cd8d2d-a80c-4a6e-bef6-bb266e645464.png\" style=\"max-width: 100%; height: auto; max-height: 2000px;; aspect-ratio: 1467 / 2000; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-4c27e51b-4a5f-4e29-b807-d5560ad9c195.png\"><img width=\"1467\" height=\"2000\" alt=\"Image\" src=\"images/image-4c27e51b-4a5f-4e29-b807-d5560ad9c195.png\" style=\"max-width: 100%; height: auto; max-height: 2000px;; aspect-ratio: 1467 / 2000; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-a0f7e74f-710b-44dd-9c55-98726e40ce37.png\"><img width=\"1677\" height=\"984\" alt=\"Image\" src=\"images/image-a0f7e74f-710b-44dd-9c55-98726e40ce37.png\" style=\"max-width: 100%; height: auto; max-height: 984px;; aspect-ratio: 1677 / 984; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-310ff2c9-8d06-4421-9d66-900e5e87e86f.png\"><img width=\"1467\" height=\"2000\" alt=\"Image\" src=\"images/image-310ff2c9-8d06-4421-9d66-900e5e87e86f.png\" style=\"max-width: 100%; height: auto; max-height: 2000px;; aspect-ratio: 1467 / 2000; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 1868,
+        "author": "anurdin01",
+        "updated_at": "2026-09-16T08:45:06Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-villume-admin-1867",
+      "display_title": "Issue #1867: Create Villume Marketing Blog Layout",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\">branch : design/create-blog</p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-ca4d3b4c-a7ec-4a3a-8b6e-8c5ef9779181.png\"><img width=\"391\" height=\"2000\" alt=\"Image\" src=\"images/image-ca4d3b4c-a7ec-4a3a-8b6e-8c5ef9779181.png\" style=\"max-width: 100%; height: auto; max-height: 2000px;; aspect-ratio: 391 / 2000; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 1867,
+        "author": "anurdin01",
+        "updated_at": "2026-09-16T08:46:29Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Villume Website",
+    "date": "2026-09-16"
+  },
+  "docs": []
+}
