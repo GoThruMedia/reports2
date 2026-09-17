@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Photo Studio Project Report",
+  "repository": "GoThruMedia/gothru-photo-studio-tauri",
+  "generated_at": "2026-09-17T09:11:08Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photo-studio-tauri-228",
+      "display_title": "Issue #228: Integrate Windows CLI Engine (pano.exe) for 360 Stitching Pipeline",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-93dea91f-e66c-41ae-b437-09914b88f7d9.png\"><img width=\"560\" height=\"227\" alt=\"Image\" src=\"images/image-93dea91f-e66c-41ae-b437-09914b88f7d9.png\" style=\"max-width: 100%; height: auto; max-height: 227px;; aspect-ratio: 560 / 227; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description:</h2>\n<p dir=\"auto\">Integrate the new Windows-compatible stitching CLI executable (pano.exe) into the desktop app processing engine, orchestrating both the project file generation (create) and final panorama export (render).<br>\n<a href=\"https://drive.google.com/file/d/1yiwjjlpigrnKMJzNur7qaih5fA--7KY7/view?usp=sharing\" rel=\"nofollow\">https://drive.google.com/file/d/1yiwjjlpigrnKMJzNur7qaih5fA--7KY7/view?usp=sharing</a></p>\n<p dir=\"auto\">new version<br>\n<a href=\"https://drive.google.com/file/d/1sNtGjdTJV4L2QRI02VQ-kWrJOqAfqgZb/view?usp=sharing\" rel=\"nofollow\">https://drive.google.com/file/d/1sNtGjdTJV4L2QRI02VQ-kWrJOqAfqgZb/view?usp=sharing</a></p>\n<div class=\"snippet-clipboard-content notranslate position-relative overflow-auto\" data-snippet-clipboard-copy-content=\"&amp; &quot;K:\\Projects\\panorama-stitcher\\dist\\pano\\pano.exe&quot; create &quot;K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\IMG_0853-IMG_0855.jpg&quot;\n     &quot;K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\IMG_0856-IMG_0858.jpg&quot; &quot;K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\IMG_0859-IMG_0861.jpg&quot;\n     &quot;K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\IMG_0862-IMG_0864.jpg&quot; --output &quot;K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\3585564-gpu.pts&quot;\n     --exposure optimize \n\n&amp; &quot;K:\\Projects\\panorama-stitcher\\dist\\pano\\pano.exe&quot; render &quot;K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\3585564-gpu.pts&quot;\n     &quot;K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\3585564-gpu-8192.jpg&quot; --width 8192\n     --height 4096 --blend multiband\n     --backend gpu-multiband-experimental --coordinate-geometry gpu-experimental\n     --sampling mipmap `\n     --photometric auto\"><pre class=\"notranslate\"><code class=\"notranslate\">&amp; \"K:\\Projects\\panorama-stitcher\\dist\\pano\\pano.exe\" create \"K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\IMG_0853-IMG_0855.jpg\"\n     \"K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\IMG_0856-IMG_0858.jpg\" \"K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\IMG_0859-IMG_0861.jpg\"\n     \"K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\IMG_0862-IMG_0864.jpg\" --output \"K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\3585564-gpu.pts\"\n     --exposure optimize \n\n&amp; \"K:\\Projects\\panorama-stitcher\\dist\\pano\\pano.exe\" render \"K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\3585564-gpu.pts\"\n     \"K:\\Work\\GoThru\\2026\\09\\09\\3585564\\pano\\enfuse\\3585564-gpu-8192.jpg\" --width 8192\n     --height 4096 --blend multiband\n     --backend gpu-multiband-experimental --coordinate-geometry gpu-experimental\n     --sampling mipmap `\n     --photometric auto\n</code></pre></div>\n<h2 dir=\"auto\">Result from developer</h2>\n<p dir=\"auto\"><a href=\"https://drive.google.com/drive/folders/1ryZYzTV2qHAc92PwiJ83sfpLizAyY7Qu?usp=sharing\" rel=\"nofollow\">https://drive.google.com/drive/folders/1ryZYzTV2qHAc92PwiJ83sfpLizAyY7Qu?usp=sharing</a></p>",
+      "metadata": {
+        "number": 228,
+        "author": "anurdin01",
+        "updated_at": "2026-09-17T09:10:15Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Photo Studio",
+    "date": "2026-09-17"
+  },
+  "docs": []
+}
