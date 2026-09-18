@@ -1,0 +1,22 @@
+{
+  "title": "GoThru RAG API Project Report",
+  "repository": "GoThruMedia/gothru-rag",
+  "generated_at": "2026-09-18T06:19:41Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-rag-27",
+      "display_title": "Issue #27: ops: provision CockroachDB database, secure user, and native vector storage for GoThru RAG",
+      "main_description_html": "<h2 dir=\"auto\">Overview</h2>\n<p dir=\"auto\">Provisioned and configured a dedicated CockroachDB database on the production cluster (<code class=\"notranslate\">192.168.1.227:26257</code>) to support persistent knowledge base storage, native vector search (1536-dimensional embeddings), and hybrid retrieval for GoThru RAG Copilot.</p>\n<h2 dir=\"auto\">Environment &amp; Infrastructure</h2>\n<ul dir=\"auto\">\n<li><strong>Database Server:</strong> <code class=\"notranslate\">192.168.1.227</code> (CockroachDB v26.2.2 CCL)</li>\n<li><strong>Port:</strong> <code class=\"notranslate\">26257</code> (SQL), <code class=\"notranslate\">8080</code> (Web UI)</li>\n<li><strong>Security Mode:</strong> Secure mode with TLS/SSL encryption (<code class=\"notranslate\">sslmode=require</code>)</li>\n<li><strong>Target Database:</strong> <code class=\"notranslate\">gothru_rag</code></li>\n<li><strong>Database User:</strong> <code class=\"notranslate\">gothru_rag_user</code></li>\n</ul>\n<h2 dir=\"auto\">Tasks Completed</h2>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Create dedicated database: <code class=\"notranslate\">CREATE DATABASE gothru_rag;</code></li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Create secure user with password authentication: <code class=\"notranslate\">CREATE USER gothru_rag_user WITH PASSWORD '...';</code></li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Grant ownership and all privileges: <code class=\"notranslate\">ALTER DATABASE gothru_rag OWNER TO gothru_rag_user;</code></li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Verify SSL/TLS connectivity from application servers (<code class=\"notranslate\">apil-2</code>) with <code class=\"notranslate\">sslmode=require</code></li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Verify native vector DDL support (<code class=\"notranslate\">VECTOR(1536)</code> and <code class=\"notranslate\">cosine_distance()</code>)</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Run initial knowledge base &amp; vector seeding via <code class=\"notranslate\">scripts/seed_cockroach.py</code>:\n<ul dir=\"auto\">\n<li><strong>104 knowledge documents</strong> seeded</li>\n<li><strong>97 action contracts</strong> registered</li>\n<li><strong>104 vector embeddings (1536-dim)</strong> generated via Gemini and persisted</li>\n</ul>\n</li>\n</ul>\n<h2 dir=\"auto\">Verification &amp; Status</h2>\n<ul dir=\"auto\">\n<li>Connection tested and verified from <code class=\"notranslate\">gothru-apil-2</code> (<code class=\"notranslate\">192.168.1.178</code>).</li>\n<li>Service <code class=\"notranslate\">gothru-rag.service</code> reporting healthy database status on <code class=\"notranslate\">GET /health</code>.</li>\n<li>All 164 unit, integration, and DB tests passing.</li>\n</ul>",
+      "metadata": {
+        "number": 27,
+        "author": "alfarez21",
+        "updated_at": "2026-09-18T06:18:01Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru RAG API",
+    "date": "2026-09-18"
+  },
+  "docs": []
+}
