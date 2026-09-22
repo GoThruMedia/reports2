@@ -1,0 +1,32 @@
+{
+  "title": "GoThru 360 Virtual Tour Maker Project Report",
+  "repository": "GoThruMedia/streeteditor-flutter",
+  "generated_at": "2026-09-22T10:39:26Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-streeteditor-flutter-124",
+      "display_title": "Issue #124: Fix Low-Resolution Panorama Export and Downscaling on GoThru Import",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-11250f52-261e-4d3e-99cf-dc9b597fff27.png\"><img width=\"990\" height=\"385\" alt=\"Image\" src=\"images/image-11250f52-261e-4d3e-99cf-dc9b597fff27.png\" style=\"max-width: 100%; height: auto; max-height: 385px;; aspect-ratio: 990 / 385; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description:</h2>\n<h2 dir=\"auto\">Investigate and fix an issue where 360 images exported or uploaded from the mobile application to the web platform (app.gothru.co) are downscaled to an extremely low resolution (2160 x 1080 px at ~508 KB). The mobile app should preserve the full capture resolution (or maximum export quality) instead of uploading preview/proxy thumbnails.</h2>\n<p dir=\"auto\">FIX REPORT FROM DEVELOPER<br>\nSummary: Low-resolution panoramas from the Insta360 camera</p>\n<p dir=\"auto\">Status</p>\n<p dir=\"auto\">Android: ✅ Fixed<br>\niOS: 🔄 In progress<br>\nThe problem<br>\nPanoramas taken with the Insta360 X5 through the app looked noticeably less sharp on GoThru than the camera's own photos. The camera took full-quality pictures, but the app shrank each one to a much smaller size before saving it. Because of that, the smaller version was also what went to GoThru. At the camera's 18MP setting, about 87% of the photo's detail was lost.</p>\n<p dir=\"auto\">The cause<br>\nRight after a photo came off the camera, the app made a \"clean copy\" of it for safekeeping. That copying step used an image tool whose default setting shrinks pictures to roughly TV-screen size. Nobody had changed that default, so every panorama was reduced before it was saved. The part of the app that turns the camera's photo into a panorama also used a fixed size instead of matching the camera's quality.</p>\n<p dir=\"auto\">The solution</p>\n<p dir=\"auto\">The app now saves an exact copy of the camera's photo, with no shrinking or re-compressing.<br>\nThe app now matches the camera's own quality setting when it builds the panorama, instead of using a fixed size.<br>\nWhere things stand</p>\n<p dir=\"auto\">✅ Android: the fix is done. On our test phone, the app now produces the full-size panorama.<br>\n🔄 iOS: the same changes have been made in the code but have not been built or tested on an iPhone yet.<br>\nThings to be aware of</p>\n<p dir=\"auto\">Old photos: photos taken before this fix stay at the lower quality. Only new photos are full quality.<br>\nBigger files: full-quality photos are larger, so uploads take longer, especially on slow connections.<br>\nHighest camera setting (72MP): at this setting, processing takes longer and older phones may struggle. We will test on lower-end devices before release.</p>",
+      "metadata": {
+        "number": 124,
+        "author": "anurdin01",
+        "updated_at": "2026-09-21T10:13:59Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-streeteditor-flutter-125",
+      "display_title": "Issue #125: Fix Insta360 X6 Camera Discovery and Connection Failure",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-63cb7af8-91f0-427e-8dbb-057b9c22142a.png\"><img width=\"661\" height=\"445\" alt=\"Image\" src=\"images/image-63cb7af8-91f0-427e-8dbb-057b9c22142a.png\" style=\"max-width: 100%; height: auto; max-height: 445px;; aspect-ratio: 661 / 445; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description:</h2>\n<h2 dir=\"auto\">Investigate and fix an issue where the mobile application build 3.0.13 fails to detect or connect to the Insta360 X6 camera, displaying the error message: \"No Insta360 camera found. Turn the camera on, keep it within 3 meters, and ensure Bluetooth and Location are enabled.\". The camera connects without issue using other tools (e.g., 360 Panorama Viewer), indicating a regression introduced in build 3.0.13.</h2>\n<p dir=\"auto\">FIX REPORT FROM DEVELOPER<br>\nInsta360 Camera SDK Upgrade: Status Report</p>\n<p dir=\"auto\">Status<br>\n✅ Android: Done. It now runs the same Insta360 camera software as GoThru 360 Viewer.<br>\n🔄 iOS: In progress. It is still on an older version.</p>\n<p dir=\"auto\">The problem<br>\nStreetEditor talks to Insta360 cameras through software provided by Insta360. On Android, we updated that software to the version GoThru 360 Viewer uses. On iOS, it is still one version behind. As long as the two apps run different versions, the same camera can behave differently in each app, and issues are harder to track down.</p>",
+      "metadata": {
+        "number": 125,
+        "author": "anurdin01",
+        "updated_at": "2026-09-21T10:12:38Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru 360 Virtual Tour Maker",
+    "date": "2026-09-22"
+  },
+  "docs": []
+}
