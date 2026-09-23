@@ -1,0 +1,22 @@
+{
+  "title": "gothru-3d-floormap - UI Design",
+  "repository": "GoThruMedia/gothru-3d-floormap",
+  "generated_at": "2026-09-23T03:36:46Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-3d-floormap-1083",
+      "display_title": "Issue #1083: Blue Line Tours",
+      "main_description_html": "<h2 dir=\"auto\">RESULT</h2>\n<p dir=\"auto\"><strong>Branch:</strong> <code class=\"notranslate\">design/-blue-line-editor</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-4e3921e9-1b62-4224-b76a-eb1f0a0aa8a5.png\"><img width=\"1680\" height=\"983\" alt=\"Image\" src=\"images/image-4e3921e9-1b62-4224-b76a-eb1f0a0aa8a5.png\" style=\"max-width: 100%; height: auto; max-height: 983px;; aspect-ratio: 1680 / 983; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-6521907e-32e2-42b0-992e-b4ecb63dc16e.png\"><img width=\"1680\" height=\"983\" alt=\"Image\" src=\"images/image-6521907e-32e2-42b0-992e-b4ecb63dc16e.png\" style=\"max-width: 100%; height: auto; max-height: 983px;; aspect-ratio: 1680 / 983; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-c14bb248-8120-4084-b766-c40d70dcd142.png\"><img width=\"1600\" height=\"1141\" alt=\"Image\" src=\"images/image-c14bb248-8120-4084-b766-c40d70dcd142.png\" style=\"max-width: 100%; height: auto; max-height: 1141px;; aspect-ratio: 1600 / 1141; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-11cd0e5c-9ea7-450b-bc86-98fbc7635a11.png\"><img width=\"1600\" height=\"936\" alt=\"Image\" src=\"images/image-11cd0e5c-9ea7-450b-bc86-98fbc7635a11.png\" style=\"max-width: 100%; height: auto; max-height: 936px;; aspect-ratio: 1600 / 936; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-cff1ed9c-ccdf-4b6c-85f4-17b40c949fff.png\"><img width=\"1680\" height=\"983\" alt=\"Image\" src=\"images/image-cff1ed9c-ccdf-4b6c-85f4-17b40c949fff.png\" style=\"max-width: 100%; height: auto; max-height: 983px;; aspect-ratio: 1680 / 983; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-3608cd39-fac9-43f5-9099-3e58331521e4.png\"><img width=\"1681\" height=\"982\" alt=\"Image\" src=\"images/image-3608cd39-fac9-43f5-9099-3e58331521e4.png\" style=\"max-width: 100%; height: auto; max-height: 982px;; aspect-ratio: 1681 / 982; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 1083,
+        "author": "harun027",
+        "updated_at": "2026-09-23T03:18:48Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "gothru-3d-floormap",
+    "date": "2026-09-23"
+  },
+  "docs": []
+}
