@@ -1,0 +1,22 @@
+{
+  "title": "Villume Website - UI Design",
+  "repository": "GoThruMedia/villume-admin",
+  "generated_at": "2026-09-23T03:50:51Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-villume-admin-1897",
+      "display_title": "Issue #1897: Villume Virtual Galleries Management",
+      "main_description_html": "<h3 dir=\"auto\">RESULT</h3>\n<p dir=\"auto\">Branch : <code class=\"notranslate\">design/villume-virtual-galleries-management</code></p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-41356aea-622e-4815-863a-36471b0837df.png\"><img width=\"1680\" height=\"1665\" alt=\"Image\" src=\"images/image-41356aea-622e-4815-863a-36471b0837df.png\" style=\"max-width: 100%; height: auto; max-height: 1665px;; aspect-ratio: 1680 / 1665; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-6453d074-47c7-494c-80a3-ad2eeb930c95.png\"><img width=\"1680\" height=\"1665\" alt=\"Image\" src=\"images/image-6453d074-47c7-494c-80a3-ad2eeb930c95.png\" style=\"max-width: 100%; height: auto; max-height: 1665px;; aspect-ratio: 1680 / 1665; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-222ff8b5-2365-4169-b8a1-5ca4877a8cfb.png\"><img width=\"1680\" height=\"1665\" alt=\"Image\" src=\"images/image-222ff8b5-2365-4169-b8a1-5ca4877a8cfb.png\" style=\"max-width: 100%; height: auto; max-height: 1665px;; aspect-ratio: 1680 / 1665; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-6b57c07a-c362-40d8-9daa-fc14bf2c4cda.png\"><img width=\"1680\" height=\"1356\" alt=\"Image\" src=\"images/image-6b57c07a-c362-40d8-9daa-fc14bf2c4cda.png\" style=\"max-width: 100%; height: auto; max-height: 1356px;; aspect-ratio: 1680 / 1356; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-9f2e2dcd-f753-4a1a-a7c7-e1a3ef81dc11.png\"><img width=\"1680\" height=\"1356\" alt=\"Image\" src=\"images/image-9f2e2dcd-f753-4a1a-a7c7-e1a3ef81dc11.png\" style=\"max-width: 100%; height: auto; max-height: 1356px;; aspect-ratio: 1680 / 1356; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-f8ff88b0-2543-47b5-9c86-2b3c03f1000c.png\"><img width=\"1680\" height=\"1600\" alt=\"Image\" src=\"images/image-f8ff88b0-2543-47b5-9c86-2b3c03f1000c.png\" style=\"max-width: 100%; height: auto; max-height: 1600px;; aspect-ratio: 1680 / 1600; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-0a01d9d7-fc62-4d05-9dd1-2988caca8a99.png\"><img width=\"1680\" height=\"1600\" alt=\"Image\" src=\"images/image-0a01d9d7-fc62-4d05-9dd1-2988caca8a99.png\" style=\"max-width: 100%; height: auto; max-height: 1600px;; aspect-ratio: 1680 / 1600; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-c0ad1b8f-4632-495a-ab98-bb0f2dbcec68.png\"><img width=\"1680\" height=\"1600\" alt=\"Image\" src=\"images/image-c0ad1b8f-4632-495a-ab98-bb0f2dbcec68.png\" style=\"max-width: 100%; height: auto; max-height: 1600px;; aspect-ratio: 1680 / 1600; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-59592cbc-2d6c-4d56-8110-57ba22fac955.png\"><img width=\"1680\" height=\"1600\" alt=\"Image\" src=\"images/image-59592cbc-2d6c-4d56-8110-57ba22fac955.png\" style=\"max-width: 100%; height: auto; max-height: 1600px;; aspect-ratio: 1680 / 1600; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 1897,
+        "author": "harun027",
+        "updated_at": "2026-09-23T03:37:36Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Villume Website",
+    "date": "2026-09-23"
+  },
+  "docs": []
+}
