@@ -1,0 +1,22 @@
+{
+  "title": "Panorra Mobile Live Project Report",
+  "repository": "GoThruMedia/panorra",
+  "generated_at": "2026-09-23T10:59:18Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-panorra-3005",
+      "display_title": "Issue #3005: Support High-Resolution (16K) Uploads with Automatic Client-Side Downscaling to 8K on Live & Dev",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-229f2458-e80c-470a-a375-26deb7aec611.png\"><img width=\"451\" height=\"426\" alt=\"Image\" src=\"images/image-229f2458-e80c-470a-a375-26deb7aec611.png\" style=\"max-width: 100%; height: auto; max-height: 426px;; aspect-ratio: 451 / 426; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description:</h2>\n<p dir=\"auto\">Enable the Panorra Mobile app to accept ultra-high-resolution panoramas (such as 15,520 x 7,760 px from the Insta360 X6) and automatically downscale them to 8K (8,192 x 4,096 px) before uploading. Currently, images exceeding 15,000 pixels are rejected during the upload selection step.</p>",
+      "metadata": {
+        "number": 3005,
+        "author": "anurdin01",
+        "updated_at": "2026-09-23T10:40:12Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "Panorra Mobile Live",
+    "date": "2026-09-23"
+  },
+  "docs": []
+}
