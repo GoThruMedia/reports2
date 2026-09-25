@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Photo Studio Project Report",
+  "repository": "GoThruMedia/gothru-photo-studio-tauri",
+  "generated_at": "2026-09-25T07:29:18Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photo-studio-tauri-240",
+      "display_title": "Issue #240: feat(stitching): Add External Multiblend blending engine to Stitcher Alin (pano.exe)",
+      "main_description_html": "<h3 dir=\"auto\">Summary &amp; Objective</h3>\n<p dir=\"auto\">Implement external Multiblend blending support for the <strong>Stitcher Alin</strong> (<code class=\"notranslate\">pano.exe</code>) stitching pipeline, enabling high-performance multi-band blending via arms-length child process invocation without licensing contamination (ADR-Multiblend Exclusion Amendment 1).</p>\n<h3 dir=\"auto\">Scope of Work</h3>\n<ol dir=\"auto\">\n<li>\n<p dir=\"auto\"><strong>Engine Rebuild (<code class=\"notranslate\">pano.exe</code>)</strong>:</p>\n<ul dir=\"auto\">\n<li>Rebuilt protected <code class=\"notranslate\">pano.exe</code> from <code class=\"notranslate\">GoThruMedia/pano-stitcher-a@main</code> with HS1 challenge-response protection enabled (<code class=\"notranslate\">--protection secret</code>).</li>\n<li>Supports CLI flags <code class=\"notranslate\">--blend external</code>, <code class=\"notranslate\">--external-executable &lt;path&gt;</code>, and <code class=\"notranslate\">--keep-external-layers</code>.</li>\n<li>Bypasses quarter-power internal blend space and exports standard sRGB TIFF layers with associated alpha masks to temp directory.</li>\n</ul>\n</li>\n<li>\n<p dir=\"auto\"><strong>Backend Rust Integration (<code class=\"notranslate\">gothru-photo-studio-tauri</code>)</strong>:</p>\n<ul dir=\"auto\">\n<li>Extended <code class=\"notranslate\">StitchConfig</code> and <code class=\"notranslate\">parse_config</code> in <code class=\"notranslate\">src-tauri/src/commands/stitching.rs</code> to whitelist <code class=\"notranslate\">'external'</code> for <code class=\"notranslate\">alin_blend</code> and parse <code class=\"notranslate\">alin_external_executable</code>.</li>\n<li>Updated <code class=\"notranslate\">stitching_alin.rs</code> to construct <code class=\"notranslate\">--blend external --external-executable &lt;path&gt;</code> render argv.</li>\n<li>Implemented zero-configuration resolution defaulting to bundled <code class=\"notranslate\">fisheye-stitch/models/multiblend.exe</code> when no manual path is supplied.</li>\n<li>Fail-fast hard error when no binary is found (no silent degradation to internal multiband).</li>\n</ul>\n</li>\n<li>\n<p dir=\"auto\"><strong>Frontend &amp; Settings UI</strong>:</p>\n<ul dir=\"auto\">\n<li>Added <code class=\"notranslate\">External Multiblend</code> option to <code class=\"notranslate\">AlinBlendMethod</code> dropdown in <code class=\"notranslate\">Settings.tsx</code>.</li>\n<li>Added custom executable path input in Settings with helper text.</li>\n<li>Updated Redux slice (<code class=\"notranslate\">stitchingSlice.ts</code>), payload assembly (<code class=\"notranslate\">useStitching.ts</code>), IPC type definitions, and localized strings across 18 languages in <code class=\"notranslate\">src/locales/*.json</code>.</li>\n</ul>\n</li>\n<li>\n<p dir=\"auto\"><strong>Testing &amp; Quality Gate</strong>:</p>\n<ul dir=\"auto\">\n<li>Rust integration tests: <code class=\"notranslate\">cargo test --test test_stitching_alin_external_blend</code> (7/7 passed).</li>\n<li>Security handshake test: <code class=\"notranslate\">cargo test --test test_pano_handshake</code> (7/7 passed, including bundled <code class=\"notranslate\">pano.exe</code>).</li>\n<li>Frontend tests: Redux slice &amp; payload builder unit tests (11/11 passed).</li>\n<li>Strict typecheck: <code class=\"notranslate\">tsc --noEmit</code> (clean).</li>\n</ul>\n</li>\n</ol>\n<h3 dir=\"auto\">Verification &amp; Handshake Status</h3>\n<ul dir=\"auto\">\n<li>Standalone fail-closed execution verified (exit code 42 without handshake responder).</li>\n<li>Handshake with Rust responder verified (exit 0).</li>\n<li>External blend TIFF layer export &amp; multiblend execution verified against real datasets.</li>\n</ul>",
+      "metadata": {
+        "number": 240,
+        "author": "esa08",
+        "updated_at": "2026-09-25T07:24:51Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Photo Studio",
+    "date": "2026-09-25"
+  },
+  "docs": []
+}
