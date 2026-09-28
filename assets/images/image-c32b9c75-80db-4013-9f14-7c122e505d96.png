@@ -1,0 +1,226 @@
+# Bug Fix Design: Import Tour by CID Returns Wrong Name, CID, and Location
+
+**Date:** 2026-06-02
+**Domain:** Tours / Import
+**Route:** `POST /tours/import-google`
+**Status:** Approved for implementation
+
+---
+
+## 1. Problem Statement
+
+When a user imports a tour by CID (e.g., `2626221539385545619`), the created tour ends up with a wrong business name, wrong CID, and wrong address — affecting every CID-based import systematically.
+
+**Expected:** Import CID `2626221539385545619` → tour named "Arca Boutique Hotel", address "West bay Beach, 34101 Bay Islands, Honduras", CID `2626221539385545619`.
+
+**Actual:** Tour is created with a different business name, a different CID, and a different address.
+
+The root cause is a data hand-off gap: the correct place info is resolved early in the flow and then silently discarded. The import step re-derives place identity independently from Google Street View photo metadata, which can belong to any nearby business.
+
+---
+
+## 2. Root Cause
+
+The import flow has two sequential steps:
+
+**Step 1 — CID Resolution (correct)**
+The frontend calls an internal endpoint to convert the CID into full place info:
+```
+GET /location/search?cid=2626221539385545619
+→ { cid, place_name, place_address, lat, lng }   ✓ authoritative, correct
+```
+
+**Step 2 — Tour Import (broken)**
+The frontend forwards only `lat` and `lng` to the import endpoint, discarding the rest:
+```
+POST /tours/import-google { lat, lng, email }
+```
+
+Inside `createConstellationByLatLongV2()`, the system queries the Google Street View Publish API with the coordinates and radius. It then re-derives place identity (name, CID, address) from whichever photo's metadata it encounters. Those photos can belong to any business near those coordinates — not necessarily the one the user intended.
+
+**The correct data is available but thrown away at the hand-off between step 1 and step 2.**
+
+---
+
+## 3. Data Flow
+
+### As-Is (Broken)
+
+```
+User provides CID
+    ↓
+GET /location/search?cid=...
+    → { cid ✓, place_name ✓, place_address ✓, lat ✓, lng ✓ }
+    ↓
+Frontend DISCARDS cid, place_name, place_address
+    ↓
+POST /tours/import-google { lat, lng, email }
+    ↓
+createConstellationByLatLongV2(lat, lng, radius)
+    ↓
+listPhotosByLatLong() → Google Street View Publish API
+    → returns photos that may belong to a DIFFERENT nearby place
+    ↓
+createConstellation() uses Street View photo metadata as place identity
+    → tour saved with WRONG name, WRONG CID, WRONG address
+```
+
+### To-Be (Fixed)
+
+```
+User provides CID
+    ↓
+GET /location/search?cid=...
+    → { cid ✓, place_name ✓, place_address ✓, lat ✓, lng ✓ }
+    ↓
+Frontend FORWARDS all fields
+    ↓
+POST /tours/import-google { lat, lng, email, cid, place_name, place_address }
+    ↓
+createConstellationByLatLongV2(lat, lng, radius, cid, place_name, place_address)
+    ↓
+listPhotosByLatLong() → Google Street View Publish API  (unchanged — photos still fetched by coordinates)
+    ↓
+createConstellation() uses the PASSED cid, place_name, place_address as authoritative identity
+    → tour saved with CORRECT name, CORRECT CID, CORRECT address
+```
+
+The Street View photo fetch is unchanged. We still need the photos from the coordinates. Only the source of place identity changes: from "whatever Street View photo metadata says" to "what the user resolved via the CID endpoint."
+
+---
+
+## 4. Changes Required
+
+### 4.1 `ToursController::importToursFromGoogleMaps()`
+**File:** `app/Http/Controllers/Tours/ToursController.php`
+
+Accept three new **optional** request fields:
+- `cid` (string|null)
+- `place_name` (string|null)
+- `place_address` (string|null)
+
+Extract them and pass them through to `PublishClass::createConstellationByLatLongV2()`.
+
+**Backward compatibility:** If any of the three are absent, fall back to the current behaviour (re-derive place identity from Street View metadata). This preserves existing callers that pass only lat/lng.
+
+### 4.2 `PublishClass::createConstellationByLatLongV2()`
+**File:** `app/Class/PublishClass.php`
+
+Add three optional parameters: `$cid = null`, `$placeName = null`, `$placeAddress = null`.
+
+When all three are provided (non-null, non-empty), skip re-deriving place identity from Street View photo metadata and pass the provided values directly into `createConstellation()`.
+
+When any of the three are absent, retain the existing logic unchanged.
+
+### 4.3 `ConstellationClass::createConstellation()`
+**File:** `app/Class/ConstellationClass.php`
+
+**No changes needed.** The method already accepts `$name`, `$address`, and `$cid` as arguments. The fix is entirely upstream: passing the correct values into it.
+
+---
+
+## 5. Frontend Contract Change
+
+The frontend must be updated to forward the full place info from the CID resolution step to the import endpoint:
+
+**Before:**
+```json
+POST /tours/import-google
+{
+  "lat": -16.3022,
+  "lng": -86.5337,
+  "email": "account@google.com",
+  "radius": 100
+}
+```
+
+**After:**
+```json
+POST /tours/import-google
+{
+  "lat": -16.3022,
+  "lng": -86.5337,
+  "email": "account@google.com",
+  "radius": 100,
+  "cid": "2626221539385545619",
+  "place_name": "Arca Boutique Hotel",
+  "place_address": "West bay Beach, 34101 Bay Islands, Honduras"
+}
+```
+
+All three new fields (`cid`, `place_name`, `place_address`) must be present together to take effect. If any one is missing, the backend silently falls back to Street View metadata.
+
+---
+
+## 6. Acceptance Criteria
+
+### AC-1 — Correct place identity when all override fields are provided
+
+**Given** a request to `POST /tours/import-google` that includes `cid`, `place_name`, and `place_address`
+**When** the import completes successfully
+**Then** the created tour in `0_moderation` must have:
+- `business_name` = the value passed in `place_name`
+- `place_address` = the value passed in `place_address`
+- `1_cid` = the value passed in `cid`
+
+**Example:**
+Request includes `cid=2626221539385545619`, `place_name=Arca Boutique Hotel`, `place_address=West bay Beach, 34101 Bay Islands, Honduras`
+→ Tour row has exactly those three values, regardless of what Google Street View photo metadata says.
+
+---
+
+### AC-2 — Backward compatibility when override fields are absent
+
+**Given** a request to `POST /tours/import-google` that contains only `lat`, `lng`, `email` (no `cid`, `place_name`, or `place_address`)
+**When** the import completes
+**Then** the created tour uses place identity derived from Google Street View photo metadata — identical to the behaviour before this fix.
+
+---
+
+### AC-3 — Partial override is ignored (all-or-nothing)
+
+**Given** a request that includes only one or two of the three override fields (e.g., `cid` is present but `place_name` is absent)
+**When** the import runs
+**Then** the tour falls back to Street View metadata — the partial override is not applied.
+
+---
+
+### AC-4 — Photo content is unaffected by the override
+
+**Given** a request that includes all three override fields
+**When** the import completes
+**Then** the panoramas imported into the tour are still the Street View photos fetched from the provided `lat`/`lng` coordinates — the override only changes the tour's name, address, and CID, not which photos are imported.
+
+---
+
+### AC-5 — `moderation_id` is returned on success
+
+**Given** a valid request with correct `lat`, `lng`, `email`, and Google account connected
+**When** the import succeeds (with or without override fields)
+**Then** the response is HTTP 200 with `{ "moderation_id": <number> }` in the payload.
+
+---
+
+### AC-6 — Missing `lat` or `lng` still returns validation error
+
+**Given** a request to `POST /tours/import-google` that omits `lat` or `lng`
+**When** the request is processed
+**Then** the response is HTTP 409 with a validation error — unchanged from existing behaviour.
+
+---
+
+## 7. Out of Scope
+
+- **RabbitMQ/worker path (`import_tour` queue):** The `import.php` worker has the same structural gap — the CID it receives may not match what the Street View photos report. This is a separate concern to address in a follow-up task.
+- **`POST /tours/import-placeid`:** This endpoint uses a different resolution path (`importConstellationPlaceid`) and is not affected by this fix.
+- **ADR migration:** `ToursController::importToursFromGoogleMaps()` and `PublishClass` are legacy code. This fix touches them minimally. A full ADR migration of the import flow is a separate, larger task.
+
+---
+
+## 7. Considered Alternatives
+
+**Approach B — New `POST /tours/import-cid` endpoint (ADR)**
+A clean new ADR slice (`ImportByCidController` → `ImportByCidAction`) that takes only `cid` + `email` and resolves everything server-side. This is the correct long-term architecture but requires a new route and frontend changes. Deferred — the current fix unblocks users immediately.
+
+**Approach C — Pass CID through the queue job**
+Extend the RabbitMQ payload to include the CID so the worker uses it as the authoritative identifier. Deferred as a follow-up alongside the worker path fix noted in §6.
