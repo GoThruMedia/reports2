@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Photographer Frontend Project Report",
+  "repository": "GoThruMedia/gothru-photographer-v2",
+  "generated_at": "2026-09-29T08:03:04Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photographer-v2-93",
+      "display_title": "Issue #93: Add Underlining to “Key equipment”",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-589fcc61-0a06-4bb3-bc24-2a9d069765df.png\"><img width=\"798\" height=\"371\" alt=\"Image\" src=\"images/image-589fcc61-0a06-4bb3-bc24-2a9d069765df.png\" style=\"max-width: 100%; height: auto; max-height: 371px;; aspect-ratio: 798 / 371; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Sub task</h2>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Change the cursor to a pointer when hovering over it</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Apply this only to “photographer,” not to “image processing”</li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-2860cf66-deb4-415f-9987-01b74b57b63e.png\"><img width=\"1570\" height=\"1124\" alt=\"Image\" src=\"images/image-2860cf66-deb4-415f-9987-01b74b57b63e.png\" style=\"max-width: 100%; height: auto; max-height: 1124px;; aspect-ratio: 1570 / 1124; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 93,
+        "author": "anurdin01",
+        "updated_at": "2026-09-29T07:57:37Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Photographer Frontend",
+    "date": "2026-09-29"
+  },
+  "docs": []
+}
