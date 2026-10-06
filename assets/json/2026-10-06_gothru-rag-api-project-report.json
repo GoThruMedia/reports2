@@ -1,0 +1,22 @@
+{
+  "title": "GoThru RAG API Project Report",
+  "repository": "GoThruMedia/gothru-rag",
+  "generated_at": "2026-10-06T07:23:34Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-rag-28",
+      "display_title": "Issue #28: [Feature] Client Action Intent Detection & Schema Support",
+      "main_description_html": "<h2 dir=\"auto\">Overview</h2>\n<p dir=\"auto\">Enable the GoThru RAG copilot to detect client-side UI action intents (such as creating virtual tours or navigating to pages) and include a structured <code class=\"notranslate\">client_action</code> payload in responses.</p>\n<h2 dir=\"auto\">Key Changes</h2>\n<ul dir=\"auto\">\n<li>Add <code class=\"notranslate\">ClientActionEvent</code> model schema to <code class=\"notranslate\">app/copilot/models.py</code>.</li>\n<li>Implement UI action intent detection in <code class=\"notranslate\">app/copilot/planner.py</code> for virtual tour creation, navigation, etc.</li>\n<li>Attach <code class=\"notranslate\">client_action</code> to both <code class=\"notranslate\">action_available</code> (imperative commands) and <code class=\"notranslate\">answer_only</code> (informational Q&amp;A) modes.</li>\n<li>Support reading page context from <code class=\"notranslate\">context.page</code> alongside conversation history.</li>\n<li>Add unit test coverage for client action intent detection.</li>\n</ul>\n<p dir=\"auto\">Part of Epic: Bidirectional Dashboard-RAG Integration</p>",
+      "metadata": {
+        "number": 28,
+        "author": "alfarez21",
+        "updated_at": "2026-10-06T06:57:23Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru RAG API",
+    "date": "2026-10-06"
+  },
+  "docs": []
+}
