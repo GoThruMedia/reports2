@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Photographer API Go Project Report",
+  "repository": "GoThruMedia/gothru-maps-backend-go",
+  "generated_at": "2026-10-06T03:28:11Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-maps-backend-go-118",
+      "display_title": "Issue #118: Update Image Processing Submission Validation for Pay as You Go Accounts",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-ddc58903-a4f2-491b-83c6-a0e169646c4b.png\"><img width=\"960\" height=\"737\" alt=\"Image\" src=\"images/image-ddc58903-a4f2-491b-83c6-a0e169646c4b.png\" style=\"max-width: 100%; height: auto; max-height: 737px;; aspect-ratio: 960 / 737; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> improve website inputs validation at Image Processing submission is only for non Pay as you go accounts</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Set Website Profile data <a href=\"https://360photographers.org/photographer/youcef-pnl-e3lc\" rel=\"nofollow\">https://360photographers.org/photographer/youcef-pnl-e3lc</a> to null</li>\n</ul>\n<h2 dir=\"auto\">Result by Developer</h2>\n<p dir=\"auto\">The fix for this is in the frontend, and no backend or data change is needed.</p>\n<p dir=\"auto\"><strong>Why the website showed:</strong> the profile page made it up. <code class=\"notranslate\">/photographer/youcef-pnl-e3lc</code> already returns <code class=\"notranslate\">\"website\": null</code> from the API (subscription 100, Pay as you go), but the frontend fell back to <code class=\"notranslate\">https://&lt;slug&gt;-360.com</code> whenever a profile had no website, so it displayed <code class=\"notranslate\">youcef-pnl-e3lc-360.com</code>. Every profile without a website, paid or not, showed a fake link like that.</p>\n<p dir=\"auto\"><strong>The two checklist items:</strong></p>\n<ul dir=\"auto\">\n<li><strong>Website validation for Pay as you go:</strong> it's already enforced in two places. The profile update here (<code class=\"notranslate\">updatePhotographerProfile.go</code>) rejects a website unless the subscription is Basic, Pro or Agency, and the dashboard hides the website field for Pay as you go accounts. The apply/submission endpoint doesn't accept a website at all.</li>\n<li><strong>Set the website for youcef-pnl-e3lc to null:</strong> it's already null in the database.</li>\n</ul>\n<p dir=\"auto\"><strong>Fix:</strong> <a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5705655968\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/gothru-photographer-v2/issues/95\" data-hovercard-type=\"issue\" data-hovercard-url=\"/GoThruMedia/gothru-photographer-v2/issues/95/hovercard\" href=\"https://github.com/GoThruMedia/gothru-photographer-v2/issues/95\">GoThruMedia/gothru-photographer-v2#95</a> (PR <a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5705692433\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/gothru-photographer-v2/issues/96\" data-hovercard-type=\"pull_request\" data-hovercard-url=\"/GoThruMedia/gothru-photographer-v2/pull/96/hovercard\" href=\"https://github.com/GoThruMedia/gothru-photographer-v2/pull/96\">GoThruMedia/gothru-photographer-v2#96</a>, released in <a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5705711439\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/gothru-photographer-v2/issues/97\" data-hovercard-type=\"pull_request\" data-hovercard-url=\"/GoThruMedia/gothru-photographer-v2/pull/97/hovercard\" href=\"https://github.com/GoThruMedia/gothru-photographer-v2/pull/97\">GoThruMedia/gothru-photographer-v2#97</a>). The Website row only appears when the profile actually has a website. It's merged to master and will show on 360photographers.org after the next frontend deploy.</p>",
+      "metadata": {
+        "number": 118,
+        "author": "gothrudev1",
+        "updated_at": "2026-10-06T03:27:53Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Photographer API Go",
+    "date": "2026-10-06"
+  },
+  "docs": []
+}
