@@ -1,0 +1,32 @@
+{
+  "title": "GoThru Dashboard API Project Report",
+  "repository": "GoThruMedia/GoThru-API-New",
+  "generated_at": "2026-10-08T09:17:27Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-api-new-2026",
+      "display_title": "Issue #2026: fix(payment): resolve stuck tour deactivation and audit overlay unlock data discrepancy for moderation 3062100",
+      "main_description_html": "<h3 dir=\"auto\">Summary</h3>\n<p dir=\"auto\">Resolved an issue where hosted virtual tour <code class=\"notranslate\">jsn73hDg</code> (Moderation ID: <code class=\"notranslate\">3062100</code>, User: <code class=\"notranslate\">26111</code>) remained deactivated despite the user completing a $35 overlay renewal payment on 2026-08-28.</p>\n<h3 dir=\"auto\">Cause</h3>\n<ol dir=\"auto\">\n<li><strong>Post-Payment Crash:</strong> When the user paid, the transaction succeeded in Stripe, but the backend process encountered an error during invoice generation due to a missing billing address. This interrupted the automated tour activation step.</li>\n<li><strong>Incomplete Data Update:</strong> While the overlay audit record was subsequently created with a valid license, the main tour table was not updated, leaving the tour marked as deactivated.</li>\n<li><strong>Dashboard Activation Limitation:</strong> Toggling the tour active in the dashboard did not fully reset internal deactivation flags, causing the tour to remain suppressed in system queries.</li>\n</ol>\n<h3 dir=\"auto\">Resolution &amp; Verification</h3>\n<ul dir=\"auto\">\n<li><strong>Code Fix:</strong> Resolved the invoice generation issue (commit <code class=\"notranslate\">9bebff707</code>) to ensure missing billing addresses do not interrupt post-payment processes.</li>\n<li><strong>Database Restoration:</strong> Fully restored tour <code class=\"notranslate\">jsn73hDg</code> in the tours table (<code class=\"notranslate\">foverlay_active = 1</code>, <code class=\"notranslate\">deactivated = 0</code>, and cleared deactivation flags).</li>\n<li><strong>Future Deactivation Prevention:</strong> Confirmed the license is valid through 2027-08-29 in <code class=\"notranslate\">overlay_audit</code>, ensuring automated background monitor sweeps will not deactivate the tour.</li>\n<li><strong>Scope Verification:</strong> Audited related database records and confirmed no other tours are stuck in this state.</li>\n</ul>",
+      "metadata": {
+        "number": 2026,
+        "author": "alfarez21",
+        "updated_at": "2026-10-08T06:45:32Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-api-new-2028",
+      "display_title": "Issue #2028: [Investigate] Virtual Tour Activation Failure After Transfer Due to Mismatched Moderation in overlay_audit",
+      "main_description_html": "<h2 dir=\"auto\">Description</h2>\n<p dir=\"auto\">Investigate an issue where a virtual tour fails to activate from the dashboard UI after the tour was transferred to another account, even though payment data was updated manually.</p>\n<h2 dir=\"auto\">Investigation Scope</h2>\n<ul dir=\"auto\">\n<li>Trace the virtual tour activation flow on the backend.</li>\n<li>Investigate why the system does not recognize the tour's payment status when activated from the UI.</li>\n<li>Identify data requirements and mismatches preventing successful activation.</li>\n</ul>\n<hr>\n<h2 dir=\"auto\">Result</h2>\n<p dir=\"auto\">The investigation found that the root cause was located in the <strong><code class=\"notranslate\">overlay_audit</code></strong> table (<code class=\"notranslate\">hosted_tours.overlay_audit</code>).</p>\n<h3 dir=\"auto\">Findings:</h3>\n<ol dir=\"auto\">\n<li>When activating a virtual tour, the system verifies payment in <code class=\"notranslate\">overlay_audit</code> by matching both <code class=\"notranslate\">tour_key</code> and <code class=\"notranslate\">moderation_id</code>.</li>\n<li>Following the tour transfer, the audit record (e.g. record ID 3593784) was still referencing the previous/original moderation ID rather than the new moderation ID of the transferred tour.</li>\n<li>Because the <code class=\"notranslate\">moderation_id</code> in <code class=\"notranslate\">overlay_audit</code> did not match the current moderation ID being activated, the system treated the tour as unpaid and blocked the activation.</li>\n</ol>",
+      "metadata": {
+        "number": 2028,
+        "author": "alfarez21",
+        "updated_at": "2026-10-08T06:45:44Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Dashboard API",
+    "date": "2026-10-08"
+  },
+  "docs": []
+}
