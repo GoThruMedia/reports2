@@ -1,0 +1,2217 @@
+# GoThru 3D API — Go Backend Implementation Plan (v3)
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Build `gothru-3d-api/` — a standalone Go HTTP service providing auth, project CRUD, and file storage, called exclusively server-to-server by Next.js Server Actions (never directly by the browser).
+
+**Architecture:** Separate Go binary (`gothru-3d-api/`) with its own `go.mod`. Uses **GORM v2** with the standard postgres driver (lib/pq) and a pool connection for all DB access. Issues plain HS256 JWTs (no prefix) returned in JSON — NextAuth on the frontend stores these as `accessToken`. All protected routes read `Authorization: Bearer <token>`. Email is sent via **Plunk track events** (template IDs configured as env vars). No cookies are set by the Go service — NextAuth manages the session. All routes live under `/v1/` (no `api` prefix). 500 errors return the real error message via `apierror.Sanitize` — never raw SQL. **CORS** is handled by `github.com/rs/cors` mounted as the first chi middleware; the allowed origin is read from `CORS_ALLOWED_ORIGIN` (defaults to `http://localhost:3000`).
+
+**Tech Stack:** Go 1.26 · chi v5 · GORM v2 + gorm.io/driver/postgres · golang-jwt/jwt v5 · golang.org/x/crypto · github.com/google/uuid · github.com/lib/pq · github.com/rs/cors v1.11 · github.com/stripe/stripe-go/v76
+
+## Global Constraints
+
+- Go version: **1.26**
+- All routes under `/v1/` — e.g. `POST /v1/auth/login`, `GET /v1/projects`
+- No JWT prefix — `IssueToken` returns a plain HS256 JWT; `ValidateToken` parses it directly
+- No cookies — login/register return `"token"` in JSON body; NextAuth stores it as `accessToken`
+- `Authorization: Bearer <token>` header is the only auth mechanism for protected routes
+- GORM v2 with `SetMaxOpenConns(25)`, `SetMaxIdleConns(5)`, `SetConnMaxLifetime(5 * time.Minute)`
+- GORM AutoMigrate runs on startup — no separate SQL migration files
+- Email via Plunk track events: `POST https://api.useplunk.com/v1/track`, event names from env vars
+- Error shape: `{"error": "message"}` — 500s use `apierror.Sanitize(err)` (no raw SQL)
+- CORS middleware via `github.com/rs/cors` — mounted as the first chi middleware, before auth
+- Allowed origin: `CORS_ALLOWED_ORIGIN` env var (default `http://localhost:3000`); allowed methods: GET, POST, PATCH, DELETE, OPTIONS; allowed headers: `Authorization`, `Content-Type`; `AllowCredentials: false`
+- Env vars: `DATABASE_URL`, `GOTHRU_3D_JWT_SECRET`, `PLUNK_API_KEY`, `NEXT_PUBLIC_APP_URL`, `PLUNK_VERIFY_EVENT`, `PLUNK_RESET_EVENT`, `DATA_DIR` (default `/data`), `PORT` (default `8080`), `CORS_ALLOWED_ORIGIN` (default `http://localhost:3000`), `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_ID`
+- Tests: Go stdlib `testing` + `net/http/httptest`
+- No source file may exceed 500 lines — if a file grows beyond this during implementation, split it into focused sub-files before committing (e.g. `internal/auth/handler_register.go` + `internal/auth/handler_login.go` + `internal/auth/handler_password.go`); each sub-file must still compile independently
+
+---
+
+## File Map
+
+| File | Responsibility |
+|------|---------------|
+| `go.mod` | Module definition — go 1.26, all dependencies |
+| `internal/models/models.go` | GORM model structs for all 5 tables |
+| `internal/db/db.go` | `Connect()` — GORM open + pool config + AutoMigrate |
+| `internal/apierror/apierror.go` | `Sanitize(err)` — strips SQL using lib/pq PgError |
+| `internal/auth/token.go` | JWT issue/validate (no prefix), bcrypt, GenerateToken |
+| `internal/email/service.go` | Plunk track event client — env-var template IDs |
+| `internal/middleware/auth.go` | `RequireAuth` reads `Authorization: Bearer` header |
+| `internal/auth/handler.go` | 9 auth HTTP handlers — GORM queries, JSON responses only |
+| `internal/projects/handler.go` | Project CRUD + file handlers — GORM queries |
+| `cmd/server/main.go` | Wire everything, chi router under `/v1/` |
+| `internal/billing/handler.go` | Stripe checkout, billing portal, subscription status handlers |
+| `internal/billing/webhook.go` | Stripe webhook — subscription lifecycle events |
+
+---
+
+## Task 1: Go Module Scaffold + GORM Models
+
+**Files:**
+- Create: `go.mod`
+- Create: `internal/models/models.go`
+- Create: `internal/db/db.go`
+- Create: `internal/db/db_test.go`
+
+**Interfaces:**
+- Produces: `db.Connect(dsn string) (*gorm.DB, error)`
+- Produces: All GORM model types used by all other packages
+
+- [ ] **Step 1: Initialise Go module and fetch dependencies**
+
+```bash
+mkdir gothru-3d-api && cd gothru-3d-api
+go mod init gothru-3d-api
+go get github.com/go-chi/chi/v5@v5.2.1
+go get gorm.io/gorm@v1.25.12
+go get gorm.io/driver/postgres@v1.5.11
+go get github.com/lib/pq@v1.10.9
+go get github.com/google/uuid@v1.6.0
+go get golang.org/x/crypto@v0.37.0
+go get github.com/golang-jwt/jwt/v5@v5.2.2
+go get github.com/rs/cors@v1.11.1
+go get github.com/stripe/stripe-go/v76@v76.3.0
+```
+
+Expected: `go.mod` and `go.sum` created, module name `gothru-3d-api`, `go 1.26`.
+
+- [ ] **Step 2: Create `internal/models/models.go`**
+
+```go
+package models
+
+import (
+    "time"
+
+    "github.com/google/uuid"
+)
+
+type User struct {
+    ID                    uuid.UUID  `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
+    Email                 string     `gorm:"uniqueIndex;not null"`
+    PasswordHash          string     `gorm:"not null"`
+    Name                  string     `gorm:"not null"`
+    EmailVerified         bool       `gorm:"default:false"`
+    EmailVerifiedAt       *time.Time
+    GothruDashboardUserID *string
+    GothruDashboardEmail  *string
+    Projects              []Project  `gorm:"foreignKey:UserID"`
+    CreatedAt             time.Time
+    UpdatedAt             time.Time
+}
+
+type Project struct {
+    ID              uuid.UUID     `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
+    UserID          uuid.UUID     `gorm:"type:uuid;not null;index"`
+    Name            string        `gorm:"default:'Untitled Project'"`
+    LocationAddress *string
+    LocationLat     *float64
+    LocationLng     *float64
+    FloorConfigs    *string       `gorm:"type:jsonb"`
+    GeneratedTwin   *string       `gorm:"type:jsonb"`
+    CanvasData      *string       `gorm:"type:jsonb"`
+    Status          string        `gorm:"default:'draft'"`
+    PublishedAt     *time.Time
+    Files           []ProjectFile `gorm:"foreignKey:ProjectID"`
+    CreatedAt       time.Time
+    UpdatedAt       time.Time
+}
+
+type ProjectFile struct {
+    ID           uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
+    ProjectID    uuid.UUID `gorm:"type:uuid;not null;index"`
+    UserID       uuid.UUID `gorm:"type:uuid;not null"`
+    OriginalName string    `gorm:"not null"`
+    FilePath     string    `gorm:"not null"`
+    FloorIndex   *int
+    FileSize     *int64
+    CreatedAt    time.Time
+}
+
+type EmailVerification struct {
+    ID        uuid.UUID  `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
+    UserID    uuid.UUID  `gorm:"type:uuid;not null;index"`
+    TokenHash string     `gorm:"uniqueIndex;not null"`
+    ExpiresAt time.Time  `gorm:"not null"`
+    UsedAt    *time.Time
+    CreatedAt time.Time
+}
+
+type PasswordResetToken struct {
+    ID        uuid.UUID  `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
+    UserID    uuid.UUID  `gorm:"type:uuid;not null;index"`
+    TokenHash string     `gorm:"uniqueIndex;not null"`
+    ExpiresAt time.Time  `gorm:"not null"`
+    UsedAt    *time.Time
+    CreatedAt time.Time
+}
+
+type Subscription struct {
+    ID                   uuid.UUID  `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
+    UserID               uuid.UUID  `gorm:"type:uuid;not null;uniqueIndex"`
+    StripeCustomerID     string     `gorm:"not null"`
+    StripeSubscriptionID *string
+    Status               string     `gorm:"default:'inactive'"`
+    CurrentPeriodEnd     *time.Time
+    CreatedAt            time.Time
+    UpdatedAt            time.Time
+}
+
+func MustParseUUID(s string) uuid.UUID {
+    id, err := uuid.Parse(s)
+    if err != nil {
+        panic("MustParseUUID: " + err.Error())
+    }
+    return id
+}
+```
+
+- [ ] **Step 3: Write failing test**
+
+Create `internal/db/db_test.go`:
+
+```go
+package db_test
+
+import (
+    "testing"
+    "gothru-3d-api/internal/db"
+)
+
+func TestConnect_MissingDSN(t *testing.T) {
+    _, err := db.Connect("")
+    if err == nil {
+        t.Fatal("expected error for empty DATABASE_URL, got nil")
+    }
+}
+```
+
+- [ ] **Step 4: Run to confirm it fails**
+
+```bash
+go test ./internal/db/...
+```
+
+Expected: compile error — `db` package does not exist yet.
+
+- [ ] **Step 5: Create `internal/db/db.go`**
+
+```go
+package db
+
+import (
+    "fmt"
+    "time"
+
+    "gorm.io/driver/postgres"
+    "gorm.io/gorm"
+    "gorm.io/gorm/logger"
+    "gothru-3d-api/internal/models"
+)
+
+func Connect(dsn string) (*gorm.DB, error) {
+    if dsn == "" {
+        return nil, fmt.Errorf("DATABASE_URL is not set")
+    }
+    db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+        Logger: logger.Default.LogMode(logger.Silent),
+    })
+    if err != nil {
+        return nil, fmt.Errorf("gorm.Open: %w", err)
+    }
+
+    sqlDB, err := db.DB()
+    if err != nil {
+        return nil, fmt.Errorf("db.DB(): %w", err)
+    }
+    sqlDB.SetMaxOpenConns(25)
+    sqlDB.SetMaxIdleConns(5)
+    sqlDB.SetConnMaxLifetime(5 * time.Minute)
+    sqlDB.SetConnMaxIdleTime(1 * time.Minute)
+
+    if err := db.AutoMigrate(
+        &models.User{},
+        &models.Project{},
+        &models.ProjectFile{},
+        &models.EmailVerification{},
+        &models.PasswordResetToken{},
+        &models.Subscription{},
+    ); err != nil {
+        return nil, fmt.Errorf("AutoMigrate: %w", err)
+    }
+
+    return db, nil
+}
+```
+
+- [ ] **Step 6: Run tests to confirm they pass**
+
+```bash
+go test ./internal/db/...
+```
+
+Expected: PASS — `Connect("")` returns an error without hitting a real DB.
+
+- [ ] **Step 7: Commit**
+
+```bash
+git add go.mod go.sum internal/models/ internal/db/
+git commit -m "feat(db): scaffold Go 1.26 module, GORM models, and pool-connected db client"
+```
+
+---
+
+## Task 2: Error Helper — Safe 500 Messages
+
+**Files:**
+- Create: `internal/apierror/apierror.go`
+- Create: `internal/apierror/apierror_test.go`
+
+**Interfaces:**
+- Produces: `apierror.Sanitize(err error) string`
+
+GORM's postgres driver uses `lib/pq` internally. PostgreSQL constraint errors arrive as `*pq.Error`, whose `Message` field holds human-readable text with no SQL. Non-pq errors are stripped at the first newline.
+
+- [ ] **Step 1: Write failing tests**
+
+Create `internal/apierror/apierror_test.go`:
+
+```go
+package apierror_test
+
+import (
+    "errors"
+    "strings"
+    "testing"
+
+    "github.com/lib/pq"
+    "gothru-3d-api/internal/apierror"
+)
+
+func TestSanitize_PlainError(t *testing.T) {
+    err := errors.New("connection refused")
+    got := apierror.Sanitize(err)
+    if got != "connection refused" {
+        t.Fatalf("got %q", got)
+    }
+}
+
+func TestSanitize_MultilineError(t *testing.T) {
+    err := errors.New("timeout\nsome stack trace here")
+    got := apierror.Sanitize(err)
+    if strings.Contains(got, "\n") {
+        t.Fatal("newline not stripped")
+    }
+    if got != "timeout" {
+        t.Fatalf("got %q, want %q", got, "timeout")
+    }
+}
+
+func TestSanitize_PqError_NoSQL(t *testing.T) {
+    pqErr := &pq.Error{
+        Message: "duplicate key value violates unique constraint",
+        Code:    "23505",
+    }
+    got := apierror.Sanitize(pqErr)
+    if !strings.Contains(got, "duplicate key") {
+        t.Fatalf("expected pq message, got %q", got)
+    }
+    if strings.Contains(got, "INSERT") || strings.Contains(got, "SELECT") {
+        t.Fatal("SQL query text leaked into error response")
+    }
+}
+```
+
+- [ ] **Step 2: Run to confirm they fail**
+
+```bash
+go test ./internal/apierror/...
+```
+
+Expected: compile error — package does not exist yet.
+
+- [ ] **Step 3: Create `internal/apierror/apierror.go`**
+
+```go
+package apierror
+
+import (
+    "errors"
+    "strings"
+
+    "github.com/lib/pq"
+)
+
+// Sanitize returns a safe error string for 500 responses.
+// lib/pq errors return pq.Error.Message — human-readable, never contains SQL text.
+// All other errors are stripped at the first newline to remove stack traces.
+func Sanitize(err error) string {
+    var pqErr *pq.Error
+    if errors.As(err, &pqErr) {
+        return string(pqErr.Message)
+    }
+    msg := err.Error()
+    if i := strings.Index(msg, "\n"); i >= 0 {
+        msg = msg[:i]
+    }
+    return strings.TrimSpace(msg)
+}
+```
+
+- [ ] **Step 4: Run tests to confirm they pass**
+
+```bash
+go test ./internal/apierror/...
+```
+
+Expected: PASS — all 3 tests pass.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add internal/apierror/
+git commit -m "feat(apierror): add Sanitize using lib/pq — real errors, no SQL exposure"
+```
+
+---
+
+## Task 3: Auth Helpers — JWT (no prefix), bcrypt, Token Generation
+
+**Files:**
+- Create: `internal/auth/token.go`
+- Create: `internal/auth/token_test.go`
+
+**Interfaces:**
+- Produces:
+  - `auth.IssueToken(userID, email string) (string, error)` — plain HS256 JWT (no prefix)
+  - `auth.ValidateToken(raw string) (*auth.Claims, error)` — validates plain JWT directly
+  - `auth.GenerateToken() (rawToken, tokenHash string)` — 32 crypto/rand bytes hex + SHA-256 hash
+  - `auth.HashPassword(plain string) (string, error)` — bcrypt cost 12
+  - `auth.CheckPassword(plain, hash string) error` — bcrypt compare
+
+```go
+type Claims struct {
+    UserID string `json:"userId"`
+    Email  string `json:"email"`
+    jwt.RegisteredClaims
+}
+```
+
+- [ ] **Step 1: Write failing tests**
+
+Create `internal/auth/token_test.go`:
+
+```go
+package auth_test
+
+import (
+    "os"
+    "strings"
+    "testing"
+
+    "gothru-3d-api/internal/auth"
+)
+
+func init() {
+    os.Setenv("GOTHRU_3D_JWT_SECRET", "test-secret-at-least-32-chars-ok!")
+}
+
+func TestIssueToken_IsPlainJWT(t *testing.T) {
+    tok, err := auth.IssueToken("user-id", "a@b.com")
+    if err != nil {
+        t.Fatal(err)
+    }
+    // Plain JWT has 3 base64 segments separated by dots
+    parts := strings.Split(tok, ".")
+    if len(parts) != 3 {
+        t.Fatalf("expected plain JWT (3 parts), got %d parts: %s", len(parts), tok)
+    }
+}
+
+func TestValidateToken_RoundTrip(t *testing.T) {
+    tok, _ := auth.IssueToken("user-id", "a@b.com")
+    claims, err := auth.ValidateToken(tok)
+    if err != nil {
+        t.Fatal(err)
+    }
+    if claims.UserID != "user-id" {
+        t.Fatalf("userID = %q, want %q", claims.UserID, "user-id")
+    }
+    if claims.Email != "a@b.com" {
+        t.Fatalf("email = %q, want %q", claims.Email, "a@b.com")
+    }
+}
+
+func TestGenerateToken_LengthAndDistinct(t *testing.T) {
+    raw, hash := auth.GenerateToken()
+    if len(raw) != 64 {
+        t.Fatalf("rawToken length %d, want 64", len(raw))
+    }
+    if raw == hash {
+        t.Fatal("rawToken and tokenHash must differ")
+    }
+}
+
+func TestHashPassword_RoundTrip(t *testing.T) {
+    h, err := auth.HashPassword("secret123")
+    if err != nil {
+        t.Fatal(err)
+    }
+    if err := auth.CheckPassword("secret123", h); err != nil {
+        t.Fatal("valid password rejected:", err)
+    }
+    if err := auth.CheckPassword("wrong", h); err == nil {
+        t.Fatal("wrong password accepted")
+    }
+}
+```
+
+- [ ] **Step 2: Run to confirm they fail**
+
+```bash
+go test ./internal/auth/...
+```
+
+Expected: compile error — package does not exist yet.
+
+- [ ] **Step 3: Create `internal/auth/token.go`**
+
+```go
+package auth
+
+import (
+    "crypto/rand"
+    "crypto/sha256"
+    "encoding/hex"
+    "fmt"
+    "os"
+    "time"
+
+    "github.com/golang-jwt/jwt/v5"
+    "golang.org/x/crypto/bcrypt"
+)
+
+type Claims struct {
+    UserID string `json:"userId"`
+    Email  string `json:"email"`
+    jwt.RegisteredClaims
+}
+
+func IssueToken(userID, email string) (string, error) {
+    secret := os.Getenv("GOTHRU_3D_JWT_SECRET")
+    if secret == "" {
+        return "", fmt.Errorf("GOTHRU_3D_JWT_SECRET not set")
+    }
+    now := time.Now()
+    claims := Claims{
+        UserID: userID,
+        Email:  email,
+        RegisteredClaims: jwt.RegisteredClaims{
+            IssuedAt:  jwt.NewNumericDate(now),
+            ExpiresAt: jwt.NewNumericDate(now.Add(30 * 24 * time.Hour)),
+        },
+    }
+    return jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(secret))
+}
+
+func ValidateToken(raw string) (*Claims, error) {
+    secret := os.Getenv("GOTHRU_3D_JWT_SECRET")
+    if secret == "" {
+        return nil, fmt.Errorf("GOTHRU_3D_JWT_SECRET not set")
+    }
+    claims := &Claims{}
+    _, err := jwt.ParseWithClaims(raw, claims, func(t *jwt.Token) (any, error) {
+        if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+            return nil, fmt.Errorf("unexpected signing method: %v", t.Header["alg"])
+        }
+        return []byte(secret), nil
+    })
+    if err != nil {
+        return nil, err
+    }
+    return claims, nil
+}
+
+func GenerateToken() (rawToken, tokenHash string) {
+    b := make([]byte, 32)
+    if _, err := rand.Read(b); err != nil {
+        panic("crypto/rand unavailable: " + err.Error())
+    }
+    rawToken = hex.EncodeToString(b)
+    h := sha256.Sum256([]byte(rawToken))
+    tokenHash = hex.EncodeToString(h[:])
+    return
+}
+
+func HashPassword(plain string) (string, error) {
+    b, err := bcrypt.GenerateFromPassword([]byte(plain), 12)
+    return string(b), err
+}
+
+func CheckPassword(plain, hash string) error {
+    return bcrypt.CompareHashAndPassword([]byte(hash), []byte(plain))
+}
+```
+
+- [ ] **Step 4: Run tests to confirm they pass**
+
+```bash
+go test ./internal/auth/...
+```
+
+Expected: PASS — 4 test functions pass.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add internal/auth/token.go internal/auth/token_test.go
+git commit -m "feat(auth): add plain HS256 JWT (no prefix), bcrypt, and token generation helpers"
+```
+
+---
+
+## Task 4: Email Service (Plunk Track Events)
+
+**Files:**
+- Create: `internal/email/service.go`
+
+**Interfaces:**
+- Consumes: `PLUNK_API_KEY`, `PLUNK_VERIFY_EVENT`, `PLUNK_RESET_EVENT` env vars
+- Produces:
+  - `email.NewService() *email.Service`
+  - `(s *Service) SendVerificationEmail(to, name, verifyURL string) error`
+  - `(s *Service) SendPasswordResetEmail(to, name, resetURL string) error`
+
+Uses Plunk's `POST /v1/track` endpoint. The event name acts as the template ID — create the corresponding automation in the Plunk dashboard with variables `{{name}}` and `{{verifyURL}}` (or `{{resetURL}}`).
+
+- [ ] **Step 1: Create `internal/email/service.go`**
+
+```go
+package email
+
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "net/http"
+    "os"
+)
+
+type Service struct {
+    apiKey      string
+    verifyEvent string
+    resetEvent  string
+}
+
+func NewService() *Service {
+    return &Service{
+        apiKey:      os.Getenv("PLUNK_API_KEY"),
+        verifyEvent: os.Getenv("PLUNK_VERIFY_EVENT"),
+        resetEvent:  os.Getenv("PLUNK_RESET_EVENT"),
+    }
+}
+
+type plunkTrackRequest struct {
+    Event      string            `json:"event"`
+    Email      string            `json:"email"`
+    Data       map[string]string `json:"data,omitempty"`
+    Subscribed bool              `json:"subscribed"`
+}
+
+func (s *Service) track(email, event string, data map[string]string) error {
+    payload := plunkTrackRequest{
+        Event:      event,
+        Email:      email,
+        Data:       data,
+        Subscribed: false,
+    }
+    body, err := json.Marshal(payload)
+    if err != nil {
+        return fmt.Errorf("marshal plunk payload: %w", err)
+    }
+    req, err := http.NewRequest(http.MethodPost, "https://api.useplunk.com/v1/track", bytes.NewReader(body))
+    if err != nil {
+        return fmt.Errorf("create plunk request: %w", err)
+    }
+    req.Header.Set("Content-Type", "application/json")
+    req.Header.Set("Authorization", "Bearer "+s.apiKey)
+    resp, err := http.DefaultClient.Do(req)
+    if err != nil {
+        return fmt.Errorf("plunk track: %w", err)
+    }
+    defer resp.Body.Close()
+    if resp.StatusCode >= 400 {
+        return fmt.Errorf("plunk returned status %d", resp.StatusCode)
+    }
+    return nil
+}
+
+func (s *Service) SendVerificationEmail(to, name, verifyURL string) error {
+    return s.track(to, s.verifyEvent, map[string]string{
+        "name":      name,
+        "verifyURL": verifyURL,
+    })
+}
+
+func (s *Service) SendPasswordResetEmail(to, name, resetURL string) error {
+    return s.track(to, s.resetEvent, map[string]string{
+        "name":     name,
+        "resetURL": resetURL,
+    })
+}
+```
+
+- [ ] **Step 2: Verify compilation**
+
+```bash
+go build ./internal/email/...
+```
+
+Expected: no output (clean build).
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add internal/email/service.go
+git commit -m "feat(email): add Plunk track-event email service with env-var template IDs"
+```
+
+---
+
+## Task 5: Auth Middleware — Bearer Token
+
+**Files:**
+- Create: `internal/middleware/auth.go`
+- Create: `internal/middleware/auth_test.go`
+
+**Interfaces:**
+- Consumes: `auth.ValidateToken`, `auth.Claims`
+- Produces:
+  - `middleware.RequireAuth(next http.Handler) http.Handler`
+  - `middleware.UserFromCtx(ctx context.Context) *auth.Claims`
+
+Reads `Authorization: Bearer <token>` header — no cookie dependency. All callers are Next.js Server Actions running on the server.
+
+- [ ] **Step 1: Write failing tests**
+
+Create `internal/middleware/auth_test.go`:
+
+```go
+package middleware_test
+
+import (
+    "net/http"
+    "net/http/httptest"
+    "os"
+    "testing"
+
+    "gothru-3d-api/internal/auth"
+    "gothru-3d-api/internal/middleware"
+)
+
+func init() {
+    os.Setenv("GOTHRU_3D_JWT_SECRET", "test-secret-at-least-32-chars-ok!")
+}
+
+func TestRequireAuth_NoHeader_Returns401(t *testing.T) {
+    handler := middleware.RequireAuth(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        w.WriteHeader(http.StatusOK)
+    }))
+    req := httptest.NewRequest(http.MethodGet, "/", nil)
+    rr := httptest.NewRecorder()
+    handler.ServeHTTP(rr, req)
+    if rr.Code != http.StatusUnauthorized {
+        t.Fatalf("got %d, want 401", rr.Code)
+    }
+}
+
+func TestRequireAuth_ValidBearer_InjectsUserID(t *testing.T) {
+    tok, _ := auth.IssueToken("uid-123", "a@b.com")
+    var gotUserID string
+    handler := middleware.RequireAuth(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        claims := middleware.UserFromCtx(r.Context())
+        if claims != nil {
+            gotUserID = claims.UserID
+        }
+        w.WriteHeader(http.StatusOK)
+    }))
+    req := httptest.NewRequest(http.MethodGet, "/", nil)
+    req.Header.Set("Authorization", "Bearer "+tok)
+    rr := httptest.NewRecorder()
+    handler.ServeHTTP(rr, req)
+    if rr.Code != http.StatusOK {
+        t.Fatalf("got %d, want 200", rr.Code)
+    }
+    if gotUserID != "uid-123" {
+        t.Fatalf("userID = %q, want %q", gotUserID, "uid-123")
+    }
+}
+
+func TestRequireAuth_InvalidToken_Returns401(t *testing.T) {
+    handler := middleware.RequireAuth(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        w.WriteHeader(http.StatusOK)
+    }))
+    req := httptest.NewRequest(http.MethodGet, "/", nil)
+    req.Header.Set("Authorization", "Bearer not-a-real-jwt")
+    rr := httptest.NewRecorder()
+    handler.ServeHTTP(rr, req)
+    if rr.Code != http.StatusUnauthorized {
+        t.Fatalf("got %d, want 401", rr.Code)
+    }
+}
+```
+
+- [ ] **Step 2: Run to confirm they fail**
+
+```bash
+go test ./internal/middleware/...
+```
+
+Expected: compile error — package does not exist yet.
+
+- [ ] **Step 3: Create `internal/middleware/auth.go`**
+
+```go
+package middleware
+
+import (
+    "context"
+    "encoding/json"
+    "net/http"
+    "strings"
+
+    "gothru-3d-api/internal/auth"
+)
+
+type ctxKey struct{}
+
+func RequireAuth(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        authHeader := r.Header.Get("Authorization")
+        if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
+            w.Header().Set("Content-Type", "application/json")
+            w.WriteHeader(http.StatusUnauthorized)
+            json.NewEncoder(w).Encode(map[string]string{"error": "Unauthorized"})
+            return
+        }
+        raw := strings.TrimPrefix(authHeader, "Bearer ")
+        claims, err := auth.ValidateToken(raw)
+        if err != nil {
+            w.Header().Set("Content-Type", "application/json")
+            w.WriteHeader(http.StatusUnauthorized)
+            json.NewEncoder(w).Encode(map[string]string{"error": "Unauthorized"})
+            return
+        }
+        ctx := context.WithValue(r.Context(), ctxKey{}, claims)
+        next.ServeHTTP(w, r.WithContext(ctx))
+    })
+}
+
+func UserFromCtx(ctx context.Context) *auth.Claims {
+    claims, _ := ctx.Value(ctxKey{}).(*auth.Claims)
+    return claims
+}
+```
+
+- [ ] **Step 4: Run tests to confirm they pass**
+
+```bash
+go test ./internal/middleware/...
+```
+
+Expected: PASS — 3 test functions pass.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add internal/middleware/
+git commit -m "feat(middleware): add RequireAuth reading Authorization: Bearer header"
+```
+
+---
+
+## Task 6: Auth HTTP Handlers
+
+**Files:**
+- Create: `internal/auth/handler.go`
+- Create: `internal/auth/handler_test.go`
+
+**Interfaces:**
+- Consumes: `*gorm.DB`, `*email.Service`, `auth.*`, `apierror.Sanitize`, `middleware.UserFromCtx`, `models.*`
+- Produces (all mounted under `/v1/auth/`):
+  - `Register` — POST, 201, returns `{userId, email, name, token}`
+  - `Login` — POST, 200 / 401 / 403, returns `{userId, email, name, emailVerified, token}`
+  - `Me` — GET, 200 (requires auth)
+  - `VerifyEmail` — GET, 200 JSON (not redirect — Server Action handles redirect)
+  - `ResendVerification` — POST, 200 / 429 (requires auth)
+  - `ForgotPassword` — POST, always 200
+  - `ValidateResetToken` — GET, 200 / 400
+  - `ResetPassword` — POST, 200 / 400
+
+> No `Logout` handler — NextAuth manages session; no cookies to clear on the Go side.
+
+- [ ] **Step 1: Write failing handler tests (field validation — no DB)**
+
+Create `internal/auth/handler_test.go`:
+
+```go
+package auth_test
+
+import (
+    "bytes"
+    "encoding/json"
+    "net/http"
+    "net/http/httptest"
+    "os"
+    "strings"
+    "testing"
+
+    "gothru-3d-api/internal/auth"
+    "gothru-3d-api/internal/email"
+)
+
+func init() {
+    os.Setenv("GOTHRU_3D_JWT_SECRET", "test-secret-at-least-32-chars-ok!")
+}
+
+func newTestHandler() *auth.Handler {
+    return auth.NewHandler(nil, email.NewService())
+}
+
+func TestRegister_MissingFullName_Returns400(t *testing.T) {
+    h := newTestHandler()
+    body := `{"email":"a@b.com","password":"pass1234"}`
+    req := httptest.NewRequest(http.MethodPost, "/v1/auth/register", strings.NewReader(body))
+    req.Header.Set("Content-Type", "application/json")
+    rr := httptest.NewRecorder()
+    h.Register(rr, req)
+    if rr.Code != http.StatusBadRequest {
+        t.Fatalf("got %d, want 400", rr.Code)
+    }
+    var resp map[string]string
+    json.NewDecoder(rr.Body).Decode(&resp)
+    if !strings.Contains(resp["error"], "required") {
+        t.Fatalf("expected 'required' in error, got %q", resp["error"])
+    }
+}
+
+func TestRegister_ShortPassword_Returns400(t *testing.T) {
+    h := newTestHandler()
+    body := `{"fullName":"Test","email":"a@b.com","password":"short"}`
+    req := httptest.NewRequest(http.MethodPost, "/v1/auth/register", strings.NewReader(body))
+    req.Header.Set("Content-Type", "application/json")
+    rr := httptest.NewRecorder()
+    h.Register(rr, req)
+    if rr.Code != http.StatusBadRequest {
+        t.Fatalf("got %d, want 400", rr.Code)
+    }
+}
+
+func TestResetPassword_ShortPassword_Returns400(t *testing.T) {
+    h := newTestHandler()
+    body, _ := json.Marshal(map[string]string{"token": "abc", "newPassword": "short"})
+    req := httptest.NewRequest(http.MethodPost, "/v1/auth/reset-password", bytes.NewReader(body))
+    req.Header.Set("Content-Type", "application/json")
+    rr := httptest.NewRecorder()
+    h.ResetPassword(rr, req)
+    if rr.Code != http.StatusBadRequest {
+        t.Fatalf("got %d, want 400", rr.Code)
+    }
+}
+```
+
+- [ ] **Step 2: Run to confirm they fail**
+
+```bash
+go test ./internal/auth/...
+```
+
+Expected: compile error — `Handler` struct not exported yet.
+
+- [ ] **Step 3: Create `internal/auth/handler.go`**
+
+```go
+package auth
+
+import (
+    "crypto/sha256"
+    "encoding/hex"
+    "encoding/json"
+    "net/http"
+    "os"
+    "strings"
+    "time"
+
+    "gorm.io/gorm"
+    "gothru-3d-api/internal/apierror"
+    "gothru-3d-api/internal/email"
+    "gothru-3d-api/internal/middleware"
+    "gothru-3d-api/internal/models"
+)
+
+type Handler struct {
+    db    *gorm.DB
+    email *email.Service
+}
+
+func NewHandler(db *gorm.DB, emailSvc *email.Service) *Handler {
+    return &Handler{db: db, email: emailSvc}
+}
+
+func writeJSON(w http.ResponseWriter, status int, v any) {
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(status)
+    json.NewEncoder(w).Encode(v)
+}
+
+func writeError(w http.ResponseWriter, status int, msg string) {
+    writeJSON(w, status, map[string]string{"error": msg})
+}
+
+func writeServerError(w http.ResponseWriter, err error) {
+    writeError(w, http.StatusInternalServerError, apierror.Sanitize(err))
+}
+
+func hashToken(raw string) string {
+    h := sha256.Sum256([]byte(raw))
+    return hex.EncodeToString(h[:])
+}
+
+// POST /v1/auth/register
+func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
+    var body struct {
+        FullName string `json:"fullName"`
+        Email    string `json:"email"`
+        Password string `json:"password"`
+    }
+    if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+        writeError(w, http.StatusBadRequest, "invalid request body"); return
+    }
+    if body.FullName == "" || body.Email == "" || body.Password == "" {
+        writeError(w, http.StatusBadRequest, "fullName, email, and password are required"); return
+    }
+    if !strings.Contains(body.Email, "@") || !strings.Contains(body.Email, ".") {
+        writeError(w, http.StatusBadRequest, "invalid email format"); return
+    }
+    if len(body.Password) < 8 {
+        writeError(w, http.StatusBadRequest, "password must be at least 8 characters"); return
+    }
+    var existing models.User
+    if result := h.db.Where("email = ?", body.Email).First(&existing); result.Error == nil {
+        writeError(w, http.StatusConflict, "email already registered"); return
+    }
+    hash, err := HashPassword(body.Password)
+    if err != nil {
+        writeServerError(w, err); return
+    }
+    user := models.User{Email: body.Email, PasswordHash: hash, Name: body.FullName}
+    if err := h.db.Create(&user).Error; err != nil {
+        writeServerError(w, err); return
+    }
+    rawToken, tokenHash := GenerateToken()
+    ev := models.EmailVerification{
+        UserID:    user.ID,
+        TokenHash: tokenHash,
+        ExpiresAt: time.Now().Add(24 * time.Hour),
+    }
+    if err := h.db.Create(&ev).Error; err != nil {
+        writeServerError(w, err); return
+    }
+    verifyURL := os.Getenv("NEXT_PUBLIC_APP_URL") + "/verify-email?token=" + rawToken
+    go h.email.SendVerificationEmail(user.Email, user.Name, verifyURL)
+    tok, err := IssueToken(user.ID.String(), user.Email)
+    if err != nil {
+        writeServerError(w, err); return
+    }
+    writeJSON(w, http.StatusCreated, map[string]any{
+        "userId": user.ID.String(), "email": user.Email, "name": user.Name,
+        "emailVerified": false, "token": tok,
+    })
+}
+
+// POST /v1/auth/login
+func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
+    var body struct {
+        Email    string `json:"email"`
+        Password string `json:"password"`
+    }
+    if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+        writeError(w, http.StatusBadRequest, "invalid request body"); return
+    }
+    if body.Email == "" || body.Password == "" {
+        writeError(w, http.StatusBadRequest, "email and password are required"); return
+    }
+    var user models.User
+    if err := h.db.Where("email = ?", body.Email).First(&user).Error; err != nil {
+        writeError(w, http.StatusUnauthorized, "invalid email or password"); return
+    }
+    if err := CheckPassword(body.Password, user.PasswordHash); err != nil {
+        writeError(w, http.StatusUnauthorized, "invalid email or password"); return
+    }
+    if !user.EmailVerified {
+        writeError(w, http.StatusForbidden, "EMAIL_NOT_VERIFIED"); return
+    }
+    tok, err := IssueToken(user.ID.String(), user.Email)
+    if err != nil {
+        writeServerError(w, err); return
+    }
+    writeJSON(w, http.StatusOK, map[string]any{
+        "userId": user.ID.String(), "email": user.Email, "name": user.Name,
+        "emailVerified": user.EmailVerified, "token": tok,
+    })
+}
+
+// GET /v1/auth/me  (requires RequireAuth)
+func (h *Handler) Me(w http.ResponseWriter, r *http.Request) {
+    claims := middleware.UserFromCtx(r.Context())
+    if claims == nil {
+        writeError(w, http.StatusUnauthorized, "Unauthorized"); return
+    }
+    var user models.User
+    if err := h.db.Where("id = ?", claims.UserID).First(&user).Error; err != nil {
+        writeError(w, http.StatusUnauthorized, "Unauthorized"); return
+    }
+    writeJSON(w, http.StatusOK, map[string]any{
+        "userId": user.ID.String(), "email": user.Email, "name": user.Name,
+        "emailVerified": user.EmailVerified,
+    })
+}
+
+// GET /v1/auth/verify-email?token=
+// Returns JSON (not redirect) — Server Action handles the redirect on the frontend.
+func (h *Handler) VerifyEmail(w http.ResponseWriter, r *http.Request) {
+    rawToken := r.URL.Query().Get("token")
+    if rawToken == "" {
+        writeError(w, http.StatusBadRequest, "INVALID_OR_EXPIRED_TOKEN"); return
+    }
+    th := hashToken(rawToken)
+    var ev models.EmailVerification
+    if err := h.db.Where("token_hash = ?", th).First(&ev).Error; err != nil ||
+        ev.UsedAt != nil || time.Now().After(ev.ExpiresAt) {
+        writeError(w, http.StatusBadRequest, "INVALID_OR_EXPIRED_TOKEN"); return
+    }
+    now := time.Now()
+    h.db.Model(&ev).Update("used_at", &now)
+    h.db.Model(&models.User{}).Where("id = ?", ev.UserID).
+        Updates(map[string]any{"email_verified": true, "email_verified_at": &now})
+    writeJSON(w, http.StatusOK, map[string]bool{"verified": true})
+}
+
+// POST /v1/auth/resend-verification  (requires RequireAuth)
+func (h *Handler) ResendVerification(w http.ResponseWriter, r *http.Request) {
+    claims := middleware.UserFromCtx(r.Context())
+    if claims == nil {
+        writeError(w, http.StatusUnauthorized, "Unauthorized"); return
+    }
+    var cnt int64
+    h.db.Model(&models.EmailVerification{}).
+        Where("user_id = ? AND created_at > ?", claims.UserID, time.Now().Add(-time.Hour)).
+        Count(&cnt)
+    if cnt >= 3 {
+        writeError(w, http.StatusTooManyRequests, "Too many requests"); return
+    }
+    h.db.Where("user_id = ? AND used_at IS NULL", claims.UserID).Delete(&models.EmailVerification{})
+    rawToken, tokenHash := GenerateToken()
+    ev := models.EmailVerification{
+        TokenHash: tokenHash,
+        ExpiresAt: time.Now().Add(24 * time.Hour),
+    }
+    // set UserID from UUID string
+    h.db.Where("id = ?", claims.UserID).First(&models.User{})
+    h.db.Exec("INSERT INTO email_verifications (user_id, token_hash, expires_at) VALUES (?, ?, ?)",
+        claims.UserID, tokenHash, ev.ExpiresAt)
+    var user models.User
+    h.db.Where("id = ?", claims.UserID).First(&user)
+    verifyURL := os.Getenv("NEXT_PUBLIC_APP_URL") + "/verify-email?token=" + rawToken
+    go h.email.SendVerificationEmail(user.Email, user.Name, verifyURL)
+    writeJSON(w, http.StatusOK, map[string]bool{"sent": true})
+}
+
+// POST /v1/auth/forgot-password
+func (h *Handler) ForgotPassword(w http.ResponseWriter, r *http.Request) {
+    var body struct{ Email string `json:"email"` }
+    json.NewDecoder(r.Body).Decode(&body)
+    var user models.User
+    if err := h.db.Where("email = ?", body.Email).First(&user).Error; err != nil {
+        writeJSON(w, http.StatusOK, map[string]bool{"sent": true}); return
+    }
+    var cnt int64
+    h.db.Model(&models.PasswordResetToken{}).
+        Where("user_id = ? AND created_at > ?", user.ID, time.Now().Add(-time.Hour)).Count(&cnt)
+    if cnt < 3 {
+        h.db.Where("user_id = ?", user.ID).Delete(&models.PasswordResetToken{})
+        rawToken, tokenHash := GenerateToken()
+        h.db.Create(&models.PasswordResetToken{
+            UserID: user.ID, TokenHash: tokenHash, ExpiresAt: time.Now().Add(time.Hour),
+        })
+        resetURL := os.Getenv("NEXT_PUBLIC_APP_URL") + "/reset-password?token=" + rawToken
+        go h.email.SendPasswordResetEmail(user.Email, user.Name, resetURL)
+    }
+    writeJSON(w, http.StatusOK, map[string]bool{"sent": true})
+}
+
+// GET /v1/auth/validate-reset-token?token=
+func (h *Handler) ValidateResetToken(w http.ResponseWriter, r *http.Request) {
+    rawToken := r.URL.Query().Get("token")
+    if rawToken == "" {
+        writeError(w, http.StatusBadRequest, "INVALID_OR_EXPIRED_TOKEN"); return
+    }
+    th := hashToken(rawToken)
+    var tok models.PasswordResetToken
+    if err := h.db.Where("token_hash = ? AND used_at IS NULL AND expires_at > ?", th, time.Now()).
+        First(&tok).Error; err != nil {
+        writeError(w, http.StatusBadRequest, "INVALID_OR_EXPIRED_TOKEN"); return
+    }
+    writeJSON(w, http.StatusOK, map[string]bool{"valid": true})
+}
+
+// POST /v1/auth/reset-password
+func (h *Handler) ResetPassword(w http.ResponseWriter, r *http.Request) {
+    var body struct {
+        Token       string `json:"token"`
+        NewPassword string `json:"newPassword"`
+    }
+    if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+        writeError(w, http.StatusBadRequest, "invalid request body"); return
+    }
+    if body.Token == "" || body.NewPassword == "" {
+        writeError(w, http.StatusBadRequest, "token and newPassword are required"); return
+    }
+    if len(body.NewPassword) < 8 {
+        writeError(w, http.StatusBadRequest, "password must be at least 8 characters"); return
+    }
+    th := hashToken(body.Token)
+    var tok models.PasswordResetToken
+    if err := h.db.Where("token_hash = ? AND used_at IS NULL AND expires_at > ?", th, time.Now()).
+        First(&tok).Error; err != nil {
+        writeError(w, http.StatusBadRequest, "INVALID_OR_EXPIRED_TOKEN"); return
+    }
+    hash, err := HashPassword(body.NewPassword)
+    if err != nil {
+        writeServerError(w, err); return
+    }
+    h.db.Model(&models.User{}).Where("id = ?", tok.UserID).Update("password_hash", hash)
+    now := time.Now()
+    h.db.Model(&tok).Update("used_at", &now)
+    writeJSON(w, http.StatusOK, map[string]bool{"success": true})
+}
+```
+
+- [ ] **Step 4: Run tests to confirm they pass**
+
+```bash
+go test ./internal/auth/...
+```
+
+Expected: PASS — 3 field-validation tests pass without a DB connection.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add internal/auth/handler.go internal/auth/handler_test.go
+git commit -m "feat(auth): add auth handlers under /v1/auth/ with GORM — JWT returned in JSON body"
+```
+
+---
+
+## Task 7: List Projects API
+
+**Files:**
+- Create: `internal/projects/handler.go`
+
+**Interfaces:**
+- Consumes: `*gorm.DB`, `middleware.UserFromCtx`, `apierror.Sanitize`, `models.*`
+- Produces: `projects.NewHandler(db *gorm.DB) *projects.Handler`; `(h *Handler) List(w http.ResponseWriter, r *http.Request)` - `GET /v1/projects`
+
+- [ ] **Step 1: Implement this API**
+
+Create the shared project handler scaffold and implement `List`. It must read the authenticated user, query `models.Project` by `user_id`, order by `updated_at desc`, and return `{"projects":[...]}` with `id`, `name`, `status`, `location_address`, and `updated_at`.
+
+- [ ] **Step 2: Verify compilation**
+
+```bash
+go build ./internal/projects/...
+```
+
+Expected: no output.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add internal/projects/handler.go
+git commit -m "feat(projects): add list projects API"
+```
+
+---
+
+## Task 8: Create Project API
+
+**Files:**
+- Modify: `internal/projects/handler.go`
+
+**Interfaces:**
+- Consumes: `*gorm.DB`, `middleware.UserFromCtx`, `apierror.Sanitize`, `models.*`
+- Produces: `(h *Handler) Create(w http.ResponseWriter, r *http.Request)` - `POST /v1/projects`
+
+- [ ] **Step 1: Implement this API**
+
+Decode `name`, `locationAddress`, `locationLat`, and `locationLng`; default empty `name` to `"Untitled Project"`; load the authenticated user; create `models.Project`; return HTTP 201 with `id`, `name`, and `status`.
+
+- [ ] **Step 2: Verify compilation**
+
+```bash
+go build ./internal/projects/...
+```
+
+Expected: no output.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add internal/projects/handler.go
+git commit -m "feat(projects): add create project API"
+```
+
+---
+
+## Task 9: Get Project API
+
+**Files:**
+- Modify: `internal/projects/handler.go`
+
+**Interfaces:**
+- Consumes: `*gorm.DB`, `middleware.UserFromCtx`, `apierror.Sanitize`, `models.*`
+- Produces: `(h *Handler) Get(w http.ResponseWriter, r *http.Request)` - `GET /v1/projects/{id}`
+
+- [ ] **Step 1: Implement this API**
+
+Read `{id}` from `chi.URLParam`, query by `id` and authenticated `user_id`, return HTTP 404 for missing/cross-user records, and return full project state including location fields, `floor_configs`, `generated_twin`, `canvas_data`, `status`, and `updated_at`.
+
+- [ ] **Step 2: Verify compilation**
+
+```bash
+go build ./internal/projects/...
+```
+
+Expected: no output.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add internal/projects/handler.go
+git commit -m "feat(projects): add get project API"
+```
+
+---
+
+## Task 10: Update Project API
+
+**Files:**
+- Modify: `internal/projects/handler.go`
+
+**Interfaces:**
+- Consumes: `*gorm.DB`, `middleware.UserFromCtx`, `apierror.Sanitize`, `models.*`
+- Produces: `(h *Handler) Update(w http.ResponseWriter, r *http.Request)` - `PATCH /v1/projects/{id}`
+
+- [ ] **Step 1: Implement this API**
+
+Decode optional `name`, `floorConfigs`, `generatedTwin`, `canvasData`, and `status`; update only provided fields; filter by `id` and authenticated `user_id`; return HTTP 404 when no row is affected.
+
+- [ ] **Step 2: Verify compilation**
+
+```bash
+go build ./internal/projects/...
+```
+
+Expected: no output.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add internal/projects/handler.go
+git commit -m "feat(projects): add update project API"
+```
+
+---
+
+## Task 11: Delete Project API
+
+**Files:**
+- Modify: `internal/projects/handler.go`
+
+**Interfaces:**
+- Consumes: `*gorm.DB`, `middleware.UserFromCtx`, `apierror.Sanitize`, `models.*`
+- Produces: `(h *Handler) Delete(w http.ResponseWriter, r *http.Request)` - `DELETE /v1/projects/{id}`
+
+- [ ] **Step 1: Implement this API**
+
+Delete only records matching `id` and authenticated `user_id`, then return HTTP 204.
+
+- [ ] **Step 2: Verify compilation**
+
+```bash
+go build ./internal/projects/...
+```
+
+Expected: no output.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add internal/projects/handler.go
+git commit -m "feat(projects): add delete project API"
+```
+
+---
+
+## Task 12: Publish Project API
+
+**Files:**
+- Modify: `internal/projects/handler.go`
+
+**Interfaces:**
+- Consumes: `*gorm.DB`, `middleware.UserFromCtx`, `apierror.Sanitize`, `models.*`
+- Produces: `(h *Handler) Publish(w http.ResponseWriter, r *http.Request)` - `POST /v1/projects/{id}/publish`
+
+- [ ] **Step 1: Implement this API**
+
+Update only records matching `id`, authenticated `user_id`, and `status IN ('scanned','edited')`; set `status` to `published`; return HTTP 404 with `not found or invalid status` when no row is affected.
+
+- [ ] **Step 2: Verify compilation**
+
+```bash
+go build ./internal/projects/...
+```
+
+Expected: no output.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add internal/projects/handler.go
+git commit -m "feat(projects): add publish project API"
+```
+
+---
+
+## Task 13: Unpublish Project API
+
+**Files:**
+- Modify: `internal/projects/handler.go`
+
+**Interfaces:**
+- Consumes: `*gorm.DB`, `middleware.UserFromCtx`, `apierror.Sanitize`, `models.*`
+- Produces: `(h *Handler) Unpublish(w http.ResponseWriter, r *http.Request)` - `POST /v1/projects/{id}/unpublish`
+
+- [ ] **Step 1: Implement this API**
+
+Update only records matching `id`, authenticated `user_id`, and `status = 'published'`; set `status` to `unpublished`; return HTTP 404 with `not found or not published` when no row is affected.
+
+- [ ] **Step 2: Verify compilation**
+
+```bash
+go build ./internal/projects/...
+```
+
+Expected: no output.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add internal/projects/handler.go
+git commit -m "feat(projects): add unpublish project API"
+```
+
+---
+
+## Task 14: Upload File API
+
+**Files:**
+- Modify: `internal/projects/handler.go`
+- Modify: `internal/models/models.go`
+
+**Interfaces:**
+- Consumes: `*gorm.DB`, `middleware.UserFromCtx`, `apierror.Sanitize`, `models.*`
+- Produces: `(h *Handler) Upload(w http.ResponseWriter, r *http.Request)` - `POST /v1/upload`
+
+- [ ] **Step 1: Implement this API**
+
+Require `projectId` and multipart `file`; verify the project belongs to the authenticated user; save under `DATA_DIR/{userID}/{projectID}/`; create/find a `ProjectFile` row with `project_id`, `user_id`, `original_name`, `file_path`, and `file_size`; return the saved path. Add `models.MustParseUUID` if Task 1 did not already create it.
+
+- [ ] **Step 2: Verify compilation**
+
+```bash
+go build ./internal/projects/...
+```
+
+Expected: no output.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add internal/projects/handler.go internal/models/models.go
+git commit -m "feat(projects): add upload file API"
+```
+
+---
+
+## Task 15: Serve File API
+
+**Files:**
+- Modify: `internal/projects/handler.go`
+
+**Interfaces:**
+- Consumes: `*gorm.DB`, `middleware.UserFromCtx`, `apierror.Sanitize`, `models.*`
+- Produces: `(h *Handler) ServeFile(w http.ResponseWriter, r *http.Request)` - `GET /v1/files?name=&projectId=`
+
+- [ ] **Step 1: Implement this API**
+
+Require `name` and `projectId`; query `ProjectFile` by `project_id`, authenticated `user_id`, and `original_name`; return HTTP 404 when missing; call `http.ServeFile` with the stored path.
+
+- [ ] **Step 2: Verify compilation**
+
+```bash
+go build ./internal/projects/...
+```
+
+Expected: no output.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add internal/projects/handler.go
+git commit -m "feat(projects): add serve file API"
+```
+
+---
+
+## Task 16: Delete File API
+
+**Files:**
+- Modify: `internal/projects/handler.go`
+
+**Interfaces:**
+- Consumes: `*gorm.DB`, `middleware.UserFromCtx`, `apierror.Sanitize`, `models.*`
+- Produces: `(h *Handler) DeleteFile(w http.ResponseWriter, r *http.Request)` - `DELETE /v1/files?name=&projectId=`
+
+- [ ] **Step 1: Implement this API**
+
+Require `name` and `projectId`; query `ProjectFile` by `project_id`, authenticated `user_id`, and `original_name`; remove the disk file; delete the DB row; return HTTP 204.
+
+- [ ] **Step 2: Verify compilation**
+
+```bash
+go build ./internal/projects/...
+```
+
+Expected: no output.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add internal/projects/handler.go
+git commit -m "feat(projects): add delete file API"
+```
+
+---
+
+## Task 17: Reset Project Files API
+
+**Files:**
+- Modify: `internal/projects/handler.go`
+
+**Interfaces:**
+- Consumes: `*gorm.DB`, `middleware.UserFromCtx`, `apierror.Sanitize`, `models.*`
+- Produces: `(h *Handler) ResetProject(w http.ResponseWriter, r *http.Request)` - `POST /v1/reset`
+
+- [ ] **Step 1: Implement this API**
+
+Decode `projectId`; verify the project belongs to the authenticated user; remove `DATA_DIR/{userID}/{projectID}`; delete matching `ProjectFile` rows; return `{"ok":true}`.
+
+- [ ] **Step 2: Verify compilation**
+
+```bash
+go build ./internal/projects/...
+```
+
+Expected: no output.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add internal/projects/handler.go
+git commit -m "feat(projects): add reset project files API"
+```
+
+---
+
+## Task 18: Main Server + Wire Everything
+
+**Files:**
+- Create: `cmd/server/main.go`
+
+- [ ] **Step 1: Create `cmd/server/main.go`**
+
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+    "os"
+
+    "github.com/go-chi/chi/v5"
+    chiMiddleware "github.com/go-chi/chi/v5/middleware"
+    "github.com/rs/cors"
+
+    "gothru-3d-api/internal/auth"
+    "gothru-3d-api/internal/db"
+    "gothru-3d-api/internal/email"
+    appMiddleware "gothru-3d-api/internal/middleware"
+    "gothru-3d-api/internal/projects"
+)
+
+func main() {
+    gormDB, err := db.Connect(os.Getenv("DATABASE_URL"))
+    if err != nil {
+        log.Fatal("db:", err)
+    }
+
+    emailSvc := email.NewService()
+    authHandler := auth.NewHandler(gormDB, emailSvc)
+    projectHandler := projects.NewHandler(gormDB)
+
+    allowedOrigin := os.Getenv("CORS_ALLOWED_ORIGIN")
+    if allowedOrigin == "" {
+        allowedOrigin = "http://localhost:3000"
+    }
+    corsMiddleware := cors.New(cors.Options{
+        AllowedOrigins:   []string{allowedOrigin},
+        AllowedMethods:   []string{http.MethodGet, http.MethodPost, http.MethodPatch, http.MethodDelete, http.MethodOptions},
+        AllowedHeaders:   []string{"Authorization", "Content-Type"},
+        AllowCredentials: false,
+    })
+
+    r := chi.NewRouter()
+    r.Use(corsMiddleware.Handler)
+    r.Use(chiMiddleware.Logger)
+    r.Use(chiMiddleware.Recoverer)
+
+    r.Route("/v1/auth", func(r chi.Router) {
+        r.Post("/register", authHandler.Register)
+        r.Post("/login", authHandler.Login)
+        r.Get("/verify-email", authHandler.VerifyEmail)
+        r.Post("/forgot-password", authHandler.ForgotPassword)
+        r.Get("/validate-reset-token", authHandler.ValidateResetToken)
+        r.Post("/reset-password", authHandler.ResetPassword)
+        r.Group(func(r chi.Router) {
+            r.Use(appMiddleware.RequireAuth)
+            r.Get("/me", authHandler.Me)
+            r.Post("/resend-verification", authHandler.ResendVerification)
+        })
+    })
+
+    r.Group(func(r chi.Router) {
+        r.Use(appMiddleware.RequireAuth)
+        r.Get("/v1/projects", projectHandler.List)
+        r.Post("/v1/projects", projectHandler.Create)
+        r.Get("/v1/projects/{id}", projectHandler.Get)
+        r.Patch("/v1/projects/{id}", projectHandler.Update)
+        r.Delete("/v1/projects/{id}", projectHandler.Delete)
+        r.Post("/v1/projects/{id}/publish", projectHandler.Publish)
+        r.Post("/v1/projects/{id}/unpublish", projectHandler.Unpublish)
+        r.Post("/v1/upload", projectHandler.Upload)
+        r.Get("/v1/files", projectHandler.ServeFile)
+        r.Delete("/v1/files", projectHandler.DeleteFile)
+        r.Post("/v1/reset", projectHandler.ResetProject)
+    })
+
+    r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+        w.WriteHeader(http.StatusOK)
+        fmt.Fprintln(w, "ok")
+    })
+
+    port := os.Getenv("PORT")
+    if port == "" { port = "8080" }
+    fmt.Printf("gothru-3d-api listening on :%s\n", port)
+    log.Fatal(http.ListenAndServe(":"+port, r))
+}
+```
+
+- [ ] **Step 2: Build**
+
+```bash
+go build ./cmd/server/
+```
+
+Expected: binary created with no output.
+
+- [ ] **Step 3: Run all unit tests**
+
+```bash
+go test ./...
+```
+
+Expected: PASS for all packages.
+
+- [ ] **Step 4: Smoke test**
+
+```bash
+export DATABASE_URL="postgres://user:pass@localhost:5432/gothru3d"
+export GOTHRU_3D_JWT_SECRET="a-secret-that-is-at-least-32-chars!!"
+export PLUNK_API_KEY="sk_..."
+export PLUNK_VERIFY_EVENT="email-verification"
+export PLUNK_RESET_EVENT="password-reset"
+export NEXT_PUBLIC_APP_URL="http://localhost:3000"
+
+./server &
+curl -s http://localhost:8080/health   # → ok
+
+curl -s -X POST http://localhost:8080/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"fullName":"Test","email":"t@example.com","password":"pass1234"}' | jq
+# → {"userId":"...","email":"t@example.com","name":"Test","emailVerified":false,"token":"eyJ..."}
+```
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add cmd/server/main.go
+git commit -m "feat(server): wire chi router under /v1/, GORM db, all handlers, rs/cors middleware"
+```
+
+---
+
+## Task 19: Billing Handlers — Checkout, Portal, Status
+
+**Files:**
+- Create: `internal/billing/handler.go`
+- Create: `internal/billing/handler_test.go`
+
+**Interfaces:**
+- Consumes: `*gorm.DB`, `middleware.UserFromCtx`, `apierror.Sanitize`, `models.User`, `models.Subscription`, `models.MustParseUUID`, `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID`, `NEXT_PUBLIC_APP_URL` env vars
+- Produces:
+  - `billing.NewHandler(db *gorm.DB) *billing.Handler`
+  - `(h *Handler) CreateCheckout(w http.ResponseWriter, r *http.Request)` — `POST /v1/billing/checkout` → `{"url": string}` (requires auth)
+  - `(h *Handler) CreatePortal(w http.ResponseWriter, r *http.Request)` — `POST /v1/billing/portal` → `{"url": string}` (requires auth)
+  - `(h *Handler) GetStatus(w http.ResponseWriter, r *http.Request)` — `GET /v1/billing/status` → `{"status": string, "currentPeriodEnd": string|null}` (requires auth)
+
+- [ ] **Step 1: Write failing tests**
+
+Create `internal/billing/handler_test.go`:
+
+```go
+package billing_test
+
+import (
+    "net/http"
+    "net/http/httptest"
+    "os"
+    "testing"
+
+    "gothru-3d-api/internal/billing"
+)
+
+func init() {
+    os.Setenv("STRIPE_SECRET_KEY", "sk_test_placeholder")
+    os.Setenv("STRIPE_PRICE_ID", "price_placeholder")
+    os.Setenv("NEXT_PUBLIC_APP_URL", "http://localhost:3000")
+}
+
+func TestCreateCheckout_NoAuth_Returns401(t *testing.T) {
+    h := billing.NewHandler(nil)
+    req := httptest.NewRequest(http.MethodPost, "/v1/billing/checkout", nil)
+    rr := httptest.NewRecorder()
+    h.CreateCheckout(rr, req)
+    if rr.Code != http.StatusUnauthorized {
+        t.Fatalf("got %d, want 401", rr.Code)
+    }
+}
+
+func TestCreatePortal_NoAuth_Returns401(t *testing.T) {
+    h := billing.NewHandler(nil)
+    req := httptest.NewRequest(http.MethodPost, "/v1/billing/portal", nil)
+    rr := httptest.NewRecorder()
+    h.CreatePortal(rr, req)
+    if rr.Code != http.StatusUnauthorized {
+        t.Fatalf("got %d, want 401", rr.Code)
+    }
+}
+
+func TestGetStatus_NoAuth_Returns401(t *testing.T) {
+    h := billing.NewHandler(nil)
+    req := httptest.NewRequest(http.MethodGet, "/v1/billing/status", nil)
+    rr := httptest.NewRecorder()
+    h.GetStatus(rr, req)
+    if rr.Code != http.StatusUnauthorized {
+        t.Fatalf("got %d, want 401", rr.Code)
+    }
+}
+```
+
+- [ ] **Step 2: Run to confirm they fail**
+
+```bash
+go test ./internal/billing/...
+```
+
+Expected: compile error — `billing` package does not exist yet.
+
+- [ ] **Step 3: Create `internal/billing/handler.go`**
+
+```go
+package billing
+
+import (
+    "encoding/json"
+    "net/http"
+    "os"
+    "time"
+
+    "github.com/stripe/stripe-go/v76"
+    checkoutsession "github.com/stripe/stripe-go/v76/checkout/session"
+    portalsession "github.com/stripe/stripe-go/v76/billingportal/session"
+    stripecustomer "github.com/stripe/stripe-go/v76/customer"
+    "gorm.io/gorm"
+
+    "gothru-3d-api/internal/apierror"
+    "gothru-3d-api/internal/middleware"
+    "gothru-3d-api/internal/models"
+)
+
+type Handler struct{ db *gorm.DB }
+
+func NewHandler(db *gorm.DB) *Handler {
+    stripe.Key = os.Getenv("STRIPE_SECRET_KEY")
+    return &Handler{db: db}
+}
+
+func writeJSON(w http.ResponseWriter, status int, v any) {
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(status)
+    json.NewEncoder(w).Encode(v)
+}
+
+func writeError(w http.ResponseWriter, status int, msg string) {
+    writeJSON(w, status, map[string]string{"error": msg})
+}
+
+func writeServerError(w http.ResponseWriter, err error) {
+    writeError(w, http.StatusInternalServerError, apierror.Sanitize(err))
+}
+
+// POST /v1/billing/checkout — get or create Stripe Customer, return Checkout Session URL
+func (h *Handler) CreateCheckout(w http.ResponseWriter, r *http.Request) {
+    claims := middleware.UserFromCtx(r.Context())
+    if claims == nil {
+        writeError(w, http.StatusUnauthorized, "Unauthorized"); return
+    }
+    customerID, err := h.getOrCreateCustomer(claims.UserID)
+    if err != nil {
+        writeServerError(w, err); return
+    }
+    appURL := os.Getenv("NEXT_PUBLIC_APP_URL")
+    params := &stripe.CheckoutSessionParams{
+        Customer: stripe.String(customerID),
+        Mode:     stripe.String(string(stripe.CheckoutSessionModeSubscription)),
+        LineItems: []*stripe.CheckoutSessionLineItemParams{
+            {Price: stripe.String(os.Getenv("STRIPE_PRICE_ID")), Quantity: stripe.Int64(1)},
+        },
+        SuccessURL: stripe.String(appURL + "/billing/success?session_id={CHECKOUT_SESSION_ID}"),
+        CancelURL:  stripe.String(appURL + "/billing/cancel"),
+    }
+    s, err := checkoutsession.New(params)
+    if err != nil {
+        writeServerError(w, err); return
+    }
+    writeJSON(w, http.StatusOK, map[string]string{"url": s.URL})
+}
+
+// POST /v1/billing/portal — open Stripe Billing Portal for existing customer
+func (h *Handler) CreatePortal(w http.ResponseWriter, r *http.Request) {
+    claims := middleware.UserFromCtx(r.Context())
+    if claims == nil {
+        writeError(w, http.StatusUnauthorized, "Unauthorized"); return
+    }
+    var sub models.Subscription
+    if err := h.db.Where("user_id = ?", claims.UserID).First(&sub).Error; err != nil {
+        writeError(w, http.StatusBadRequest, "no subscription record found"); return
+    }
+    params := &stripe.BillingPortalSessionParams{
+        Customer:  stripe.String(sub.StripeCustomerID),
+        ReturnURL: stripe.String(os.Getenv("NEXT_PUBLIC_APP_URL") + "/billing"),
+    }
+    s, err := portalsession.New(params)
+    if err != nil {
+        writeServerError(w, err); return
+    }
+    writeJSON(w, http.StatusOK, map[string]string{"url": s.URL})
+}
+
+// GET /v1/billing/status — return subscription status for the signed-in user
+func (h *Handler) GetStatus(w http.ResponseWriter, r *http.Request) {
+    claims := middleware.UserFromCtx(r.Context())
+    if claims == nil {
+        writeError(w, http.StatusUnauthorized, "Unauthorized"); return
+    }
+    var sub models.Subscription
+    if err := h.db.Where("user_id = ?", claims.UserID).First(&sub).Error; err != nil {
+        writeJSON(w, http.StatusOK, map[string]any{"status": "inactive", "currentPeriodEnd": nil})
+        return
+    }
+    var periodEnd interface{} = nil
+    if sub.CurrentPeriodEnd != nil {
+        periodEnd = sub.CurrentPeriodEnd.Format(time.RFC3339)
+    }
+    writeJSON(w, http.StatusOK, map[string]any{
+        "status": sub.Status, "currentPeriodEnd": periodEnd,
+    })
+}
+
+func (h *Handler) getOrCreateCustomer(userID string) (string, error) {
+    var sub models.Subscription
+    if err := h.db.Where("user_id = ?", userID).First(&sub).Error; err == nil {
+        return sub.StripeCustomerID, nil
+    }
+    var user models.User
+    if err := h.db.Where("id = ?", userID).First(&user).Error; err != nil {
+        return "", err
+    }
+    c, err := stripecustomer.New(&stripe.CustomerParams{Email: stripe.String(user.Email)})
+    if err != nil {
+        return "", err
+    }
+    h.db.Create(&models.Subscription{
+        UserID:           models.MustParseUUID(userID),
+        StripeCustomerID: c.ID,
+        Status:           "inactive",
+    })
+    return c.ID, nil
+}
+```
+
+- [ ] **Step 4: Run tests to confirm they pass**
+
+```bash
+go test ./internal/billing/...
+```
+
+Expected: PASS — 3 auth-guard tests pass without hitting the Stripe API.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add internal/billing/handler.go internal/billing/handler_test.go
+git commit -m "feat(billing): add Stripe checkout, portal, and status handlers"
+```
+
+---
+
+## Task 20: Billing Webhook Handler
+
+**Files:**
+- Create: `internal/billing/webhook.go`
+- Create: `internal/billing/webhook_test.go`
+
+**Interfaces:**
+- Consumes: `STRIPE_WEBHOOK_SECRET` env var, `models.Subscription`, Stripe webhook events
+- Produces: `(h *Handler) HandleWebhook(w http.ResponseWriter, r *http.Request)` — no auth; signature verified via `Stripe-Signature` header
+- Handles: `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`
+
+- [ ] **Step 1: Write failing tests**
+
+Create `internal/billing/webhook_test.go`:
+
+```go
+package billing_test
+
+import (
+    "net/http"
+    "net/http/httptest"
+    "strings"
+    "testing"
+
+    "gothru-3d-api/internal/billing"
+)
+
+func TestWebhook_InvalidSignature_Returns400(t *testing.T) {
+    h := billing.NewHandler(nil)
+    req := httptest.NewRequest(http.MethodPost, "/v1/billing/webhook", strings.NewReader(`{}`))
+    req.Header.Set("Stripe-Signature", "t=1234,v1=invalidsig")
+    rr := httptest.NewRecorder()
+    h.HandleWebhook(rr, req)
+    if rr.Code != http.StatusBadRequest {
+        t.Fatalf("got %d, want 400", rr.Code)
+    }
+}
+
+func TestWebhook_NoSignature_Returns400(t *testing.T) {
+    h := billing.NewHandler(nil)
+    req := httptest.NewRequest(http.MethodPost, "/v1/billing/webhook", strings.NewReader(`{}`))
+    rr := httptest.NewRecorder()
+    h.HandleWebhook(rr, req)
+    if rr.Code != http.StatusBadRequest {
+        t.Fatalf("got %d, want 400", rr.Code)
+    }
+}
+```
+
+- [ ] **Step 2: Run to confirm they fail**
+
+```bash
+go test ./internal/billing/... -run TestWebhook
+```
+
+Expected: compile error — `HandleWebhook` not defined yet.
+
+- [ ] **Step 3: Create `internal/billing/webhook.go`**
+
+```go
+package billing
+
+import (
+    "encoding/json"
+    "io"
+    "net/http"
+    "os"
+    "time"
+
+    "github.com/stripe/stripe-go/v76"
+    "github.com/stripe/stripe-go/v76/webhook"
+    "gothru-3d-api/internal/models"
+)
+
+// POST /v1/billing/webhook — no RequireAuth; Stripe-Signature header is proof of authenticity
+func (h *Handler) HandleWebhook(w http.ResponseWriter, r *http.Request) {
+    payload, err := io.ReadAll(r.Body)
+    if err != nil {
+        w.WriteHeader(http.StatusBadRequest); return
+    }
+    sig := r.Header.Get("Stripe-Signature")
+    event, err := webhook.ConstructEvent(payload, sig, os.Getenv("STRIPE_WEBHOOK_SECRET"))
+    if err != nil {
+        w.WriteHeader(http.StatusBadRequest); return
+    }
+    switch event.Type {
+    case "customer.subscription.created", "customer.subscription.updated":
+        var sub stripe.Subscription
+        if err := json.Unmarshal(event.Data.Raw, &sub); err != nil {
+            w.WriteHeader(http.StatusBadRequest); return
+        }
+        periodEnd := time.Unix(sub.CurrentPeriodEnd, 0)
+        h.db.Model(&models.Subscription{}).
+            Where("stripe_customer_id = ?", sub.Customer.ID).
+            Updates(map[string]any{
+                "stripe_subscription_id": sub.ID,
+                "status":                 string(sub.Status),
+                "current_period_end":     &periodEnd,
+            })
+    case "customer.subscription.deleted":
+        var sub stripe.Subscription
+        if err := json.Unmarshal(event.Data.Raw, &sub); err != nil {
+            w.WriteHeader(http.StatusBadRequest); return
+        }
+        h.db.Model(&models.Subscription{}).
+            Where("stripe_customer_id = ?", sub.Customer.ID).
+            Updates(map[string]any{
+                "status":                 "canceled",
+                "stripe_subscription_id": sub.ID,
+            })
+    }
+    w.WriteHeader(http.StatusOK)
+}
+```
+
+- [ ] **Step 4: Run tests to confirm they pass**
+
+```bash
+go test ./internal/billing/...
+```
+
+Expected: PASS — all 5 billing tests pass.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add internal/billing/webhook.go internal/billing/webhook_test.go
+git commit -m "feat(billing): add Stripe webhook handler for subscription lifecycle events"
+```
+
+---
+
+## Task 21: Wire Billing Routes into Main Server
+
+**Files:**
+- Modify: `cmd/server/main.go`
+
+**Interfaces:**
+- Consumes: `billing.NewHandler(db *gorm.DB) *billing.Handler`
+- Mounts: `POST /v1/billing/checkout` (auth), `POST /v1/billing/portal` (auth), `GET /v1/billing/status` (auth), `POST /v1/billing/webhook` (no auth — Stripe-Signature verified)
+
+- [ ] **Step 1: Update `cmd/server/main.go`**
+
+Replace the file with the following (adds `billing` import and routes):
+
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+    "os"
+
+    "github.com/go-chi/chi/v5"
+    chiMiddleware "github.com/go-chi/chi/v5/middleware"
+    "github.com/rs/cors"
+
+    "gothru-3d-api/internal/auth"
+    "gothru-3d-api/internal/billing"
+    "gothru-3d-api/internal/db"
+    "gothru-3d-api/internal/email"
+    appMiddleware "gothru-3d-api/internal/middleware"
+    "gothru-3d-api/internal/projects"
+)
+
+func main() {
+    gormDB, err := db.Connect(os.Getenv("DATABASE_URL"))
+    if err != nil {
+        log.Fatal("db:", err)
+    }
+
+    emailSvc := email.NewService()
+    authHandler := auth.NewHandler(gormDB, emailSvc)
+    projectHandler := projects.NewHandler(gormDB)
+    billingHandler := billing.NewHandler(gormDB)
+
+    allowedOrigin := os.Getenv("CORS_ALLOWED_ORIGIN")
+    if allowedOrigin == "" {
+        allowedOrigin = "http://localhost:3000"
+    }
+    corsMiddleware := cors.New(cors.Options{
+        AllowedOrigins:   []string{allowedOrigin},
+        AllowedMethods:   []string{http.MethodGet, http.MethodPost, http.MethodPatch, http.MethodDelete, http.MethodOptions},
+        AllowedHeaders:   []string{"Authorization", "Content-Type"},
+        AllowCredentials: false,
+    })
+
+    r := chi.NewRouter()
+    r.Use(corsMiddleware.Handler)
+    r.Use(chiMiddleware.Logger)
+    r.Use(chiMiddleware.Recoverer)
+
+    r.Route("/v1/auth", func(r chi.Router) {
+        r.Post("/register", authHandler.Register)
+        r.Post("/login", authHandler.Login)
+        r.Get("/verify-email", authHandler.VerifyEmail)
+        r.Post("/forgot-password", authHandler.ForgotPassword)
+        r.Get("/validate-reset-token", authHandler.ValidateResetToken)
+        r.Post("/reset-password", authHandler.ResetPassword)
+        r.Group(func(r chi.Router) {
+            r.Use(appMiddleware.RequireAuth)
+            r.Get("/me", authHandler.Me)
+            r.Post("/resend-verification", authHandler.ResendVerification)
+        })
+    })
+
+    r.Group(func(r chi.Router) {
+        r.Use(appMiddleware.RequireAuth)
+        r.Get("/v1/projects", projectHandler.List)
+        r.Post("/v1/projects", projectHandler.Create)
+        r.Get("/v1/projects/{id}", projectHandler.Get)
+        r.Patch("/v1/projects/{id}", projectHandler.Update)
+        r.Delete("/v1/projects/{id}", projectHandler.Delete)
+        r.Post("/v1/projects/{id}/publish", projectHandler.Publish)
+        r.Post("/v1/projects/{id}/unpublish", projectHandler.Unpublish)
+        r.Post("/v1/upload", projectHandler.Upload)
+        r.Get("/v1/files", projectHandler.ServeFile)
+        r.Delete("/v1/files", projectHandler.DeleteFile)
+        r.Post("/v1/reset", projectHandler.ResetProject)
+        r.Post("/v1/billing/checkout", billingHandler.CreateCheckout)
+        r.Post("/v1/billing/portal", billingHandler.CreatePortal)
+        r.Get("/v1/billing/status", billingHandler.GetStatus)
+    })
+
+    // Webhook bypasses auth — Stripe-Signature header is the proof of authenticity
+    r.Post("/v1/billing/webhook", billingHandler.HandleWebhook)
+
+    r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+        w.WriteHeader(http.StatusOK)
+        fmt.Fprintln(w, "ok")
+    })
+
+    port := os.Getenv("PORT")
+    if port == "" { port = "8080" }
+    fmt.Printf("gothru-3d-api listening on :%s\n", port)
+    log.Fatal(http.ListenAndServe(":"+port, r))
+}
+```
+
+- [ ] **Step 2: Build**
+
+```bash
+go build ./...
+```
+
+Expected: clean build — no errors.
+
+- [ ] **Step 3: Run all tests**
+
+```bash
+go test ./...
+```
+
+Expected: PASS for all packages including `internal/billing`.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add cmd/server/main.go
+git commit -m "feat(server): wire billing routes — checkout, portal, status authed; webhook unauthed"
+```
+
+---
+
+## Environment Variables
+
+```bash
+# Go service
+DATABASE_URL=postgresql://user:pass@host:5432/dbname
+GOTHRU_3D_JWT_SECRET=<32+ random chars>
+PLUNK_API_KEY=sk_...
+PLUNK_VERIFY_EVENT=email-verification   # Plunk automation event name
+PLUNK_RESET_EVENT=password-reset        # Plunk automation event name
+NEXT_PUBLIC_APP_URL=https://yourdomain.com
+DATA_DIR=/data
+PORT=8080
+CORS_ALLOWED_ORIGIN=https://yourdomain.com   # default: http://localhost:3000
+STRIPE_SECRET_KEY=sk_live_...             # Stripe secret key (never expose to browser)
+STRIPE_WEBHOOK_SECRET=whsec_...          # From Stripe dashboard → Webhooks
+STRIPE_PRICE_ID=price_...               # Stripe Price ID for the subscription plan
+```
+
+---
+
+## Self-Review Checklist
+
+- [x] Go 1.26 in `go.mod`
+- [x] GORM v2 with pool: `SetMaxOpenConns(25)`, `SetMaxIdleConns(5)`, `SetConnMaxLifetime(5m)`
+- [x] AutoMigrate on startup — no separate SQL migration files
+- [x] Routes under `/v1/` — no `api` prefix anywhere
+- [x] Plain JWT issued and validated — no `gf.` prefix
+- [x] `token` returned in login and register JSON response — NextAuth stores it
+- [x] No cookies set by Go service
+- [x] `Authorization: Bearer` header read by middleware — no cookie auth
+- [x] Plunk track events with event names from env vars — no inline HTML
+- [x] `apierror.Sanitize` uses `lib/pq` error type — no SQL in 500 responses
+- [x] `VerifyEmail` returns JSON `{verified:true}` — not a 302 redirect
+- [x] CORS middleware via `github.com/rs/cors` — first middleware on chi router, origin from `CORS_ALLOWED_ORIGIN` env var, `AllowCredentials: false`
+- [x] `Subscription` model in `models.go` — `StripeCustomerID`, `StripeSubscriptionID`, `Status`, `CurrentPeriodEnd`; added to `AutoMigrate`
+- [x] `internal/billing/handler.go` — `CreateCheckout`, `CreatePortal`, `GetStatus` all behind `RequireAuth`
+- [x] `internal/billing/webhook.go` — `HandleWebhook` bypasses auth, uses `webhook.ConstructEvent` for Stripe-Signature verification
+- [x] Billing routes wired in `main.go` — `/v1/billing/webhook` registered outside the auth group
+- [x] `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_ID` read from env — never hardcoded
+- [x] Forgot-password always 200 — no user enumeration
+- [x] Rate-limit check before resend-verification and forgot-password
