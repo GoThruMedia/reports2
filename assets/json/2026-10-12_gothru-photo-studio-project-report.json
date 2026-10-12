@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Photo Studio Project Report",
+  "repository": "GoThruMedia/gothru-photo-studio-tauri",
+  "generated_at": "2026-10-12T07:09:22Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photo-studio-tauri-257",
+      "display_title": "Issue #257: feat(stitching): Update Stitcher Alin (pano.exe) to 2026-10-10 with Boundary Blending & Multi-Image Manifest",
+      "main_description_html": "<h3 dir=\"auto\">Demo</h3>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-a583717d-25d4-4bfd-99d9-644ff7ddaded.png\"><img width=\"1919\" height=\"1022\" alt=\"Image\" src=\"images/image-a583717d-25d4-4bfd-99d9-644ff7ddaded.png\" style=\"max-width: 100%; height: auto; max-height: 1022px;; aspect-ratio: 1919 / 1022; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h3 dir=\"auto\">Summary</h3>\n<p dir=\"auto\">Update bundled Stitcher Alin binary (\\pano.exe) to the latest 2026-10-10 engine build and expose new features across the Tauri backend and frontend UI.</p>\n<h3 dir=\"auto\">Changes</h3>\n<ul dir=\"auto\">\n<li><strong>Binary Engine Update</strong>:\n<ul dir=\"auto\">\n<li>Recompiled and bundled latest \\pano.exe\\ along with 6 C++ native extensions (including _boundary_native).</li>\n<li>Verified standalone compatibility &amp; handshake handling (7/7 tests passed).</li>\n</ul>\n</li>\n<li><strong>Multi-Image (&gt;4 photos) Manifest Support</strong>:\n<ul dir=\"auto\">\n<li>\\stitching_alin.rs\\ automatically writes \\sources.json\\ and uses --images-file\\ when stitching &gt;4 photos to prevent Windows 32K CLI character limit errors.</li>\n</ul>\n</li>\n<li><strong>Boundary &amp; Light Blending Integration</strong>:\n<ul dir=\"auto\">\n<li>Added --light-blending\\ options (\\�oundary, \\�ngular, <br>\none) for Alin multiband rendering.</li>\n<li>Added UI selector in Stitching Settings sidebar when Alin Multiband is selected.</li>\n<li>Updated Redux state, IPC types, and i18n locales.</li>\n</ul>\n</li>\n</ul>\n<h3 dir=\"auto\">Testing &amp; Verification</h3>\n<ul dir=\"auto\">\n<li>\\cargo test --test test_pano_handshake: PASS (7/7)</li>\n<li>\\cargo test --test test_stitching_alin_external_blend: PASS (4/4)</li>\n<li><br>\node --test src/.../stitchingSlice.test.mjs src/.../payload.test.mjs: PASS (7/7)</li>\n<li>\\pnpm typecheck\\ &amp; \\cargo check: 0 errors</li>\n</ul>",
+      "metadata": {
+        "number": 257,
+        "author": "esa08",
+        "updated_at": "2026-10-12T06:22:34Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Photo Studio",
+    "date": "2026-10-12"
+  },
+  "docs": []
+}
