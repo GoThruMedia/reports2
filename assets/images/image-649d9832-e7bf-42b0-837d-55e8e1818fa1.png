@@ -1,0 +1,192 @@
+# GoThru 3D API — Non-Technical Overview
+
+**What this is:** A behind-the-scenes service that handles user accounts, project data, and uploaded files for GoThru 3D. The website never communicates with this service directly from the user's browser — everything goes through a secure server-side layer.
+
+---
+
+## User Accounts
+
+### Signing Up
+
+- A user provides their full name, email address, and a password (at least 8 characters)
+- The system immediately sends a verification email to the address they provided
+- Until they click the verification link, they cannot access the main features of the app
+
+### Signing In
+
+- Users enter their email and password
+- If the password is wrong, they see a generic "invalid email or password" message (the system never reveals whether an email address exists in the system)
+- If their email hasn't been verified yet, they're told to verify first before they can proceed
+
+### Email Verification
+
+- After signing up, a one-time link is emailed to the user
+- Clicking the link confirms their email and unlocks the full app
+- Links expire after 24 hours
+- Users can request a fresh verification email — limited to 3 requests per hour to prevent abuse
+
+### Password Reset
+
+1. User enters their email on the "Forgot Password" page
+2. If the email is in the system, a reset link is sent (valid for 1 hour)
+3. The response always says "email sent" — even if the address isn't registered — so no one can probe the system to find out who has an account
+4. User clicks the link and sets a new password (at least 8 characters)
+5. The link can only be used once
+
+### Staying Signed In
+
+- After signing in, the system issues a secure token to the website
+- The website uses this token to identify the user on all future requests
+- No passwords are ever stored in plain text — all passwords are encrypted using industry-standard one-way hashing
+
+---
+
+## Projects
+
+Each user can create and manage multiple projects. A project represents a physical space being mapped.
+
+### What a Project Contains
+
+| Field | Description |
+|-------|-------------|
+| Name | A label for the project (defaults to "Untitled Project") |
+| Location | The physical address and map coordinates of the space |
+| Floor configuration | Settings describing the number of floors and their dimensions |
+| 3D model | The AI-generated digital twin of the space |
+| Editor state | The user's work-in-progress from the visual editor |
+| Status | Where the project is in its lifecycle (see below) |
+
+### Project Lifecycle
+
+```
+draft → scanned → edited → published
+                         ↘ unpublished
+```
+
+| Status | Meaning |
+|--------|---------|
+| **draft** | Just created; no scan yet |
+| **scanned** | Floor plan has been processed by AI |
+| **edited** | User has made manual adjustments in the editor |
+| **published** | Visible to the public |
+| **unpublished** | Was published but taken offline |
+
+### What Users Can Do
+
+- **Create** a new project (with optional name and location)
+- **View** a project and all its data
+- **Update** the name, floor configuration, 3D model, editor state, or status
+- **Delete** a project
+- **Publish** a project (only if it's been scanned or edited)
+- **Unpublish** a project
+
+---
+
+## Files
+
+Users upload floor plan images or PDFs as part of the scanning process.
+
+- Files are stored securely on the server, organised by user and project
+- Each file is linked to a specific project and optionally to a specific floor level
+- Users can view their uploaded files or delete them
+- Deleting a file removes it from both the server and the database
+
+---
+
+## Email Notifications
+
+Two types of automatic emails are sent:
+
+| Email | When it's sent |
+|-------|----------------|
+| **Email verification** | After signing up, and when a user requests a resend |
+| **Password reset** | When a user requests a password reset |
+
+Email templates and content are managed through an external email platform — the backend simply triggers the right template with the right data (name, link).
+
+---
+
+## Security Highlights
+
+- Passwords are never stored in readable form — only a secure fingerprint of the password is kept
+- All account-protected features require a valid signed-in session
+- Error messages shown to users never expose internal system details (no database errors, no raw SQL)
+- Rate limiting prevents users from spamming the resend-verification or password-reset flows
+- The service is called server-to-server only — browsers do not communicate with it directly
+
+---
+
+## Billing & Subscriptions
+
+GoThru uses Stripe to handle paid plans. All billing logic runs server-side — the browser never communicates with Stripe directly.
+
+### How the Checkout Flow Works
+
+```
+User clicks "Subscribe" on the billing page
+   ↓
+GoThru website asks the backend to create a Stripe Checkout Session
+   ↓
+Backend returns a Stripe-hosted checkout URL
+   ↓
+User is redirected to Stripe's secure payment page
+   ↓
+User completes payment on Stripe
+   ↓
+Stripe redirects user back to GoThru (/billing/success)
+   ↓
+Stripe sends a webhook event to GoThru backend
+   ↓
+Backend updates the user's subscription status to "active"
+```
+
+### Managing an Existing Subscription
+
+Users with an active subscription can open the Stripe Billing Portal (also hosted by Stripe), where they can:
+- Update their payment method
+- Download invoices
+- Cancel their subscription
+
+The backend generates a portal link when requested and redirects the user there.
+
+### Subscription States
+
+| Status | Meaning |
+|--------|---------|
+| **inactive** | No subscription record, or subscription not yet confirmed |
+| **active** | Payment is up to date — full access |
+| **past_due** | Payment failed — Stripe will retry |
+| **canceled** | Subscription was canceled by the user |
+
+### What Gets Stored
+
+The backend stores a `subscriptions` record per user containing:
+- The Stripe Customer ID (used to bill the right person)
+- The Stripe Subscription ID (the active or past subscription)
+- The current status (`active`, `past_due`, `canceled`, etc.)
+- The renewal date (when the current billing period ends)
+
+### Webhooks
+
+Stripe sends automatic notifications when a subscription changes (payment succeeds, fails, or the user cancels). GoThru listens for these at a dedicated endpoint and updates the stored status immediately. These notifications are cryptographically signed by Stripe — GoThru verifies the signature before trusting the data.
+
+---
+
+## Environment Configuration
+
+The service requires the following settings to be configured before deployment:
+
+| Setting | Purpose |
+|---------|---------|
+| Database connection | Where user and project data is stored |
+| JWT secret | Used to sign secure session tokens (must be 32+ characters) |
+| Email platform API key | Authorises the system to send emails |
+| Verification email event name | Which email template to use for account verification |
+| Password reset email event name | Which email template to use for password resets |
+| App URL | Base URL used to build email links (e.g. the verification link) and Stripe redirect URLs |
+| File storage directory | Where uploaded files are saved on the server |
+| Port | Which network port the service listens on (default: 8080) |
+| CORS allowed origin | Which website domain is allowed to talk to this service (default: http://localhost:3000) |
+| Stripe secret key | Authorises the backend to call Stripe's API (never sent to the browser) |
+| Stripe webhook secret | Used to verify that webhook notifications genuinely came from Stripe |
+| Stripe price ID | Identifies which subscription plan to charge for |
