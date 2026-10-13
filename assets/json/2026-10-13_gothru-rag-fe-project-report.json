@@ -1,0 +1,22 @@
+{
+  "title": "GoThru RAG FE Project Report",
+  "repository": "GoThruMedia/frontend-rag-system",
+  "generated_at": "2026-10-13T07:05:41Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-frontend-rag-system-65",
+      "display_title": "Issue #65: feat: Support AI Chat Analytics - Session Tracking & Countly Telemetry Integration",
+      "main_description_html": "<h2 dir=\"auto\">Description</h2>\n<p dir=\"auto\">To accurately calculate <strong>Total Sessions</strong> and track conversational continuity in the upcoming AI Chat Analytics dashboard for Support accounts, the chat widget must generate and maintain a persistent <code class=\"notranslate\">session_id</code> throughout a conversation.</p>\n<h2 dir=\"auto\">Requirements &amp; Scope</h2>\n<ul dir=\"auto\">\n<li><strong>Session ID Generation:</strong> Generate a unique UUID v4 (<code class=\"notranslate\">session_id</code>) when a conversation begins or upon the first message.</li>\n<li><strong>Persistence Across Conversation:</strong> Keep the active <code class=\"notranslate\">session_id</code> in state/storage for ongoing follow-up questions within the same thread.</li>\n<li><strong>Payload Integration:</strong> Inject <code class=\"notranslate\">session_id</code> into the <code class=\"notranslate\">POST /copilot/chat</code> payload in <code class=\"notranslate\">Chat.tsx</code>.</li>\n<li><strong>Countly Telemetry Integration:</strong> Include <code class=\"notranslate\">session_id</code> in Countly event tracking payloads (<code class=\"notranslate\">trackClientActionOffered</code> and <code class=\"notranslate\">trackClientActionTriggered</code>) to correlate action events with chat sessions.</li>\n<li><strong>Lifecycle Reset:</strong> Reset and regenerate the <code class=\"notranslate\">session_id</code> when the user clicks the \"New Session\" button or when the session is cleared.</li>\n<li><strong>Build Asset:</strong> Ensure the bundled widget output is updated.</li>\n</ul>\n<h2 dir=\"auto\">Acceptance Criteria</h2>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Every chat request to <code class=\"notranslate\">/copilot/chat</code> contains a valid UUID <code class=\"notranslate\">session_id</code>.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Countly client action events contain the matching <code class=\"notranslate\">session_id</code>.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> Starting a new session creates a brand new unique <code class=\"notranslate\">session_id</code>.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Incomplete task\"> No regression on existing chat and action triggering flow.</li>\n</ul>",
+      "metadata": {
+        "number": 65,
+        "author": "alfarez21",
+        "updated_at": "2026-10-13T06:53:33Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru RAG FE",
+    "date": "2026-10-13"
+  },
+  "docs": []
+}
