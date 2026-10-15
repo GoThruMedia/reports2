@@ -1,0 +1,281 @@
+# Search Area & Direction Area — Design Spec
+
+**Date:** 2026-06-22  
+**Feature area:** Preview mode — area search and indoor navigation  
+**Scope:** `PreviewOverlay.tsx`, new preview panel components, new routing utility
+
+---
+
+## Problem
+
+Preview mode currently has no way for end users to locate a specific area or navigate between two points. Users must manually pan and zoom to find areas, and there is no concept of a walkable route. Both features are standard expectations for indoor mapping products.
+
+---
+
+## Solution Overview
+
+Add two mutually exclusive preview-mode features accessible via toggle buttons in the preview toolbar:
+
+- **Search Area** — a top-right autocomplete input that finds areas by title or description, then pans and focuses the map to the selected area and shows its existing info panel.
+- **Direction Area** — a From/To routing panel that computes a wall-aware shortest path between two points and renders it as a blue line on the map.
+
+Both features are single-level-only: they are disabled (with an explanatory banner) when more than one floor level is visible simultaneously.
+
+---
+
+## Architecture
+
+```
+PreviewOverlay
+├── Feature toggle bar (top-left, alongside Exit Preview)
+│   ├── [Search Area] button
+│   └── [Directions] button
+│
+├── activeFeature: "search" | "direction" | null  (local React state)
+│
+├── "search" active
+│   └── SearchAreaPanel (top-right)
+│       └── AreaAutocomplete (showDescription=true)
+│           → onSelect → setSelection({ kind:"area", id }) → existing fly+info flow
+│
+├── "direction" active
+│   ├── DirectionPanel (top-right)
+│   │   ├── To: AreaAutocomplete (showDescription=true)
+│   │   ├── From mode toggle: [Select Area] | [Drop Pin]
+│   │   ├── From Select Area: AreaAutocomplete (showDescription=false)
+│   │   ├── From Drop Pin: status text + map-click handler
+│   │   └── Route status: idle / found / "No route available"
+│   │
+│   ├── MapLibre layer "preview-area-dots"
+│   │   └── circle at centroid of every area-with-info on the active level
+│   │
+│   ├── MapLibre layer "preview-dropped-pin"
+│   │   └── teardrop icon at dropped pin coordinate (reuses existing PIN_IMG)
+│   │
+│   └── MapLibre layer "preview-route"
+│       └── blue LineString: From → To via wall-aware A* path
+│
+└── Info card (top-right, existing)
+    └── [Directions →] button added when Direction mode is active
+        → sets tapped area as the To destination
+```
+
+No Zustand store changes. All new state is local to `PreviewOverlay`.
+
+---
+
+## Feature Toggle
+
+Search Area and Direction Area are mutually exclusive. Clicking the active button deactivates it (toggle off). Clicking the inactive button activates it and deactivates the other. Switching resets all direction state and clears any active selection.
+
+---
+
+## Single-Level Constraint
+
+**Condition:** features require exactly one floor level to be visible.
+
+```
+allLevelIds        = canvasData.levels.map(l => l.level_id)
+effectiveVisible   = visibleLevelIds ?? allLevelIds
+isSingleLevel      = effectiveVisible.length === 1
+```
+
+When `isSingleLevel` is false and either feature is active, the panel slot (top-right) shows a banner:
+
+> "Search Area requires a single active floor level."  
+> "Directions require a single active floor level."
+
+Search and autocomplete inputs are not rendered. The toggle buttons remain active so the user can see which mode they enabled.
+
+Only areas belonging to the single active level appear in autocomplete results.
+
+---
+
+## Search Area
+
+### Input
+
+- Text input in top-right corner (280 px wide).
+- Placeholder: "Search by name or description…"
+- Autocomplete dropdown appears as the user types.
+
+### Data Scope
+
+Only areas whose `infoId` resolves to a valid `Information` record are surfaced. Areas without a linked record are excluded entirely.
+
+### Dropdown Rows
+
+Each row shows:
+- **Title** (primary, bold)
+- **Description** (secondary, truncated, one line) — shown if present
+
+Up to 10 results displayed; filtered by case-insensitive substring match on title or description.
+
+### On Selection
+
+1. Map pans and zooms to the selected area centroid (`map.flyTo`).
+2. The existing Area Information card appears in the top-right (same behaviour as clicking an area on the map).
+3. The autocomplete input shows the selected area's title with a clear (×) button.
+4. Clearing the selection returns to the empty search input.
+
+---
+
+## Direction Area
+
+### Panel Layout (top-right, 300 px wide card)
+
+```
+┌─────────────────────────────┐
+│ To                          │
+│ [ 🔍 Search destination… ] │
+│                             │
+│ From                        │
+│ [ Select Area │ Drop Pin ]  │
+│ [ 🔍 Search origin… ]      │  ← Select Area mode
+│                             │
+│ ℹ No route available        │  ← when applicable
+└─────────────────────────────┘
+```
+
+### "To" Field
+
+- Autocomplete identical to Search Area (title + description, areas-with-info only).
+- Can also be set by tapping the **Directions →** button in the Area Information card while viewing a specific area.
+
+### "From" Field — Select Area Mode
+
+- Autocomplete input; searches areas-with-info on the active level.
+- Dropdown shows **title only** (no description).
+- Selection is by title.
+
+### "From" Field — Drop Pin Mode
+
+- Status text: "Tap the map to drop a pin…" (awaiting first tap) or "Pin dropped — tap map to move" (pin set).
+- Any map click while this mode is active drops/moves the pin to that canvas coordinate.
+- The pin is rendered as the existing teardrop icon (`PIN_IMG`) via a dedicated MapLibre symbol layer.
+
+### Area Centroid Dots
+
+When Direction mode is active, a small filled blue circle (radius 7 px, white stroke) is drawn at the centroid of every area-with-info on the active level. These visually indicate selectable destinations and serve as path endpoints.
+
+---
+
+## Pathfinding
+
+### Algorithm
+
+Grid-based A* in canvas pixel space (the native coordinate system of `WallLayer.points`).
+
+| Parameter | Value |
+|---|---|
+| Grid cell size | 5 canvas pixels |
+| Movement | 8-directional (cardinal + diagonal) |
+| Diagonal cost | √2 |
+| Heuristic | Euclidean distance to target cell |
+
+### Wall Rasterization
+
+For each wall segment (consecutive pair of points in a `WallLayer`):
+- Cells within `(wall.width ?? 15) / 2 + 5` px of the segment centreline are marked blocked.
+- The extra 5 px (one cell) adds a clearance margin so the route does not hug walls.
+
+### Door Openings
+
+Door openings are sourced from `LevelData.floorplanMeta.doors` (`FloorplanSegment[]`, each with `x1, y1, x2, y2` in canvas pixels). Cells within a 15 px margin of each door segment are carved back to passable after the wall pass.
+
+### Endpoint Snapping
+
+If either endpoint falls inside a blocked cell (e.g. area centroid lands inside a thick wall), the algorithm BFS-expands outward up to 25 cells to find the nearest passable cell.
+
+### Route Result
+
+- The raw A* path is collinear-simplified (remove intermediate waypoints where the cross product with neighbours is < 0.5).
+- Simplified pixel path is converted to lng/lat using the existing `makePixelRotator` + `pixelToLngLat` pipeline.
+- Rendered as a MapLibre `line` layer: colour `#3b82f6`, width 4, opacity 0.9, round join and cap.
+
+### No Route Available
+
+If `findPath` returns `null` (destination surrounded by walls with no accessible entry), the Direction panel shows:
+
+> No route available
+
+in a red-tinted banner. The route line layer is cleared.
+
+---
+
+## Info Card — Directions Button
+
+When Direction mode is active, the Area Information card gains a small **Directions →** button (top-right corner of the card header, left of the ×). Clicking it:
+
+1. Sets the viewed area as the **To** destination in the Direction panel.
+2. Does not close the info card.
+
+The button is not shown outside Direction mode.
+
+---
+
+## Files Changed
+
+| File | Action | Change |
+|---|---|---|
+| `src/lib/routing/pathfinder.ts` | Create | `computeLevelBbox`, `buildGrid`, `findPath` |
+| `src/components/editor/preview/AreaAutocomplete.tsx` | Create | Shared autocomplete for areas-with-info |
+| `src/components/editor/preview/SearchAreaPanel.tsx` | Create | Search Area panel wrapper |
+| `src/components/editor/preview/DirectionPanel.tsx` | Create | Direction From/To UI |
+| `src/components/editor/PreviewOverlay.tsx` | Modify | Feature toggle, panels, route layer, dot layer, dropped-pin, Directions button in info card |
+
+No changes to `useMapStore.ts`, `layer-definitions.ts`, `useFloorPlanLayer.ts`, or `useFloorPlanLabels.ts`.
+
+---
+
+## Out of Scope
+
+- Multi-level routing (stairs, elevators, inter-floor paths)
+- Turn-by-turn or step-by-step navigation instructions
+- Route distance or estimated walk time display
+- Routing for point annotations or safety annotations (To/From are areas only, or a dropped pin)
+- Public map viewer (`/map` route) — Search and Direction are preview-only
+- Mobile / touch-specific UX differences beyond tap-to-drop-pin
+- Persisting the dropped pin or last route across preview sessions
+
+---
+
+## Constants Reference
+
+```ts
+// src/lib/routing/pathfinder.ts
+CELL_PX        = 5      // canvas pixels per grid cell
+DEFAULT_WALL_W = 15     // fallback wall half-width (px) when WallLayer.width is undefined
+DOOR_MARGIN    = 15     // px clearance carved around each door segment
+SNAP_RADIUS    = 25     // max cells BFS expands to find nearest passable endpoint
+
+// src/components/editor/preview/DirectionPanel.tsx (route line)
+ROUTE_COLOR    = "#3b82f6"
+ROUTE_WIDTH    = 4
+ROUTE_OPACITY  = 0.9
+
+// src/components/editor/preview/DirectionPanel.tsx (area centroid dot)
+DOT_RADIUS     = 7
+DOT_COLOR      = "#3b82f6"
+DOT_STROKE     = "#ffffff"
+DOT_STROKE_W   = 2
+```
+
+---
+
+## Definition of Done
+
+- [ ] Search Area toggle button activates/deactivates search mode; Direction toggle is deactivated simultaneously
+- [ ] Search autocomplete shows only areas with a linked Information record (title + description)
+- [ ] Selecting a search result pans the map to the area and shows the info card
+- [ ] Direction toggle shows From/To panel; Search toggle is deactivated simultaneously
+- [ ] Direction To autocomplete: title + description; From (Select Area): title only
+- [ ] "Direction →" button in info card sets the viewed area as To destination
+- [ ] Drop Pin mode: map click places/moves the pin; teardrop icon rendered at pin location
+- [ ] Blue area-centroid dots visible for all areas-with-info on the active level when Direction mode is active
+- [ ] Route rendered as a blue line when both From and To are set and a path exists
+- [ ] "No route available" banner shown when no path exists
+- [ ] Route does not visually cross through wall geometry
+- [ ] Both features show a single-level banner and suppress inputs when more than one level is visible
+- [ ] Autocomplete results only include areas from the single active level
+- [ ] Builds, lints, typechecks green with zero new errors

@@ -1,0 +1,582 @@
+# brainstorming.md - Auth Pages Visual Refresh
+
+**Feature Name:** Auth Pages Visual Refresh  
+**Product:** GoThru 3D Floormap  
+**Generated:** 2026-06-25  
+**Primary Audience:** UI/UX Designer and UI UX Pro Max  
+**Scope:** Sign in, sign up, forgot password, reset password, email verification, verification status, and shared auth layout  
+**Source Review:** Existing auth pages in `src/app/(auth)` and current product context  
+
+---
+
+## 1. Shared Product Understanding
+
+### 1.1 Product Story
+
+GoThru 3D Floormap helps teams turn static 2D floor plans into interactive indoor maps, 3D digital twins, and wayfinding experiences. The auth pages should no longer feel like generic account forms. They should introduce the platform's promise before the user reaches the dashboard: upload a floor plan, generate a structured indoor map, connect rooms and levels, and help people navigate complex spaces.
+
+The experience should feel close to modern indoor mapping and wayfinding platforms such as Mappedin: precise, spatial, enterprise-ready, and easy to trust.
+
+### 1.2 Main Goal
+
+Refresh all auth pages so they feel more interesting, user-friendly, SEO-friendly, and visually connected to the 3D indoor mapping product. The forms must stay simple and fast, but the surrounding experience should make the platform feel valuable, modern, and credible.
+
+### 1.3 Design Principles
+
+- Make every auth page feel like an entry point into an indoor mapping platform, not a plain login utility.
+- Show the product visually through floor plates, route lines, destination pins, level switching, room outlines, and subtle 3D map depth.
+- Keep forms calm, readable, and short.
+- Use reassuring copy for security-sensitive moments like password reset and email verification.
+- Make success, loading, and error states feel helpful instead of abrupt.
+- Avoid heavy marketing language. The user is trying to complete a task.
+
+### 1.4 Known Source Gaps
+
+- **UX personas:** Missing. Use provisional audience groups only.
+- **Formal BRD:** Missing for this auth refresh. Treat this file as a design brainstorming source, not final product requirements.
+- **SEO keyword research:** Missing. Suggested keywords are included as starter guidance.
+- **Final brand system:** Missing. Visual direction should align with GoThru's existing blue-accent SaaS identity.
+
+---
+
+## 2. Target Users and Mindset
+
+### 2.1 Facility and Venue Teams
+
+These users manage buildings, campuses, retail spaces, museums, hotels, airports, malls, offices, or event venues. They want confidence that the platform can represent their physical spaces clearly.
+
+**What they need from auth pages:** trust, clarity, and a quick sense of "this is for indoor spaces like mine."
+
+### 2.2 Mapping and Operations Specialists
+
+These users may work with floor plans regularly and care about accuracy, levels, destinations, and wayfinding routes.
+
+**What they need from auth pages:** a professional tool that feels precise, not decorative or toy-like.
+
+### 2.3 New Evaluators
+
+These users may be checking whether GoThru 3D Floormap can compete with established indoor mapping tools.
+
+**What they need from auth pages:** immediate platform positioning, credible visuals, and low friction to create an account.
+
+---
+
+## 3. Overall Auth Experience Concept
+
+### 3.1 Recommended Direction: Product Entry Split Screen
+
+Use a shared auth layout with two zones:
+
+- **Primary form zone:** clean, focused, and accessible. It contains the account task.
+- **Product visualization zone:** an immersive indoor mapping panel that changes subtly by page type.
+
+The visualization should not be a generic illustration. It should show the actual kind of product GoThru provides: multi-level indoor maps, 3D floor plates, route paths, destination pins, area labels, and digital twin previews.
+
+### 3.2 Visual Personality
+
+The desired feeling is:
+
+- spatial
+- precise
+- trustworthy
+- modern
+- calm
+- enterprise-friendly
+- slightly premium
+
+Avoid:
+
+- playful cartoon buildings
+- generic security/login illustrations
+- dark cyber-security styling
+- abstract gradients with no product meaning
+- cluttered dashboards inside tiny fake screens
+
+### 3.3 Layout Rhythm
+
+Desktop:
+
+- Left or right form panel with strong readability.
+- Opposite side shows a rich indoor map preview.
+- Keep the next action obvious: sign in, create account, send reset link, update password, resend email.
+
+Mobile:
+
+- Form first.
+- Product visual becomes a compact top banner or subtle background preview.
+- Keep copy short and avoid large hero blocks that push the form too far down.
+
+---
+
+## 4. Shared Visual System for Auth Pages
+
+### 4.1 Core Visual Motifs
+
+Use these motifs across all auth pages:
+
+- Layered 3D floor plates representing multiple building levels.
+- Thin route line connecting points such as Lobby, Meeting Room, Gate, Store, or Exhibit.
+- Destination markers and room labels.
+- Soft altitude/depth shadows between floors.
+- Search/destination chip such as "Find Conference Room B".
+- Small wayfinding status labels such as "Route ready", "Level 2", "Accessible path", or "3D map generated".
+- Blueprint-to-digital transformation hints: faint 2D linework becoming a polished 3D map.
+
+### 4.2 Suggested Color Direction
+
+Use a restrained SaaS palette:
+
+- White or near-white surfaces for forms.
+- Deep neutral text for credibility.
+- GoThru blue as the primary action color.
+- Secondary accents from wayfinding colors: green for success, amber for attention, red only for errors.
+- Soft map colors for floors and rooms, not a one-note blue interface.
+
+### 4.3 Typography Direction
+
+- Headlines should be clear and product-specific.
+- Body copy should be short and reassuring.
+- Avoid overly clever auth copy.
+- Keep button labels action-oriented.
+
+### 4.4 Imagery and Visual Asset Direction
+
+Preferred visual assets:
+
+- Custom rendered 3D indoor map scene.
+- Product-like mockup of a multi-level building map.
+- Floor plan line art transformed into a 3D digital twin.
+- Wayfinding route across levels.
+
+Avoid:
+
+- stock photos of office lobbies
+- generic laptop mockups
+- people illustrations
+- decorative abstract shapes without spatial meaning
+
+---
+
+## 5. Page-by-Page Brainstorming
+
+### 5.1 Sign In Page
+
+**User intent:** Return to an existing project quickly.
+
+**Recommended headline:** Welcome back to your indoor mapping workspace
+
+**Supporting copy:** Sign in to manage 3D floor maps, digital twins, and wayfinding projects.
+
+**Visual story:** Show an existing building map with active routes and saved levels. This tells returning users they are going back to their workspace.
+
+**Form elements:**
+
+- Email
+- Password
+- Forgot password link
+- Sign in button
+- Link to create account
+
+**Helpful UX additions:**
+
+- Keep "Forgot password?" visible but quiet.
+- If email is not verified, guide the user to the verification status page with plain language.
+- If sign-in fails, say "The email or password does not match an account" instead of a vague failure.
+
+**SEO metadata direction:**
+
+- Title: Sign in to GoThru 3D Floormap
+- Description: Access your indoor mapping workspace to manage 3D floor plans, digital twins, and wayfinding projects.
+
+### 5.2 Sign Up Page
+
+**User intent:** Start using the platform and understand why creating an account is worth it.
+
+**Recommended headline:** Create your indoor mapping workspace
+
+**Supporting copy:** Turn floor plans into interactive 3D maps and wayfinding experiences for real buildings.
+
+**Visual story:** Show a transformation from an uploaded 2D floor plan into a 3D multi-level map. This page should have the strongest product storytelling.
+
+**Form elements:**
+
+- Full name
+- Email
+- Password
+- Create account button
+- Link to sign in
+
+**Helpful UX additions:**
+
+- Add a short trust line near the button: "Start with your first floor plan. No setup call required."
+- Show password expectations before error occurs: "Use at least 8 characters."
+- After account creation, clearly explain that email verification is the next step.
+
+**SEO metadata direction:**
+
+- Title: Create a GoThru 3D Floormap Account
+- Description: Start building 3D indoor maps, digital twins, and wayfinding experiences from 2D floor plans.
+
+### 5.3 Forgot Password Page
+
+**User intent:** Recover access without anxiety.
+
+**Recommended headline:** Reset your password
+
+**Supporting copy:** Enter your account email and we will send a secure reset link.
+
+**Visual story:** Use a calm map-lock or route-reconnect visual. Avoid making this page feel like an error.
+
+**Form elements:**
+
+- Email
+- Send reset link button
+- Back to sign in link
+
+**Helpful UX additions:**
+
+- Always show a privacy-safe success message: "If an account exists, we sent a reset link."
+- Add small reassurance: "For security, reset links expire after a limited time."
+- Keep the page short.
+
+**SEO metadata direction:**
+
+- Title: Reset Your GoThru 3D Floormap Password
+- Description: Request a secure password reset link for your GoThru indoor mapping account.
+
+### 5.4 Reset Password Page
+
+**User intent:** Set a new password and return to the product.
+
+**Recommended headline:** Choose a new password
+
+**Supporting copy:** Secure your account before returning to your indoor mapping workspace.
+
+**Visual story:** Show a route becoming active again after a secure checkpoint. This reinforces "access restored" without using generic lock imagery only.
+
+**States to design:**
+
+- Checking reset link
+- Valid link with password form
+- Invalid or expired link
+- Password mismatch
+- Password too short
+- Password updated successfully
+
+**Helpful UX additions:**
+
+- Show password guidance before submission.
+- Make invalid link recovery obvious with a "Request a new link" action.
+- After success, provide a strong sign-in action.
+
+**SEO metadata direction:**
+
+- Title: Set a New GoThru Password
+- Description: Create a new password and regain access to your indoor mapping projects.
+
+### 5.5 Verify Email Page
+
+**User intent:** Confirm account ownership and move into the product.
+
+**Recommended headline options:**
+
+- Verifying your email
+- Email verified
+- Verification link expired
+
+**Supporting copy:** Match the state. Keep it short and reassuring.
+
+**Visual story:** Show a destination marker lighting up or a route unlocking after verification. The visual should communicate "account activated."
+
+**States to design:**
+
+- Loading: "Verifying your email..."
+- Success: "Email verified. Opening your workspace..."
+- Error: "This verification link is invalid or expired."
+
+**Helpful UX additions:**
+
+- Success should include a short visible confirmation before redirect.
+- Error should provide a direct path to request another link.
+- Avoid leaving the user on a dead-end page.
+
+**SEO metadata direction:**
+
+- Title: Verify Your GoThru Email
+- Description: Confirm your email address to activate your GoThru indoor mapping account.
+
+### 5.6 Verification Email Status Page
+
+**User intent:** Understand what to do after signing up when email verification is still pending.
+
+**Recommended headline:** Check your inbox to activate your workspace
+
+**Supporting copy:** We sent a verification link to your email. Open it to start creating indoor maps.
+
+**Visual story:** Show a pending route from "Account created" to "Workspace active", with the email step highlighted.
+
+**Form/actions:**
+
+- Resend email button
+- Countdown state after resend
+- Wrong email? Sign out
+
+**Helpful UX additions:**
+
+- Show the masked email address.
+- Explain what happens next after verification.
+- Include spam/promotions folder reminder.
+- If rate-limited, say exactly when the user can retry.
+
+**SEO metadata direction:**
+
+- Title: Verify Your GoThru Account
+- Description: Check your email to activate your GoThru 3D Floormap account and start building indoor maps.
+
+---
+
+## 6. Shared Page States
+
+### 6.1 Loading States
+
+Loading should be spatial and product-related where possible:
+
+- route line gently animating
+- map marker pulsing
+- floor plate shimmer
+- short text that tells the user what is happening
+
+Avoid generic spinners alone when the wait is meaningful.
+
+### 6.2 Error States
+
+Error messages should be:
+
+- human-readable
+- specific
+- calm
+- paired with a recovery action
+
+Examples:
+
+- "That email or password does not match an account."
+- "This link has expired. Request a new reset link."
+- "We could not resend the email right now. Please try again."
+
+### 6.3 Success States
+
+Success states should feel like progress into the product:
+
+- "Email verified. Opening your workspace..."
+- "Password updated. You can now sign in."
+- "Reset link sent. Check your inbox."
+
+Use visual confirmation such as a completed route, highlighted destination, or activated floor level.
+
+---
+
+## 7. Content and Copy Guidance
+
+### 7.1 Voice
+
+The voice should be:
+
+- clear
+- confident
+- practical
+- helpful
+- spatially aware
+
+Avoid:
+
+- jokes
+- hype-heavy slogans
+- long explanations
+- overly technical GIS language on auth pages
+
+### 7.2 Product Terms to Use
+
+- indoor mapping
+- 3D floor maps
+- floor plans
+- digital twins
+- wayfinding
+- multi-level buildings
+- destinations
+- routes
+- spaces
+
+### 7.3 Product Terms to Avoid on Auth Pages
+
+Avoid using these unless needed in secondary copy:
+
+- polygon
+- schema
+- JSON
+- Map Geometry
+- API
+- rendering pipeline
+
+These terms may be accurate, but they are too technical for auth conversion pages.
+
+---
+
+## 8. SEO-Friendly Guidance
+
+### 8.1 Primary Keyword Themes
+
+- indoor mapping software
+- 3D floor plan software
+- indoor wayfinding software
+- digital twin floor plans
+- interactive building maps
+- multi-level indoor maps
+
+### 8.2 Metadata Rules
+
+Each auth page should have:
+
+- a unique page title
+- a short description connected to indoor mapping
+- product name included naturally
+- no keyword stuffing
+
+### 8.3 Search Intent
+
+Auth pages are not landing pages, but they still affect brand trust. Metadata should help users recognize that they are entering a product for 3D indoor mapping and wayfinding, not a generic account portal.
+
+---
+
+## 9. UI/UX Master Data for UI UX Pro Max
+
+### 9.1 Required Screens
+
+- Shared auth layout
+- Sign in
+- Create account
+- Forgot password
+- Reset password
+- Verify email
+- Verification email pending
+
+### 9.2 Required States
+
+- Default
+- Focus
+- Loading
+- Error
+- Success
+- Invalid or expired link
+- Email not verified
+- Resend cooldown
+- Mobile responsive state
+
+### 9.3 Key Components
+
+- Auth shell
+- Product visualization panel
+- Form card or form panel
+- Text input
+- Password input
+- Primary CTA button
+- Secondary text link
+- Status message
+- Success confirmation
+- Error banner
+- Resend email control
+- Mobile product banner
+
+### 9.4 Suggested Visual Components
+
+- 3D floor plate preview
+- Indoor route line
+- Destination pin
+- Level selector badge
+- Room label chips
+- Floor plan blueprint lines
+- Digital twin preview tag
+- Progress route from account creation to workspace activation
+
+### 9.5 Accessibility Expectations
+
+- Forms must be readable without the visual panel.
+- Labels must be visible, not placeholder-only.
+- Error text must be paired with the relevant field.
+- Primary actions must be reachable by keyboard.
+- Contrast should meet WCAG AA.
+- Motion should be subtle and optional.
+
+---
+
+## 10. Suggested Screen Concepts
+
+### Concept A: Split Product Preview
+
+The form sits in a calm white panel. The opposite side displays a large product-like 3D indoor map with route lines, level labels, and destination pins.
+
+**Best for:** Sign in and sign up.
+
+### Concept B: Blueprint to Digital Twin
+
+The visual begins with faint 2D floor plan lines and transitions into a clean 3D map. This communicates the core platform value.
+
+**Best for:** Sign up.
+
+### Concept C: Guided Status Journey
+
+Status pages show a simple step path: Account created, Email sent, Email verified, Workspace active. The current step is highlighted.
+
+**Best for:** Verification pending and verify email.
+
+### Recommended Combination
+
+Use Concept A as the shared layout, Concept B as the sign-up visual emphasis, and Concept C for verification/status pages.
+
+---
+
+## 11. Non-Goals
+
+- Do not redesign the dashboard.
+- Do not add pricing, billing, or subscription messaging to auth pages.
+- Do not turn auth pages into full marketing landing pages.
+- Do not add long feature comparison sections.
+- Do not introduce technical documentation into these pages.
+
+---
+
+## 12. Open Questions for Product and Design
+
+1. Should the auth visual panel use a realistic product mockup or a stylized 3D indoor map scene?
+2. Should sign-up mention a trial, free workspace, or no trial at all?
+3. What industries should the visuals imply first: malls, offices, venues, campuses, or airports?
+4. Should GoThru emphasize wayfinding, 3D digital twins, or floor plan conversion most strongly on auth pages?
+5. Should the mobile auth pages keep any product visualization, or prioritize fastest form completion?
+
+---
+
+## 13. Design Success Criteria
+
+- A new user immediately understands that GoThru is for 3D indoor mapping and wayfinding.
+- Returning users can sign in quickly without being slowed down by marketing content.
+- Every auth state gives a clear next action.
+- Verification and password recovery flows feel calm and trustworthy.
+- The pages feel visually connected to the product category.
+- The experience is polished enough to compare credibly with indoor mapping platforms such as Mappedin.
+
+---
+
+## 14. Auth Page Update List
+
+The auth page update list has been split into task files under `docs/superpowers/plans/tasks/2026-06-25-11-00`.
+
+| Task | File |
+|---|---|
+| Shared Auth Layout | `docs/superpowers/plans/tasks/2026-06-25-11-00/01-shared-auth-layout.md` |
+| Sign In Page | `docs/superpowers/plans/tasks/2026-06-25-11-00/02-sign-in-page.md` |
+| Sign Up Page | `docs/superpowers/plans/tasks/2026-06-25-11-00/03-sign-up-page.md` |
+| Forgot Password Page | `docs/superpowers/plans/tasks/2026-06-25-11-00/04-forgot-password-page.md` |
+| Reset Password Page | `docs/superpowers/plans/tasks/2026-06-25-11-00/05-reset-password-page.md` |
+| Verify Email Page | `docs/superpowers/plans/tasks/2026-06-25-11-00/06-verify-email-page.md` |
+| Verification Pending Page | `docs/superpowers/plans/tasks/2026-06-25-11-00/07-verification-pending-page.md` |
+| Shared Status and Feedback | `docs/superpowers/plans/tasks/2026-06-25-11-00/08-shared-status-feedback.md` |
+| Shared Content and Copy | `docs/superpowers/plans/tasks/2026-06-25-11-00/09-shared-content-copy.md` |
