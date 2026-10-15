@@ -1,0 +1,32 @@
+{
+  "title": "GoThru Dashboard FE Project Report",
+  "repository": "GoThruMedia/gothru-dashboard",
+  "generated_at": "2026-10-15T08:41:37Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4385",
+      "display_title": "Issue #4385: Update Radius Input Controls and Map Radius Overlay Scale",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-73fd79b3-fe44-4bce-9861-47c2e524bd3e.png\"><img width=\"1123\" height=\"447\" alt=\"Image\" src=\"images/image-73fd79b3-fe44-4bce-9861-47c2e524bd3e.png\" style=\"max-width: 100%; height: auto; max-height: 447px;; aspect-ratio: 1123 / 447; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description:</h2>\n<p dir=\"auto\">Update the radius selection controls (slider / numerical input) and the map overlay circle to support the 2x expanded search radius.</p>\n<h2 dir=\"auto\">Result</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-d66c7b23-9658-4a7d-a73c-776d5348b427.png\"><img width=\"1607\" height=\"876\" alt=\"Image\" src=\"images/image-d66c7b23-9658-4a7d-a73c-776d5348b427.png\" style=\"max-width: 100%; height: auto; max-height: 876px;; aspect-ratio: 1607 / 876; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 4385,
+        "author": "anurdin01",
+        "updated_at": "2026-10-15T06:19:29Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4386",
+      "display_title": "Issue #4386: Fix Duplicate Tab Opening on \"View Tour\" Click",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-7fa19cd2-5b2a-4ed1-a439-c82089fa0751.png\"><img width=\"1221\" height=\"776\" alt=\"Image\" src=\"images/image-7fa19cd2-5b2a-4ed1-a439-c82089fa0751.png\" style=\"max-width: 100%; height: auto; max-height: 776px;; aspect-ratio: 1221 / 776; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description:</h2>\n<p dir=\"auto\">Clicking the \"Voir la visite virtuelle\" (View Tour) dropdown item opens two identical browser tabs instead of just one.</p>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">Screencast.From.2026-10-15.11-52-14.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-98a7bc40-f9bb-4feb-a71d-414562123284.mp4\" data-canonical-src=\"videos/video-98a7bc40-f9bb-4feb-a71d-414562123284.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 4386,
+        "author": "anurdin01",
+        "updated_at": "2026-10-15T06:19:54Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Dashboard FE",
+    "date": "2026-10-15"
+  },
+  "docs": []
+}
