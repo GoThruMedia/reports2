@@ -1,0 +1,852 @@
+# Area Information Pano - TourMkr Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Let users attach one TourMkr pano URL to one Area Information record and open that pano from preview mode in a full overlay iframe modal.
+
+**Architecture:** Add a small pure TourMkr parser plus an optional `Information.pano` field. The Information modal owns URL entry and validation; preview mode only renders the pano action for selected areas with a valid pano ref. The pano iframe lives in a focused overlay component so `PreviewOverlay.tsx` only wires state and the action button.
+
+**Tech Stack:** TypeScript 5, React 19, Next.js 16 App Router, Zustand 5, Vitest 4, Tailwind 4, lucide-react
+
+## Global Constraints
+
+- Do not support multiple panos for one Area Information record.
+- Do not add a project-level TourMkr import flow.
+- Do not fetch pano lists, thumbnails, or metadata from TourMkr.
+- Do not add TourMkr authentication.
+- Do not upload or copy pano image data into Floormap.
+- Do not add pano support for Point, Door, or Safety Information in this v1.
+- Do not synchronize map camera, route direction, or pano heading after the modal opens.
+- Do not change the broader Information linking model.
+- No new npm dependencies.
+- Use the existing `Information` record flow and Zustand `addInformation` / `updateInformation` actions.
+- Commit after every completed task if Git is available.
+
+---
+
+## File Map
+
+| File | Action | Role |
+|---|---|---|
+| `src/lib/tourmkr/pano.ts` | Create | Pure parser and validator for TourMkr pano URLs |
+| `src/lib/tourmkr/__tests__/pano.test.ts` | Create | Unit tests for accepted and rejected URL formats |
+| `src/store/useMapStore.ts` | Modify | Add `TourmkrPanoRef` and optional `Information.pano` |
+| `src/components/editor/InformationModal.tsx` | Modify | Add Pano tab, URL input, save-time parsing, inline validation |
+| `src/components/editor/preview/PanoOverlayModal.tsx` | Create | Full-screen iframe overlay with close, loading, and fallback link |
+| `src/components/editor/PreviewOverlay.tsx` | Modify | Show `View 360 Pano` only for selected areas and open the modal |
+
+Notes:
+
+- `src/lib/digitalTwin/schema.ts` already imports `Information` from `@/store/useMapStore`, so `Information.pano` is preserved by type once the store type is extended.
+- `src/hooks/useWizardPersistence.ts` already persists `informationRecords` as full objects, so no persistence code change is expected.
+- `src/lib/digitalTwin/mergeResults.ts` already returns `project?.information ?? []`, so no explicit mapping change is expected.
+
+---
+
+## Task 1: TourMkr Pano Parser
+
+**Files:**
+- Create: `src/lib/tourmkr/pano.ts`
+- Create: `src/lib/tourmkr/__tests__/pano.test.ts`
+
+**Interfaces:**
+- Produces:
+  ```ts
+  export interface TourmkrPanoRef {
+    rawUrl: string;
+    tourId: string;
+    panoId: string;
+    heading?: number;
+    tilt?: number;
+  }
+
+  export function parseTourmkrPanoUrl(rawUrl: string): TourmkrPanoRef | null
+  export function isTourmkrPanoUrl(rawUrl: string): boolean
+  ```
+
+- [ ] **Step 1: Write failing parser tests**
+
+  Create `src/lib/tourmkr/__tests__/pano.test.ts`:
+
+  ```ts
+  import { describe, expect, it } from "vitest";
+  import { isTourmkrPanoUrl, parseTourmkrPanoUrl } from "../pano";
+
+  describe("parseTourmkrPanoUrl", () => {
+    it("parses a TourMkr pano URL with tour id and pano id", () => {
+      expect(parseTourmkrPanoUrl("https://tourmkr.com/F1gvbw5zEr/5525144p")).toEqual({
+        rawUrl: "https://tourmkr.com/F1gvbw5zEr/5525144p",
+        tourId: "F1gvbw5zEr",
+        panoId: "5525144",
+      });
+    });
+
+    it("parses heading and tilt parameters from the pano path segment", () => {
+      expect(parseTourmkrPanoUrl("https://tourmkr.com/F1gvbw5zEr/5525144p&29.76h&87.45t")).toEqual({
+        rawUrl: "https://tourmkr.com/F1gvbw5zEr/5525144p&29.76h&87.45t",
+        tourId: "F1gvbw5zEr",
+        panoId: "5525144",
+        heading: 29.76,
+        tilt: 87.45,
+      });
+    });
+
+    it("accepts www.tourmkr.com", () => {
+      expect(parseTourmkrPanoUrl("https://www.tourmkr.com/F1gvbw5zEr/5525144p")).toMatchObject({
+        tourId: "F1gvbw5zEr",
+        panoId: "5525144",
+      });
+    });
+
+    it("trims surrounding whitespace but preserves the normalized raw URL", () => {
+      expect(parseTourmkrPanoUrl("  https://tourmkr.com/F1gvbw5zEr/5525144p  ")?.rawUrl).toBe(
+        "https://tourmkr.com/F1gvbw5zEr/5525144p"
+      );
+    });
+
+    it.each([
+      "http://tourmkr.com/F1gvbw5zEr/5525144p",
+      "https://example.com/F1gvbw5zEr/5525144p",
+      "https://tourmkr.com/F1gvbw5zEr",
+      "https://tourmkr.com/F1gvbw5zEr/not-a-pano",
+      "https://tourmkr.com/F1gvbw5zEr/5525144",
+      "https://tourmkr.com/F1gvbw5zEr/5525144p&headingh&87.45t",
+      "https://tourmkr.com/F1gvbw5zEr/5525144p&29.76h&tiltt",
+      "https://tourmkr.com/F1gvbw5zEr/5525144p&29.76h&87.45t&extra",
+    ])("rejects invalid URL %s", (url) => {
+      expect(parseTourmkrPanoUrl(url)).toBeNull();
+      expect(isTourmkrPanoUrl(url)).toBe(false);
+    });
+
+    it("returns true for valid TourMkr pano URLs", () => {
+      expect(isTourmkrPanoUrl("https://tourmkr.com/F1gvbw5zEr/5525144p")).toBe(true);
+      expect(isTourmkrPanoUrl("https://tourmkr.com/F1gvbw5zEr/5525144p&29.76h&87.45t")).toBe(true);
+    });
+  });
+  ```
+
+- [ ] **Step 2: Run test to verify it fails**
+
+  Run:
+
+  ```powershell
+  .\node_modules\.bin\vitest.CMD run src\lib\tourmkr\__tests__\pano.test.ts
+  ```
+
+  Expected: FAIL with `Cannot find module '../pano'`.
+
+- [ ] **Step 3: Implement the parser**
+
+  Create `src/lib/tourmkr/pano.ts`:
+
+  ```ts
+  export interface TourmkrPanoRef {
+    rawUrl: string;
+    tourId: string;
+    panoId: string;
+    heading?: number;
+    tilt?: number;
+  }
+
+  const ALLOWED_HOSTS = new Set(["tourmkr.com", "www.tourmkr.com"]);
+  const PANO_SEGMENT_RE = /^(\d+)p(?:&(-?\d+(?:\.\d+)?)h)?(?:&(-?\d+(?:\.\d+)?)t)?$/;
+
+  export function parseTourmkrPanoUrl(rawUrl: string): TourmkrPanoRef | null {
+    const trimmed = rawUrl.trim();
+    if (!trimmed) return null;
+
+    let parsed: URL;
+    try {
+      parsed = new URL(trimmed);
+    } catch {
+      return null;
+    }
+
+    if (parsed.protocol !== "https:") return null;
+    if (!ALLOWED_HOSTS.has(parsed.hostname.toLowerCase())) return null;
+    if (parsed.search || parsed.hash) return null;
+
+    const segments = parsed.pathname.split("/").filter(Boolean);
+    if (segments.length !== 2) return null;
+
+    const [tourId, panoSegment] = segments;
+    if (!tourId) return null;
+
+    const match = PANO_SEGMENT_RE.exec(panoSegment);
+    if (!match) return null;
+
+    const [, panoId, headingRaw, tiltRaw] = match;
+    const heading = headingRaw === undefined ? undefined : Number(headingRaw);
+    const tilt = tiltRaw === undefined ? undefined : Number(tiltRaw);
+
+    if (headingRaw !== undefined && !Number.isFinite(heading)) return null;
+    if (tiltRaw !== undefined && !Number.isFinite(tilt)) return null;
+
+    return {
+      rawUrl: trimmed,
+      tourId,
+      panoId,
+      ...(heading !== undefined ? { heading } : {}),
+      ...(tilt !== undefined ? { tilt } : {}),
+    };
+  }
+
+  export function isTourmkrPanoUrl(rawUrl: string): boolean {
+    return parseTourmkrPanoUrl(rawUrl) !== null;
+  }
+  ```
+
+- [ ] **Step 4: Run test to verify it passes**
+
+  Run:
+
+  ```powershell
+  .\node_modules\.bin\vitest.CMD run src\lib\tourmkr\__tests__\pano.test.ts
+  ```
+
+  Expected: PASS, 9 tests.
+
+- [ ] **Step 5: Commit**
+
+  ```bash
+  git add src/lib/tourmkr/pano.ts src/lib/tourmkr/__tests__/pano.test.ts
+  git commit -m "feat(tourmkr): add pano URL parser"
+  ```
+
+---
+
+## Task 2: Information Data Model
+
+**Files:**
+- Modify: `src/store/useMapStore.ts`
+- Verify: `src/lib/digitalTwin/schema.ts`
+- Verify: `src/hooks/useWizardPersistence.ts`
+- Verify: `src/lib/digitalTwin/mergeResults.ts`
+
+**Interfaces:**
+- Consumes: `TourmkrPanoRef` from `@/lib/tourmkr/pano`
+- Produces:
+  ```ts
+  export type { TourmkrPanoRef } from "@/lib/tourmkr/pano";
+
+  export interface Information {
+    // existing fields...
+    pano?: TourmkrPanoRef;
+  }
+  ```
+
+- [ ] **Step 1: Extend the Information type**
+
+  In `src/store/useMapStore.ts`, add this import near the existing imports:
+
+  ```ts
+  import type { TourmkrPanoRef } from "@/lib/tourmkr/pano";
+  ```
+
+  Add this re-export after the imports:
+
+  ```ts
+  export type { TourmkrPanoRef } from "@/lib/tourmkr/pano";
+  ```
+
+  In the `Information` interface, add the optional pano field after `logo?: string;`:
+
+  ```ts
+  export interface Information {
+    id: string;
+    name: string;
+    title: string;
+    description?: string;
+    categoryIds: string[];
+    photos: string[];
+    logo?: string;
+    pano?: TourmkrPanoRef;
+    hyperlinks: { name: string; url: string }[];
+    website?: { name: string; url: string };
+    phone?: string;
+    socialMedia: { platform: SocialPlatform; url: string }[];
+    hours?: {
+      open: string;
+      close: string;
+      days: { openDays: DayOfWeek[]; closeDays: DayOfWeek[] };
+    };
+    specialHours: { startDate: string; endDate: string; open: string; close: string }[];
+    searchTags: string[];
+  }
+  ```
+
+- [ ] **Step 2: Verify export and persistence paths need no mapping changes**
+
+  Confirm these existing lines remain true:
+
+  ```ts
+  // src/lib/digitalTwin/schema.ts
+  import type {
+    AreaType, DoorSegment, WindowSegment, PointAnnotation, SafetyAnnotation,
+    Information, Category,
+  } from "@/store/useMapStore";
+  ```
+
+  ```ts
+  // src/lib/digitalTwin/mergeResults.ts
+  information: project?.information ?? [],
+  ```
+
+  ```ts
+  // src/hooks/useWizardPersistence.ts
+  informationRecords: state.informationRecords,
+  ```
+
+  No edit is required in those files unless the current local code differs from the snippets above.
+
+- [ ] **Step 3: Run focused typecheck for model wiring**
+
+  Run:
+
+  ```powershell
+  .\node_modules\.bin\tsc.CMD --noEmit
+  ```
+
+  Expected: PASS unless the existing `@/auth` missing import in `src/actions/billing.ts` is still present. If that baseline error appears, confirm there are no new errors mentioning `TourmkrPanoRef`, `Information`, or `pano`.
+
+- [ ] **Step 4: Run parser test**
+
+  Run:
+
+  ```powershell
+  .\node_modules\.bin\vitest.CMD run src\lib\tourmkr\__tests__\pano.test.ts
+  ```
+
+  Expected: PASS, 9 tests.
+
+- [ ] **Step 5: Commit**
+
+  ```bash
+  git add src/store/useMapStore.ts
+  git commit -m "feat(editor): add pano field to information records"
+  ```
+
+---
+
+## Task 3: Information Modal Pano Tab
+
+**Files:**
+- Modify: `src/components/editor/InformationModal.tsx`
+
+**Interfaces:**
+- Consumes:
+  ```ts
+  parseTourmkrPanoUrl(rawUrl: string): TourmkrPanoRef | null
+  Information.pano?: TourmkrPanoRef
+  ```
+- Produces: a new `Pano` tab that stores one parsed TourMkr pano ref or clears it with `pano: undefined`.
+
+- [ ] **Step 1: Add parser import and tab name**
+
+  In `src/components/editor/InformationModal.tsx`, add:
+
+  ```ts
+  import { parseTourmkrPanoUrl } from "@/lib/tourmkr/pano";
+  ```
+
+  Replace the `TABS` constant with:
+
+  ```ts
+  const TABS = ["Basic", "Media", "Pano", "Contact", "Hours", "Search"] as const;
+  ```
+
+- [ ] **Step 2: Add local pano URL state**
+
+  After the existing `useState<Information>` form state, add:
+
+  ```ts
+  const [panoUrl, setPanoUrl] = useState(() => existing?.pano?.rawUrl ?? "");
+  ```
+
+- [ ] **Step 3: Add save-time pano validation**
+
+  In `save()`, replace the current `const clean: Information = { ... }` block with:
+
+  ```ts
+  const trimmedPanoUrl = panoUrl.trim();
+  const parsedPano = trimmedPanoUrl ? parseTourmkrPanoUrl(trimmedPanoUrl) : null;
+  if (trimmedPanoUrl && !parsedPano) {
+    setError("Enter a valid TourMkr pano link.");
+    setTab("Pano");
+    return;
+  }
+
+  const clean: Information = {
+    ...form,
+    name: form.name.trim(),
+    title: form.title.trim(),
+    pano: parsedPano ?? undefined,
+    photos: form.photos.filter(Boolean),
+    hyperlinks: form.hyperlinks.filter((h) => h.name || h.url),
+    socialMedia: form.socialMedia.filter((s) => s.url),
+    searchTags: form.searchTags.filter(Boolean),
+  };
+  ```
+
+  Keep the existing lines after this block:
+
+  ```ts
+  if (existing) updateInformation(clean.id, clean);
+  else addInformation(clean);
+  onSaved(clean.id);
+  onClose();
+  ```
+
+- [ ] **Step 4: Add the Pano tab UI**
+
+  In the modal body, after the `tab === "Media"` block and before the `tab === "Contact"` block, add:
+
+  ```tsx
+  {tab === "Pano" && (
+    <>
+      <Field label="TourMkr pano link">
+        <input
+          className={input}
+          style={inputStyle}
+          value={panoUrl}
+          onChange={(e) => {
+            setPanoUrl(e.target.value);
+            if (error === "Enter a valid TourMkr pano link.") setError(null);
+          }}
+          placeholder="https://tourmkr.com/F1gvbw5zEr/5525144p"
+        />
+        <p className="text-[11px]" style={labelStyle}>
+          Paste one TourMkr pano link for this area.
+        </p>
+      </Field>
+      {panoUrl.trim() && parseTourmkrPanoUrl(panoUrl) && (
+        <div
+          className="rounded-[10px] border px-3 py-2 text-[11px]"
+          style={{ borderColor: "var(--editor-subtle-ash)", color: "var(--editor-midtone-gray)" }}
+        >
+          This Information record will show one 360 pano action in area preview mode.
+        </div>
+      )}
+    </>
+  )}
+  ```
+
+- [ ] **Step 5: Run focused checks**
+
+  Run:
+
+  ```powershell
+  .\node_modules\.bin\eslint.CMD src\components\editor\InformationModal.tsx src\lib\tourmkr\pano.ts src\lib\tourmkr\__tests__\pano.test.ts
+  .\node_modules\.bin\vitest.CMD run src\lib\tourmkr\__tests__\pano.test.ts
+  ```
+
+  Expected: ESLint exit 0; Vitest PASS, 9 tests.
+
+- [ ] **Step 6: Manual QA for Information modal**
+
+  Start the app:
+
+  ```powershell
+  .\node_modules\.bin\next.CMD dev
+  ```
+
+  Expected:
+  - Add/Edit Information shows tabs in this order: `Basic`, `Media`, `Pano`, `Contact`, `Hours`, `Search`.
+  - Saving `https://tourmkr.com/F1gvbw5zEr/5525144p` succeeds.
+  - Saving `https://tourmkr.com/F1gvbw5zEr/5525144p&29.76h&87.45t` succeeds.
+  - Saving `https://example.com/F1gvbw5zEr/5525144p` is blocked and switches to the Pano tab.
+  - Clearing the pano input and saving removes the pano from the record.
+  - Editing the input replaces the previous pano instead of adding another field.
+
+- [ ] **Step 7: Commit**
+
+  ```bash
+  git add src/components/editor/InformationModal.tsx
+  git commit -m "feat(editor): add pano field to information modal"
+  ```
+
+---
+
+## Task 4: Pano Overlay Modal
+
+**Files:**
+- Create: `src/components/editor/preview/PanoOverlayModal.tsx`
+
+**Interfaces:**
+- Consumes:
+  ```ts
+  TourmkrPanoRef
+  title: string
+  onClose: () => void
+  ```
+- Produces:
+  ```tsx
+  export default function PanoOverlayModal(props: {
+    pano: TourmkrPanoRef;
+    title: string;
+    onClose: () => void;
+  }): JSX.Element
+  ```
+
+- [ ] **Step 1: Create the modal component**
+
+  Create `src/components/editor/preview/PanoOverlayModal.tsx`:
+
+  ```tsx
+  "use client";
+
+  import { useEffect, useRef, useState } from "react";
+  import { ExternalLink, Loader2, X } from "lucide-react";
+  import type { TourmkrPanoRef } from "@/store/useMapStore";
+
+  interface Props {
+    pano: TourmkrPanoRef;
+    title: string;
+    onClose: () => void;
+  }
+
+  export default function PanoOverlayModal({ pano, title, onClose }: Props) {
+    const [loading, setLoading] = useState(true);
+    const [loadFailed, setLoadFailed] = useState(false);
+    const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+    useEffect(() => {
+      closeButtonRef.current?.focus();
+    }, []);
+
+    useEffect(() => {
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === "Escape") onClose();
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [onClose]);
+
+    return (
+      <div
+        className="fixed inset-0 z-[70] flex flex-col bg-black/80 p-3 backdrop-blur-sm sm:p-5"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`360 pano for ${title}`}
+      >
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold text-white">{title}</p>
+            <a
+              href={pano.rawUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 inline-flex items-center gap-1 text-xs text-white/70 underline"
+            >
+              Open pano in TourMkr
+              <ExternalLink className="size-3" />
+            </a>
+          </div>
+          <button
+            ref={closeButtonRef}
+            type="button"
+            onClick={onClose}
+            aria-label="Close pano"
+            className="flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-white text-black transition-colors hover:bg-white/90"
+          >
+            <X className="size-5" />
+          </button>
+        </div>
+
+        <div className="relative min-h-0 flex-1 overflow-hidden rounded-[14px] bg-black shadow-2xl">
+          {loading && (
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-black text-sm text-white/80">
+              <Loader2 className="mr-2 size-4 animate-spin" />
+              Loading pano
+            </div>
+          )}
+
+          {loadFailed && (
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-black px-6 text-center text-sm text-white">
+              <p>TourMkr could not be loaded inside the modal.</p>
+              <a
+                href={pano.rawUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-9 items-center gap-2 rounded-[10px] bg-white px-4 text-sm font-medium text-black"
+              >
+                Open pano in TourMkr
+                <ExternalLink className="size-4" />
+              </a>
+            </div>
+          )}
+
+          <iframe
+            src={pano.rawUrl}
+            title={`360 pano for ${title}`}
+            className="h-full w-full border-0"
+            allow="fullscreen; autoplay; xr-spatial-tracking; gyroscope; accelerometer"
+            allowFullScreen
+            onLoad={() => setLoading(false)}
+            onError={() => {
+              setLoading(false);
+              setLoadFailed(true);
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+  ```
+
+  Do not add an iframe `sandbox` attribute in v1. TourMkr viewer behavior is unknown, and sandbox can break cross-origin viewer scripts; the modal still uses a top-level external fallback link.
+
+- [ ] **Step 2: Run focused lint**
+
+  Run:
+
+  ```powershell
+  .\node_modules\.bin\eslint.CMD src\components\editor\preview\PanoOverlayModal.tsx
+  ```
+
+  Expected: ESLint exit 0.
+
+- [ ] **Step 3: Commit**
+
+  ```bash
+  git add src/components/editor/preview/PanoOverlayModal.tsx
+  git commit -m "feat(preview): add pano overlay modal"
+  ```
+
+---
+
+## Task 5: Preview Pano Action
+
+**Files:**
+- Modify: `src/components/editor/PreviewOverlay.tsx`
+
+**Interfaces:**
+- Consumes:
+  ```tsx
+  PanoOverlayModal
+  Information.pano?: TourmkrPanoRef
+  ```
+- Produces: `View 360 Pano` button shown only when `detail.kind === "Area"` and `detail.info?.pano` exists.
+
+- [ ] **Step 1: Add imports**
+
+  In `src/components/editor/PreviewOverlay.tsx`, update the lucide import:
+
+  ```ts
+  import { X, Globe, Phone, Tag, Clock, Eye } from "lucide-react";
+  ```
+
+  Add the modal import:
+
+  ```ts
+  import PanoOverlayModal from "@/components/editor/preview/PanoOverlayModal";
+  ```
+
+- [ ] **Step 2: Add local pano modal state**
+
+  Inside `PreviewOverlay()`, after the existing selection state:
+
+  ```ts
+  const [activePano, setActivePano] = useState<{ pano: NonNullable<typeof informationRecords[number]["pano"]>; title: string } | null>(null);
+  ```
+
+- [ ] **Step 3: Add the pano button to the info card**
+
+  In the floating info card body, after the description paragraph:
+
+  ```tsx
+  {detail.kind === "Area" && detail.info?.pano && (
+    <button
+      type="button"
+      onClick={() => setActivePano({ pano: detail.info!.pano!, title: detail.info!.title || detail.heading })}
+      className="flex h-10 w-full items-center justify-center gap-2 rounded-[10px] text-sm font-semibold text-white transition-colors"
+      style={{ background: "var(--editor-deep-black)" }}
+    >
+      <Eye className="size-4" />
+      View 360 Pano
+    </button>
+  )}
+  ```
+
+  Placement target:
+
+  ```tsx
+  {detail.info?.description && <p ...>{detail.info.description}</p>}
+
+  // Add pano button here.
+
+  {!!detail.info?.photos?.length && (...)}
+  ```
+
+- [ ] **Step 4: Render the modal above the preview map**
+
+  Near the end of the returned JSX, before the final closing `</div>` for the preview overlay root, add:
+
+  ```tsx
+  {activePano && (
+    <PanoOverlayModal
+      pano={activePano.pano}
+      title={activePano.title}
+      onClose={() => setActivePano(null)}
+    />
+  )}
+  ```
+
+- [ ] **Step 5: Run focused checks**
+
+  Run:
+
+  ```powershell
+  .\node_modules\.bin\eslint.CMD src\components\editor\PreviewOverlay.tsx src\components\editor\preview\PanoOverlayModal.tsx
+  .\node_modules\.bin\vitest.CMD run src\lib\tourmkr\__tests__\pano.test.ts
+  ```
+
+  Expected: ESLint exit 0; Vitest PASS, 9 tests.
+
+- [ ] **Step 6: Manual QA for preview interaction**
+
+  Start the app:
+
+  ```powershell
+  .\node_modules\.bin\next.CMD dev
+  ```
+
+  Expected:
+  - Link an Information record with a valid pano to an area.
+  - Enter preview mode and click that area.
+  - The Area Information card shows one `View 360 Pano` button.
+  - Clicking `View 360 Pano` opens the full overlay modal.
+  - The iframe `src` is the pasted TourMkr URL.
+  - Escape closes the modal.
+  - The close button closes the modal.
+  - The same area remains selected after closing.
+  - Selecting a point or safety annotation linked to the same Information record does not show `View 360 Pano`.
+  - An area linked to Information without a pano does not show `View 360 Pano`.
+
+- [ ] **Step 7: Commit**
+
+  ```bash
+  git add src/components/editor/PreviewOverlay.tsx
+  git commit -m "feat(preview): open area pano from information card"
+  ```
+
+---
+
+## Task 6: Final Verification and Baseline Notes
+
+**Files:**
+- Verify: `src/lib/tourmkr/pano.ts`
+- Verify: `src/lib/tourmkr/__tests__/pano.test.ts`
+- Verify: `src/store/useMapStore.ts`
+- Verify: `src/components/editor/InformationModal.tsx`
+- Verify: `src/components/editor/preview/PanoOverlayModal.tsx`
+- Verify: `src/components/editor/PreviewOverlay.tsx`
+- Verify: `src/hooks/useWizardPersistence.ts`
+- Verify: `src/lib/digitalTwin/schema.ts`
+- Verify: `src/lib/digitalTwin/mergeResults.ts`
+
+**Interfaces:**
+- Consumes all tasks above
+- Produces final evidence that the feature matches the spec or documents pre-existing baseline blockers
+
+- [ ] **Step 1: Run focused unit tests**
+
+  ```powershell
+  .\node_modules\.bin\vitest.CMD run src\lib\tourmkr\__tests__\pano.test.ts
+  ```
+
+  Expected: PASS, 9 tests.
+
+- [ ] **Step 2: Run focused lint**
+
+  ```powershell
+  .\node_modules\.bin\eslint.CMD src\lib\tourmkr\pano.ts src\lib\tourmkr\__tests__\pano.test.ts src\store\useMapStore.ts src\components\editor\InformationModal.tsx src\components\editor\PreviewOverlay.tsx src\components\editor\preview\PanoOverlayModal.tsx
+  ```
+
+  Expected: exit 0.
+
+- [ ] **Step 3: Run full test suite**
+
+  ```powershell
+  .\node_modules\.bin\vitest.CMD run
+  ```
+
+  Expected: PASS unless the existing `samples/sample2-txt/a.txt` fixture is still missing. If that fixture failure appears, record it as a pre-existing baseline blocker and confirm the focused parser test from Step 1 still passes.
+
+- [ ] **Step 4: Run typecheck**
+
+  ```powershell
+  .\node_modules\.bin\tsc.CMD --noEmit
+  ```
+
+  Expected: PASS unless the existing `@/auth` missing import in `src/actions/billing.ts` is still present. If that error appears, record it as a pre-existing baseline blocker and confirm there are no new errors in the files changed by this plan.
+
+- [ ] **Step 5: Run production build**
+
+  ```powershell
+  .\node_modules\.bin\next.CMD build
+  ```
+
+  Expected: PASS unless blocked by the same pre-existing `@/auth` missing import. If blocked, record the exact error and note that focused lint/tests passed for this feature.
+
+- [ ] **Step 6: Manual acceptance checklist**
+
+  Confirm each item:
+
+  ```md
+  - [ ] Information Add/Edit has a `Pano` tab.
+  - [ ] One Information record can store one TourMkr pano reference.
+  - [ ] Saving `https://tourmkr.com/F1gvbw5zEr/5525144p` works.
+  - [ ] Saving `https://tourmkr.com/F1gvbw5zEr/5525144p&29.76h&87.45t` works.
+  - [ ] Invalid TourMkr URLs are rejected with inline feedback.
+  - [ ] Clearing the Pano field removes the pano reference.
+  - [ ] Area Information in preview mode shows `View 360 Pano` only when a valid pano exists.
+  - [ ] Point and Safety selections do not show `View 360 Pano` in v1.
+  - [ ] Clicking `View 360 Pano` opens a full overlay modal.
+  - [ ] The modal iframe uses the saved TourMkr URL.
+  - [ ] The modal has close button and Escape-to-close behavior.
+  - [ ] The modal has an external fallback link to TourMkr.
+  - [ ] Refresh preserves Information records with pano data.
+  - [ ] Digital Twin export includes the Information record with its `pano` object.
+  ```
+
+- [ ] **Step 7: Commit final verification note if docs are updated**
+
+  If you append verification notes to this plan file:
+
+  ```bash
+  git add docs/superpowers/plans/2026-06-23-area-information-pano-tourmkr.md
+  git commit -m "docs: record area pano verification"
+  ```
+
+  If no docs are changed, do not create an empty commit.
+
+---
+
+## Self-Review: Spec Coverage Check
+
+| Spec requirement | Covered by |
+|---|---|
+| Add Pano section to Add/Edit Information modal | Task 3 |
+| One Information record stores at most one pano | Task 2 data shape and Task 3 single input |
+| Area Information shows at most one pano action in preview | Task 5 |
+| Validate TourMkr URLs with tour id and pano id | Task 1 and Task 3 |
+| Preserve optional heading/tilt values | Task 1 parser and tests |
+| Render pano in full overlay modal iframe | Task 4 and Task 5 |
+| No multiple panos / no project import / no API fetch / no auth | Global Constraints and file map |
+| Reference only; no pano image copy | Global Constraints and Task 3 input-only flow |
+| Point and Safety do not show pano action | Task 5 visibility and manual QA |
+| Store and persistence preserve pano | Task 2 and Task 6 manual refresh/export checks |
+| Unit tests for parser | Task 1 |
+| Component/manual verification for modal open/close | Task 5 and Task 6 |
+| Accessibility: button, dialog, close label, Escape, iframe title | Task 4 |
+| Fallback external link if iframe fails/blocks | Task 4 |
+
+## Execution Notes
+
+- The existing repository may have unrelated baseline blockers:
+  - `tsc`/build can fail on missing `@/auth` in `src/actions/billing.ts`.
+  - full Vitest can fail if `samples/sample2-txt/a.txt` is absent.
+  - full ESLint can fail on auth page lint issues.
+- Do not fix those in this feature unless the user explicitly asks. Use focused checks to verify this work and record baseline blockers separately.
+- TourMkr iframe behavior is an integration risk. If the normal share URL is blocked by `X-Frame-Options` or CSP `frame-ancestors`, keep the modal and external fallback, then coordinate a TourMkr embed URL contract as a follow-up.

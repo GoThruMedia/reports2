@@ -1,0 +1,350 @@
+# Area Information Pano - TourMkr Design Spec
+
+**Date:** 2026-06-23  
+**Feature area:** Editor Information records and preview mode  
+**Scope:** Area-linked Information modal, Information data model, preview info card, TourMkr iframe overlay
+
+---
+
+## Problem
+
+Area Information can describe an indoor area with text, photos, links, and contact details, but it cannot connect that area to a 360 pano experience. Users who already have TourMkr pano URLs need a simple way to attach one pano to one Area Information record and let preview-mode viewers open the pano without leaving the floormap.
+
+The v1 experience should be intentionally small: paste a valid TourMkr pano URL into the Information editor, show a clear pano action in preview mode, and open the pano in a full overlay modal with a single iframe.
+
+---
+
+## Goals
+
+- Add a **Pano** section to the Add/Edit Information modal.
+- Let each Information record store at most one TourMkr pano reference.
+- Let one Area Information show at most one pano action in preview mode.
+- Validate TourMkr URLs that include a tour id and pano id.
+- Preserve optional heading/tilt URL parameters when present.
+- Render the pano from preview mode in a full overlay modal using an iframe.
+- Keep the interaction friendly and obvious without crowding the existing Area Information card.
+
+---
+
+## Non-Goals
+
+- Do not support multiple panos for one Area Information record.
+- Do not add a project-level TourMkr import flow.
+- Do not fetch pano lists, thumbnails, or metadata from TourMkr.
+- Do not add TourMkr authentication.
+- Do not upload or copy pano image data into Floormap.
+- Do not add pano support for Point, Door, or Safety Information in this v1.
+- Do not synchronize map camera, route direction, or pano heading after the modal opens.
+- Do not change the broader Information linking model.
+
+---
+
+## User Stories
+
+| ID | Story | Priority |
+|---|---|---|
+| US-1 | As an editor user, I can paste one TourMkr pano URL into an Information record so a linked area can open a 360 pano. | P0 |
+| US-2 | As an editor user, I cannot save an invalid TourMkr pano URL, so preview mode never shows a broken pano button from malformed input. | P0 |
+| US-3 | As a preview viewer, I can click a pano action in an Area Information card and see the pano in a full overlay modal. | P0 |
+| US-4 | As a preview viewer, I can close the pano modal and return to the same floormap preview context. | P0 |
+
+---
+
+## Data Model
+
+Extend the existing `Information` interface with one optional structured pano reference:
+
+```ts
+export interface TourmkrPanoRef {
+  rawUrl: string;
+  tourId: string;
+  panoId: string;
+  heading?: number;
+  tilt?: number;
+}
+
+export interface Information {
+  // existing fields...
+  pano?: TourmkrPanoRef;
+}
+```
+
+### Rules
+
+- `pano` is optional.
+- `pano` stores one pano only.
+- The original pasted URL remains in `rawUrl` and is the source of truth for the iframe source and fallback link.
+- `tourId`, `panoId`, `heading`, and `tilt` are parsed at save time for validation, future compatibility, and easier testing.
+- If the user clears the pano URL field, save `pano: undefined`.
+- Existing Information records without `pano` continue to load normally.
+
+### Accepted URL Format
+
+The Pano section accepts TourMkr URLs with this shape:
+
+```text
+https://tourmkr.com/{tourId}/{panoId}p
+https://tourmkr.com/{tourId}/{panoId}p&{heading}h&{tilt}t
+```
+
+Examples:
+
+```text
+https://tourmkr.com/F1gvbw5zEr/5525144p
+https://tourmkr.com/F1gvbw5zEr/5525144p&29.76h&87.45t
+```
+
+Validation requirements:
+
+- Protocol must be `https:`.
+- Host must be `tourmkr.com` or `www.tourmkr.com`.
+- Path must contain exactly a tour id and a pano segment.
+- Pano segment must include a numeric pano id followed by `p`.
+- Heading and tilt are optional.
+- If heading is present, it must be parsed from `{number}h`.
+- If tilt is present, it must be parsed from `{number}t`.
+- Reject URLs with missing tour id, missing pano id, non-TourMkr hosts, or unsupported protocols.
+
+---
+
+## UX Requirements
+
+### Information Modal
+
+Add `Pano` as a new tab or section in `InformationModal`.
+
+Recommended placement:
+
+- Add a new `Pano` tab after `Media`.
+- Keep the existing `Basic`, `Media`, `Contact`, `Hours`, and `Search` tabs unchanged.
+
+Fields:
+
+| Field | Type | Behavior |
+|---|---|---|
+| TourMkr pano link | URL input | Stores one TourMkr pano URL only |
+
+Recommended placeholder:
+
+```text
+https://tourmkr.com/F1gvbw5zEr/5525144p
+```
+
+Recommended helper text:
+
+```text
+Paste one TourMkr pano link for this area.
+```
+
+Validation behavior:
+
+- Inline error if the pasted URL is invalid.
+- Saving is blocked while the URL is invalid.
+- Clearing the field removes the pano from the Information record.
+- Editing an existing pano replaces the previous value; it does not append a second pano.
+
+### Preview Info Card
+
+When a selected area resolves to an Information record with a valid `pano`, show one pano action in the existing Area Information card.
+
+Recommended action:
+
+- A compact full-width button near the top of the card, after title/description and before other links/media.
+- Label: `View 360 Pano`
+- Icon: use a lucide icon such as `Orbit`, `ScanSearch`, or `Eye` if available.
+
+Visibility:
+
+- Show the action only for selected areas.
+- Show the action only when `detail.kind === "Area"` and `detail.info?.pano` is valid.
+- Do not show the action for point or safety annotations in v1, even if a reused Information record contains a pano.
+
+### Pano Overlay Modal
+
+Clicking `View 360 Pano` opens a full overlay modal above preview mode.
+
+Modal requirements:
+
+- Covers the full viewport with a dim backdrop.
+- Contains a large iframe area.
+- Has a clear close button in the top-right.
+- Escape key closes the modal.
+- Clicking outside the iframe closes the modal only if this matches the existing modal pattern; otherwise close button and Escape are enough.
+- Keeps the underlying preview map mounted.
+- Does not change the selected area.
+
+Iframe requirements:
+
+- `src` uses `pano.rawUrl`.
+- `title` includes the Information title, for example `360 pano for Lobby`.
+- Include `allowFullScreen`.
+- Use a sandbox policy only if TourMkr still renders correctly; otherwise document why sandbox is omitted.
+- Show a loading state until the iframe finishes loading.
+- Show a fallback external link if the iframe fails or is blocked by TourMkr framing policy.
+
+Recommended fallback copy:
+
+```text
+Open pano in TourMkr
+```
+
+---
+
+## Architecture
+
+### Parser Utility
+
+Create a small utility for TourMkr pano parsing and formatting:
+
+```ts
+parseTourmkrPanoUrl(url: string): TourmkrPanoRef | null
+isTourmkrPanoUrl(url: string): boolean
+```
+
+Recommended file:
+
+```text
+src/lib/tourmkr/pano.ts
+```
+
+The parser should use the `URL` API instead of ad hoc string splitting.
+
+### Store And Persistence
+
+Update the existing `Information` type in `src/store/useMapStore.ts` to include `pano?: TourmkrPanoRef`.
+
+No new Zustand actions are required because `addInformation` and `updateInformation` already store the full Information object.
+
+Ensure existing persistence and export paths keep the new field:
+
+- `useWizardPersistence` should persist `informationRecords` with `pano`.
+- `DigitalTwin` schema should include the extended Information type.
+- Any export/import or merge path that copies Information records must preserve `pano`.
+
+### Information Modal Save Flow
+
+When saving:
+
+1. Read the Pano tab URL input.
+2. If empty, set `pano` to `undefined`.
+3. If not empty, parse with `parseTourmkrPanoUrl`.
+4. If parsing fails, show an inline error and block save.
+5. If parsing succeeds, save the parsed `TourmkrPanoRef`.
+
+### Preview Flow
+
+1. User enters preview mode.
+2. User clicks an area.
+3. `PreviewOverlay` resolves `detail.info` from `AreaLayer.infoId`.
+4. If the selected element is an area and the Information record has `pano`, the info card shows `View 360 Pano`.
+5. Clicking the action sets local modal state, for example `activePano`.
+6. `PanoOverlayModal` renders one iframe using `activePano.rawUrl`.
+7. Closing the modal clears `activePano` and returns to preview mode.
+
+---
+
+## Files Expected To Change
+
+| File | Action | Purpose |
+|---|---|---|
+| `src/lib/tourmkr/pano.ts` | Create | Parse and validate TourMkr pano URLs |
+| `src/lib/tourmkr/__tests__/pano.test.ts` | Create | Unit tests for accepted and rejected pano URLs |
+| `src/store/useMapStore.ts` | Modify | Add `TourmkrPanoRef` and `Information.pano` |
+| `src/lib/digitalTwin/schema.ts` | Modify | Ensure exported Information schema preserves `pano` |
+| `src/components/editor/InformationModal.tsx` | Modify | Add Pano tab/section and validation |
+| `src/components/editor/PreviewOverlay.tsx` | Modify | Show pano action for area information and open modal |
+| `src/components/editor/preview/PanoOverlayModal.tsx` | Create | Full overlay iframe modal |
+
+Optional if export code uses explicit Information mapping:
+
+| File | Action | Purpose |
+|---|---|---|
+| `src/lib/digitalTwin/mergeResults.ts` | Modify | Preserve `pano` when merging Information records |
+| `src/features/wizard/steps/step4/useDigitalTwinExport.ts` | Modify | Preserve `pano` through Digital Twin export |
+
+---
+
+## Error Handling
+
+- Invalid URL in the Information modal shows an inline validation error and blocks save.
+- Preview mode should not render the pano action if `pano` is absent or invalid.
+- If iframe loading fails or TourMkr blocks embedding, show a fallback link to open the same URL in a new tab.
+- The pano modal must always be closable, including after iframe errors.
+- Existing Information records should never crash if the `pano` field is missing or malformed from older saved data.
+
+---
+
+## Accessibility
+
+- `View 360 Pano` is a real button with an accessible label.
+- Modal uses `role="dialog"` and `aria-modal="true"`.
+- Close button has an accessible label.
+- Escape closes the modal.
+- Focus moves into the modal when opened and returns to `View 360 Pano` when closed.
+- Iframe has a descriptive `title`.
+
+---
+
+## Testing
+
+### Unit Tests
+
+Add tests for `parseTourmkrPanoUrl`:
+
+- Parses `https://tourmkr.com/F1gvbw5zEr/5525144p`.
+- Parses `https://tourmkr.com/F1gvbw5zEr/5525144p&29.76h&87.45t`.
+- Accepts `https://www.tourmkr.com/F1gvbw5zEr/5525144p`.
+- Rejects non-HTTPS URLs.
+- Rejects non-TourMkr hosts.
+- Rejects URLs without a pano id.
+- Rejects malformed heading/tilt parameters.
+
+### Component / Integration Tests
+
+- Information modal saves a parsed pano ref when a valid TourMkr URL is entered.
+- Information modal blocks save and shows an error for an invalid URL.
+- Clearing the Pano field removes `pano` from the saved Information record.
+- Preview info card shows `View 360 Pano` for an area linked to an Information record with `pano`.
+- Preview info card does not show `View 360 Pano` for point or safety selections.
+- Clicking `View 360 Pano` opens `PanoOverlayModal` with the expected iframe `src`.
+- Closing the modal returns to preview mode without clearing the selected area.
+
+### Manual QA
+
+- Create an Information record with `https://tourmkr.com/F1gvbw5zEr/5525144p`.
+- Link the Information record to one area.
+- Enter preview mode, click the area, and verify `View 360 Pano` appears.
+- Click `View 360 Pano` and verify the full overlay opens.
+- Close the modal and verify the same area information card remains visible.
+- Edit the Information record and replace the URL with `https://tourmkr.com/F1gvbw5zEr/5525144p&29.76h&87.45t`.
+- Verify preview opens the updated URL.
+- Try adding a second pano and verify the UI only allows replacing the existing single pano.
+- Try an invalid URL and verify save is blocked.
+
+---
+
+## Open Questions
+
+- Does TourMkr allow the normal share URL to render inside an iframe, or does it require a dedicated embed URL?
+- Should the modal fallback external link always be visible, or only after iframe load failure?
+- Should the public/published viewer outside editor preview receive the same pano button in this first implementation, or is editor preview mode enough for v1?
+
+---
+
+## Definition Of Done
+
+- [ ] Information Add/Edit has a Pano section.
+- [ ] One Information record can store at most one TourMkr pano reference.
+- [ ] Valid TourMkr URLs with tour id and pano id can be saved.
+- [ ] Valid TourMkr URLs with heading and tilt params preserve those values.
+- [ ] Invalid TourMkr URLs are rejected with inline feedback.
+- [ ] Area Information in preview mode shows a pano action only when a valid pano exists.
+- [ ] Point and Safety Information do not show the pano action in v1.
+- [ ] Clicking the pano action opens a full overlay modal.
+- [ ] The modal renders the TourMkr URL in an iframe.
+- [ ] The modal has a close button and Escape-to-close behavior.
+- [ ] A fallback external link exists if iframe rendering fails.
+- [ ] Information persistence and Digital Twin export preserve the pano field.
+- [ ] Unit tests cover TourMkr URL parsing.
+- [ ] Component or integration tests cover modal open/close and validation behavior.
+- [ ] Lint, typecheck, and tests pass with zero new errors.
