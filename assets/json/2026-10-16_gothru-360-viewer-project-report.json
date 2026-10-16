@@ -1,0 +1,22 @@
+{
+  "title": "GoThru 360 Viewer Project Report",
+  "repository": "GoThruMedia/GoThru-360-Viewer",
+  "generated_at": "2026-10-16T09:42:07Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-360-viewer-25",
+      "display_title": "Issue #25: [Capture 360] Auto control points in Fix Seams",
+      "main_description_html": "<h2 dir=\"auto\">DEVELOPER REPORT</h2>\n<p dir=\"auto\">Users can now tap Auto in Fix seams to place matching spots between two photos automatically, instead of marking each one by hand. Up to 30 spots are added, and likely mismatches are filtered out before re-stitching. Users can still move or delete any spot, undo a whole Auto run, or clear a pair. Tapping a break on the panorama opens the two photos that meet there.</p>\n<p dir=\"auto\">Auto works best on walls and textured surfaces. Plain objects close to the camera, such as pillars, still need a few spots marked by hand along their edge.</p>\n<p dir=\"auto\">DEMO VIDEO<br>\n<a href=\"https://drive.google.com/file/d/1Vv5GeHprdWPNM3NLgJjz9p94aoQPTb2j/view?usp=sharing\" rel=\"nofollow\">https://drive.google.com/file/d/1Vv5GeHprdWPNM3NLgJjz9p94aoQPTb2j/view?usp=sharing</a></p>",
+      "metadata": {
+        "number": 25,
+        "author": "anurdin01",
+        "updated_at": "2026-10-16T09:41:16Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru 360 Viewer",
+    "date": "2026-10-16"
+  },
+  "docs": []
+}
