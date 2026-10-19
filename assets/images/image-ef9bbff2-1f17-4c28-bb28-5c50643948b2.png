@@ -1,0 +1,50 @@
+ Endpoint
+
+  - POST /v1/send
+  - Base URL: http://192.168.1.244:3002 (your API port)
+
+  Auth
+
+  - Header: Authorization: Bearer <sk_...>
+
+  Template variables
+
+  - In templates: {{message}}, {{firstName}}, {{data.someField}}
+  - data values are saved on the contact by default
+  - To use a value only for this email: { "value": "...", "persistent": false }
+
+  Example (use a template + variables)
+
+  curl -X POST "http://192.168.1.244:3002/v1/send" \
+    -H "Authorization: Bearer sk_..." \
+    -H "Content-Type: application/json" \
+    -d '{
+      "to": "albugsp@gmail.com",
+      "template": "a4772df5-1602-4f9a-93d4-1cc36a496e49",
+      "data": {
+        "firstName": "Al",
+        "message": { "value": "<p>Hello from Plunk</p>", "persistent": false }
+      }
+    }'
+
+  Example (raw subject/body instead of template)
+
+  curl -X POST "http://192.168.1.244:3002/v1/send" \
+    -H "Authorization: Bearer sk_..." \
+    -H "Content-Type: application/json" \
+    -d '{
+      "to": "albugsp@gmail.com",
+      "subject": "Hello {{firstName}}",
+      "body": "<p>{{message}}</p>",
+      "from": "support@gothru.co",
+      "name": "GoThru",
+      "data": {
+        "firstName": "Al",
+        "message": { "value": "Direct body example", "persistent": false }
+      }
+    }'
+
+  Notes
+
+  - If you use a template, subject/body are optional and will override template values if provided.
+  - from must be a valid email from a verified domain.
