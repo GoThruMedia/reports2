@@ -1,0 +1,22 @@
+{
+  "title": "GoThru 360 Viewer Project Report",
+  "repository": "GoThruMedia/GoThru-360-Viewer",
+  "generated_at": "2026-10-20T08:01:35Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-360-viewer-27",
+      "display_title": "Issue #27: [Camera360] Implement Multi Blend",
+      "main_description_html": "<p dir=\"auto\">DEVELOPER REPORT</p>\n<p dir=\"auto\">The Capture 360 stitcher now blends overlapping shots Multiblend-style, in several frequency bands. Each band crosses a seam over a width that fits its own scale. Broad differences in brightness and colour, such as lamp glare, window light or uneven exposure, fade gradually from one shot to the next instead of ending at a hard line, and fine detail stays sharp. Areas covered by only one shot are left untouched. The existing alignment, warping and seam selection still decide where each shot is used, and the new blending only changes how the shots are mixed at the seams. It's on by default in the app, and the offline tool can switch back to the old two-band blending for comparison.</p>\n<p dir=\"auto\">DEMO CAPTURE</p>\n<markdown-accessiblity-table><table role=\"table\">\n<thead>\n<tr>\n<th align=\"center\">BEFORE</th>\n<th align=\"center\">AFTER</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td align=\"center\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-54b7fb42-f629-4bcc-98ed-52cd62df8d3e.jpg\"><img src=\"images/image-54b7fb42-f629-4bcc-98ed-52cd62df8d3e.jpg\" width=\"400\" style=\"max-width: 100%;\"></a></td>\n<td align=\"center\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-36532cf0-db37-4e68-bb09-ddadcd9a4246.jpg\"><img src=\"images/image-36532cf0-db37-4e68-bb09-ddadcd9a4246.jpg\" width=\"400\" style=\"max-width: 100%;\"></a></td>\n</tr>\n</tbody>\n</table></markdown-accessiblity-table>",
+      "metadata": {
+        "number": 27,
+        "author": "anurdin01",
+        "updated_at": "2026-10-20T08:00:14Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru 360 Viewer",
+    "date": "2026-10-20"
+  },
+  "docs": []
+}
