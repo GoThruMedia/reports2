@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Dashboard FE Project Report",
+  "repository": "GoThruMedia/gothru-dashboard",
+  "generated_at": "2026-10-21T09:04:46Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4406",
+      "display_title": "Issue #4406: Fix Typo in Help Section Menu Label",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-e62a4ae8-aa14-461f-ae0c-466c97b172ce.png\"><img width=\"358\" height=\"441\" alt=\"Image\" src=\"images/image-e62a4ae8-aa14-461f-ae0c-466c97b172ce.png\" style=\"max-width: 100%; height: auto; max-height: 441px;; aspect-ratio: 358 / 441; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Description:</h2>\n<p dir=\"auto\">Fix a typo in one of the quick link buttons inside the Help Section dialog. The button text is currently misspelled as Virtual Tour Editor Interfance and must be corrected to Virtual Tour Editor Interface.</p>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Update the string value from Virtual Tour Editor Interfance to Virtual Tour Editor Interface.</li>\n</ul>\n<h2 dir=\"auto\">Demo by Developer</h2>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-3a407539-8664-4396-98cc-c30c14260fbd.png\"><img width=\"559\" height=\"757\" alt=\"Image\" src=\"images/image-3a407539-8664-4396-98cc-c30c14260fbd.png\" style=\"max-width: 100%; height: auto; max-height: 757px;; aspect-ratio: 559 / 757; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>",
+      "metadata": {
+        "number": 4406,
+        "author": "anurdin01",
+        "updated_at": "2026-10-21T09:04:19Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Dashboard FE",
+    "date": "2026-10-21"
+  },
+  "docs": []
+}
