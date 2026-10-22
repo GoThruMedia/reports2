@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Photo Studio Project Report",
+  "repository": "GoThruMedia/gothru-photo-studio-tauri",
+  "generated_at": "2026-10-22T08:14:33Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-photo-studio-tauri-276",
+      "display_title": "Issue #276: Investigation of Post-Authentication OAuth URL Parameters on a Local Callback Server",
+      "main_description_html": "<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-798bbd42-7608-478c-9833-3b352debbd63.png\"><img width=\"547\" height=\"448\" alt=\"Image\" src=\"images/image-798bbd42-7608-478c-9833-3b352debbd63.png\" style=\"max-width: 100%; height: auto; max-height: 448px;; aspect-ratio: 547 / 448; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Result from Developer</h2>\n<p dir=\"auto\">Yes, that is correct and expected behavior.</p>\n<h3 dir=\"auto\">Why <code class=\"notranslate\">localhost:&lt;port&gt;</code> is used:</h3>\n<p dir=\"auto\">For desktop applications, Google OAuth follows the <strong>RFC 8252 (OAuth 2.0 for Native Apps)</strong> standard via a local loopback callback (<code class=\"notranslate\">http://localhost:&lt;port&gt;</code>):</p>\n<ol dir=\"auto\">\n<li>When starting the Google sign-in process, the desktop app spins up a temporary HTTP listener on an ephemeral port on <code class=\"notranslate\">127.0.0.1</code>.</li>\n<li>The user signs in via their default system browser.</li>\n<li>Google redirects back to <code class=\"notranslate\">http://localhost:&lt;port&gt;/?code=...</code>, allowing the application's backend to capture the authorization code, immediately close the listener, and exchange the code for session tokens securely.</li>\n<li>This is the official industry best practice used by desktop clients like VS Code, GitHub CLI, and Slack.</li>\n</ol>\n<h3 dir=\"auto\">Note on the previous flow:</h3>\n<p dir=\"auto\">Previously, the app used an intermediate web redirect via <code class=\"notranslate\">https://app.gothru.co/auth-gothru-photo-studio</code>, which forwarded the authorization code via a custom deep link (<code class=\"notranslate\">gothru-photo-studio://auth-google?token=...</code>). However, that approach had notable limitations:</p>\n<ul dir=\"auto\">\n<li><strong>Human error &amp; popup blockers</strong>: If a user accidentally clicked \"Cancel\" on the browser's \"Open GoThru Photo Studio?\" confirmation prompt or if their browser blocked pop-ups, the desktop app would hang indefinitely waiting for the authentication response.</li>\n<li><strong>Cancellation handling</strong>: If the user canceled the login on Google's screen, the web forwarder never triggered the deep link back to the app.</li>\n</ul>\n<p dir=\"auto\">The current local loopback flow avoids intermediate browser prompts and deep-link handoff issues, providing the highest reliability, stability, and seamless UX.</p>",
+      "metadata": {
+        "number": 276,
+        "author": "anurdin01",
+        "updated_at": "2026-10-22T08:13:36Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Photo Studio",
+    "date": "2026-10-22"
+  },
+  "docs": []
+}
