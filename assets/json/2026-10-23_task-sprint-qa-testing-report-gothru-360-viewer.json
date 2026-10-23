@@ -1,0 +1,52 @@
+{
+  "title": "[Task Sprint] QA Testing Report — GoThru 360 Viewer",
+  "repository": "GoThruMedia/GoThru-360-Viewer",
+  "generated_at": "2026-10-23T07:42:11Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-360-viewer-23",
+      "display_title": "Issue #23: Integrate Camera 360",
+      "main_description_html": "<h2 dir=\"auto\">Demo by Developer</h2>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-10-07.at.16.24.45.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-df9fa0e7-3637-44c0-87a6-628d6bee7570.mp4\" data-canonical-src=\"videos/video-df9fa0e7-3637-44c0-87a6-628d6bee7570.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n\n<p dir=\"auto\">[STITCHING RESULT]</p>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-c7c7f37e-503f-44c0-8e53-8bbff6545326.jpg\"><img width=\"2000\" height=\"1000\" alt=\"Image\" src=\"images/image-c7c7f37e-503f-44c0-8e53-8bbff6545326.jpg\" style=\"max-width: 100%; height: auto; max-height: 1000px;; aspect-ratio: 2000 / 1000; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-04fb7bd9-a2d3-41dd-b32d-f4bd878056d8.png\"><img width=\"611\" height=\"416\" alt=\"Image\" src=\"images/image-04fb7bd9-a2d3-41dd-b32d-f4bd878056d8.png\" style=\"max-width: 100%; height: auto; max-height: 416px;; aspect-ratio: 611 / 416; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-571d062c-2366-458f-a29f-88269aa9003a.png\"><img width=\"720\" height=\"1600\" alt=\"Image\" src=\"images/image-571d062c-2366-458f-a29f-88269aa9003a.png\" style=\"max-width: 100%; height: auto; max-height: 1600px;; aspect-ratio: 720 / 1600; background-color: var(--bgColor-muted); border-radius: 6px\" class=\"js-gh-image-fallback\"></a>\n<h2 dir=\"auto\">Sub Task</h2>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Use the previous camera UI</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Click the “Capture 360” menu to open the 360 camera directly</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> Rename the menu to “Capture 360”</li>\n</ul>",
+      "metadata": {
+        "number": 23,
+        "author": "anurdin01",
+        "updated_at": "2026-10-23T02:06:01Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-360-viewer-24",
+      "display_title": "Issue #24: [Camera360] Integrate Manual Match Point",
+      "main_description_html": "<h2 dir=\"auto\">REPORT BY DEVELOPER</h2>\n<p dir=\"auto\">[DEMO VIDEO]</p>\n<details open=\"\" class=\"details-reset border rounded-2\">\n  <summary class=\"tmp-px-3 py-2\">\n    <svg aria-hidden=\"true\" data-component=\"Octicon\" height=\"16\" viewBox=\"0 0 16 16\" version=\"1.1\" width=\"16\" data-view-component=\"true\" class=\"octicon octicon-device-camera-video\">\n    <path d=\"M16 3.75v8.5a.75.75 0 0 1-1.136.643L11 10.575v.675A1.75 1.75 0 0 1 9.25 13h-7.5A1.75 1.75 0 0 1 0 11.25v-6.5C0 3.784.784 3 1.75 3h7.5c.966 0 1.75.784 1.75 1.75v.675l3.864-2.318A.75.75 0 0 1 16 3.75Zm-6.5 1a.25.25 0 0 0-.25-.25h-7.5a.25.25 0 0 0-.25.25v6.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-6.5ZM11 8.825l3.5 2.1v-5.85l-3.5 2.1Z\"></path>\n</svg>\n    <span class=\"m-1\">WhatsApp.Video.2026-10-09.at.16.55.02.mp4</span>\n    <span class=\"dropdown-caret\"></span>\n  </summary>\n\n  <video src=\"videos/video-37e35809-fefd-469c-a5b2-e413871ed3d9.mp4\" data-canonical-src=\"videos/video-37e35809-fefd-469c-a5b2-e413871ed3d9.mp4\" controls=\"controls\" muted=\"muted\" class=\"d-block rounded-bottom-2 border-top width-fit\" style=\"max-height:640px; min-height: 200px\">\n\n  </video>\n</details>\n",
+      "metadata": {
+        "number": 24,
+        "author": "anurdin01",
+        "updated_at": "2026-10-23T04:01:00Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-360-viewer-25",
+      "display_title": "Issue #25: [Capture 360] Auto control points in Fix Seams",
+      "main_description_html": "<h2 dir=\"auto\">DEVELOPER REPORT</h2>\n<p dir=\"auto\">Users can now tap Auto in Fix seams to place matching spots between two photos automatically, instead of marking each one by hand. Up to 30 spots are added, and likely mismatches are filtered out before re-stitching. Users can still move or delete any spot, undo a whole Auto run, or clear a pair. Tapping a break on the panorama opens the two photos that meet there.</p>\n<p dir=\"auto\">Auto works best on walls and textured surfaces. Plain objects close to the camera, such as pillars, still need a few spots marked by hand along their edge.</p>\n<p dir=\"auto\">DEMO VIDEO<br>\n<a href=\"https://drive.google.com/file/d/1Vv5GeHprdWPNM3NLgJjz9p94aoQPTb2j/view?usp=sharing\" rel=\"nofollow\">https://drive.google.com/file/d/1Vv5GeHprdWPNM3NLgJjz9p94aoQPTb2j/view?usp=sharing</a></p>",
+      "metadata": {
+        "number": 25,
+        "author": "anurdin01",
+        "updated_at": "2026-10-23T04:30:23Z"
+      }
+    },
+    {
+      "anchor_id": "issue-gothrumedia-gothru-360-viewer-27",
+      "display_title": "Issue #27: [Camera360] Implement Multi Blend",
+      "main_description_html": "<p dir=\"auto\">DEVELOPER REPORT</p>\n<p dir=\"auto\">The Capture 360 stitcher now blends overlapping shots Multiblend-style, in several frequency bands. Each band crosses a seam over a width that fits its own scale. Broad differences in brightness and colour, such as lamp glare, window light or uneven exposure, fade gradually from one shot to the next instead of ending at a hard line, and fine detail stays sharp. Areas covered by only one shot are left untouched. The existing alignment, warping and seam selection still decide where each shot is used, and the new blending only changes how the shots are mixed at the seams. It's on by default in the app, and the offline tool can switch back to the old two-band blending for comparison.</p>\n<p dir=\"auto\">DEMO CAPTURE</p>\n<markdown-accessiblity-table><table role=\"table\">\n<thead>\n<tr>\n<th align=\"center\">BEFORE</th>\n<th align=\"center\">AFTER</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td align=\"center\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-51544610-ff02-4053-90b4-81fa1ea25f8d.jpg\"><img src=\"images/image-51544610-ff02-4053-90b4-81fa1ea25f8d.jpg\" width=\"400\" style=\"max-width: 100%;\"></a></td>\n<td align=\"center\"><a target=\"_blank\" rel=\"noopener noreferrer\" href=\"images/image-7af864c3-68d1-4f4a-8307-e49d03fa33d3.jpg\"><img src=\"images/image-7af864c3-68d1-4f4a-8307-e49d03fa33d3.jpg\" width=\"400\" style=\"max-width: 100%;\"></a></td>\n</tr>\n</tbody>\n</table></markdown-accessiblity-table>",
+      "metadata": {
+        "number": 27,
+        "author": "anurdin01",
+        "updated_at": "2026-10-23T06:51:47Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "gothru-360-viewer",
+    "date": "2026-10-23"
+  },
+  "docs": []
+}
