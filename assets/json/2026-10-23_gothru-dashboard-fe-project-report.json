@@ -1,0 +1,22 @@
+{
+  "title": "GoThru Dashboard FE Project Report",
+  "repository": "GoThruMedia/gothru-dashboard",
+  "generated_at": "2026-10-23T09:20:07Z",
+  "issues": [
+    {
+      "anchor_id": "issue-gothrumedia-gothru-dashboard-4409",
+      "display_title": "Issue #4409: docs: deployment guide for DevOps (docs/DEPLOY.md)",
+      "main_description_html": "<h2 dir=\"auto\">Background</h2>\n<p dir=\"auto\">There was no written guide for deploying gothru-dashboard. How the build runs on builder-server, where the <code class=\"notranslate\">REACT_APP_*</code> env comes from and which servers get the build were only known by the people who ran them.</p>\n<h2 dir=\"auto\">Goal</h2>\n<p dir=\"auto\">DevOps can deploy the dashboard, check it, and roll it back by following one document in the repo, with the same structure as the API guide.</p>\n<h2 dir=\"auto\">Scope</h2>\n<ul dir=\"auto\">\n<li><code class=\"notranslate\">docs/DEPLOY.md</code> in English, written for DevOps (same structure as the API's <code class=\"notranslate\">docs/DEPLOY.md</code>).</li>\n<li><strong>Step 1:</strong> releases go <code class=\"notranslate\">development</code> → <code class=\"notranslate\">master</code>, and <code class=\"notranslate\">master</code> is deployed.</li>\n<li><strong>Step 2:</strong> <code class=\"notranslate\">REACT_APP_*</code> env is baked in at build time from <code class=\"notranslate\">/home/jenkins/workspace/&lt;folder&gt;/.env</code> on builder-server (with CRA's env-file priority order).</li>\n<li><strong>Step 3:</strong> notify the team.</li>\n<li><strong>Step 4:</strong> run <code class=\"notranslate\">ansible-playbook ansible-deploy.yml</code> on builder-server (<code class=\"notranslate\">npm install --force</code> + <code class=\"notranslate\">npm run build</code>, then <code class=\"notranslate\">rsync --delete</code> of <code class=\"notranslate\">build/</code> to dev-live 192.168.1.131, live-1 .179, live-2 .180), check <code class=\"notranslate\">PLAY RECAP</code>.</li>\n<li><strong>Step 5:</strong> check the dashboard loads (hard refresh, console, deep-link refresh).</li>\n<li>Rollback and troubleshooting.</li>\n<li>Docs only, no code changes.</li>\n</ul>\n<h2 dir=\"auto\">Acceptance Criteria</h2>\n<ul class=\"contains-task-list\">\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> AC-001: <code class=\"notranslate\">docs/DEPLOY.md</code> exists on <code class=\"notranslate\">development</code> and <code class=\"notranslate\">master</code>.</li>\n<li class=\"task-list-item\"><input type=\"checkbox\" id=\"\" disabled=\"\" class=\"task-list-item-checkbox\" aria-label=\"Completed task\" checked=\"\"> AC-002: The guide covers the release flow, env, deploy, checks after deploying, rollback and troubleshooting.</li>\n</ul>\n<h2 dir=\"auto\">Related</h2>\n<ul dir=\"auto\">\n<li>GoThru-API-New and villume-admin have the same kind of guide (<code class=\"notranslate\">docs/DEPLOY.md</code>).</li>\n</ul>\n<h2 dir=\"auto\">Result</h2>\n<p dir=\"auto\"><strong>Implementation</strong></p>\n<ul dir=\"auto\">\n<li>PR: <a class=\"issue-link js-issue-link\" data-error-text=\"Failed to load title\" data-id=\"5975643150\" data-permission-text=\"Title is private\" data-url=\"https://github.com/GoThruMedia/gothru-dashboard/issues/4408\" data-hovercard-type=\"pull_request\" data-hovercard-url=\"/GoThruMedia/gothru-dashboard/pull/4408/hovercard\" href=\"https://github.com/GoThruMedia/gothru-dashboard/pull/4408\">#4408</a> (merged into <code class=\"notranslate\">development</code> 2026-10-22, <code class=\"notranslate\">7f86cd558</code>), then released to <code class=\"notranslate\">master</code> with the <code class=\"notranslate\">development</code> → <code class=\"notranslate\">master</code> merge.</li>\n<li>Key commit: <code class=\"notranslate\">a58e51429</code> docs: add deployment guide</li>\n<li>Guide: <a href=\"https://github.com/GoThruMedia/gothru-dashboard/blob/master/docs/DEPLOY.md\"><code class=\"notranslate\">docs/DEPLOY.md</code></a></li>\n</ul>",
+      "metadata": {
+        "number": 4409,
+        "author": "alfarez21",
+        "updated_at": "2026-10-23T08:46:16Z"
+      }
+    }
+  ],
+  "archive": {
+    "project": "GoThru Dashboard FE",
+    "date": "2026-10-23"
+  },
+  "docs": []
+}
